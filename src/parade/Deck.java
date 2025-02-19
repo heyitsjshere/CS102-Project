@@ -1,7 +1,7 @@
 package parade;
 
 import parade.enums.*;
-import parade.Card; // TODO! package this better
+// import parade.Card; // TODO! package this better
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,8 +43,15 @@ public class Deck {
         return this.cardsInDeck;
     }
 
+    /**
+    * Returns an Card object from the top of the deck and removes it
+    * Returns null if there are no more Cards in the deck 
+    */
     public Card drawCard(){
-        // draw card from the top of the deck
+        // if no more cards in deck
+        if (cardsInDeck.size() == 0) return null; 
+
+        // else, return top card and remove
         return this.cardsInDeck.removeFirst();
     }
 
@@ -54,17 +61,19 @@ public class Deck {
 
 
     public static void main(String[] args) {
+        // used for testing only
         Deck d = new Deck();
         // for (Card c : d.getCurrentDeck()) {
         //     System.out.println(c);
         // }
-        System.out.println(d.drawCard());
-        System.out.println("Size of deck: " + d.getSize());
 
+        System.out.println("Size of deck: " + d.getSize()); // 66
+        for (int i = 0; i < 65; i++) {
+            d.drawCard();
+        }
+        System.out.println("Size of deck: " + d.getSize()); // 1
         System.out.println(d.drawCard());
-        System.out.println(d.drawCard());
-        System.out.println(d.drawCard());
-        System.out.println("Size of deck: " + d.getSize());
+        System.out.println("Size of deck: " + d.getSize()); // 0
 
     } 
 
