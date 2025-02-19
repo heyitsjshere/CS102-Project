@@ -5,10 +5,9 @@ import parade.enums.*;
 import java.util.ArrayList;
 import java.util.EnumMap;
 
-public class Player {
+public abstract class Player {
     // change to abstract later
     
-    // what do players have? hand. collection. aaaa
     private String name; // honestly optional but i think can
 
     private ArrayList<Card> hand; // current hand
@@ -26,20 +25,17 @@ public class Player {
     public EnumMap<Colour, Card> getCollectedCards(){
         return this.collectedCards;
     }
-    
 
-    public static void main(String[] args) {
-        ArrayList<Card> initialHand = new ArrayList<>();
+    public abstract Card playCard(int i); // depends on human or bot
 
-        Deck d = new Deck();
-        for (int i = 0; i < 5; i++) initialHand.add(d.drawCard());
-
-        Player p1 = new Player(initialHand);
-        System.out.println(p1.getHand());
-        System.out.println(p1.getCollectedCards());
+    public void collectCard(ArrayList<Card> cards) { // add one card to collection
+        for (Card c : cards) {
+            // add card to collection
+            // but need to remove card from parade too!
+            collectedCards.put(c.getCardColour(), c);
+        }
     }
 
-    
 
 
 }
