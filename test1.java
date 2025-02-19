@@ -1,5 +1,7 @@
-package CS102-Project;
+package CS102Project;
 
 public class test1 {
-    
+    public static void main(String[] args) {
+        System.out.println("test");
+    }
 }
