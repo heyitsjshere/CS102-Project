@@ -37,11 +37,6 @@ public class Player {
         Player p1 = new Player(initialHand);
         System.out.println(p1.getHand());
         System.out.println(p1.getCollectedCards());
-
-
-
-        
-
     }
 
     

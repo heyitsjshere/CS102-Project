@@ -24,8 +24,17 @@ public class Game {
 
         System.out.println("Size of deck: " + d.getSize()); // 56
 
+        // now p1 picks one card, card is removed from player's hand
 
-        // now p1 picks one card
+        // card is added to the parade
+
+        // get cards in removal mode
+
+        // eligible cards are added to player's collection
+
+        // player draws a card
+
+        // next player's turn
         
     }
     
