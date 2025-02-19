@@ -19,6 +19,10 @@ public class Card {
         return this.colour;
     }
 
-    
+    @Override
+    public String toString() {
+        return "" + this.colour + " " + this.num ;
+    }
+
 
 }
