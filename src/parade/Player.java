@@ -26,7 +26,16 @@ public abstract class Player {
         return this.collectedCards;
     }
 
-    public abstract Card playCard(int i); // depends on human or bot
+    public Card playCard (Card c) { // remove card from hand
+
+        this.hand.remove(c);
+        return c; // return card so it can be added to the parade
+
+    } // depends on human or bot
+
+    public void addCard (Card c) { // add card from deck
+        this.hand.add(c);
+    } 
 
     public void collectCard(ArrayList<Card> cards) { // add one card to collection
         for (Card c : cards) {

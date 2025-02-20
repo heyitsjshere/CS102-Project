@@ -8,11 +8,12 @@ public class HumanPlayer extends Player {
         super(initialHand);
     }
 
-    public Card playCard(int i){
-        return super.getHand().get(i);
+    // public Card playCard(Card c){
+    //     super.hand
+    //     return c;
 
-        // return new Card(1, Colour.YELLOW);
-    }
+    //     // return new Card(1, Colour.YELLOW);
+    // }
 
 
     
