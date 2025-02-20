@@ -44,7 +44,7 @@ public class ParadeTester {
 
         System.out.printf("Selection: Option ");
         int selectedNum = sc.nextInt();
-        Card selectedCard = p.getHand().get(selectedNum+1);
+        Card selectedCard = p.getHand().get(selectedNum-1);
 
         sc.close();
         
