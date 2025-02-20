@@ -15,7 +15,7 @@ import java.util.EnumMap;
 public abstract class Player {
     // change to abstract later
     
-    private String name; // honestly optional but i think can
+    // private String name; // honestly optional but i think can
 
      /** The player's current hand of cards. */
     private ArrayList<Card> hand; // current hand

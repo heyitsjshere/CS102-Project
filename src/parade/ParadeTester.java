@@ -1,6 +1,6 @@
 package parade;
 
-import parade.*;
+// import parade.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -72,15 +72,15 @@ public class ParadeTester {
      */
     public static void main (String[] args) {
         ArrayList<Card> initialHand1 = new ArrayList<>();
-        ArrayList<Card> initialHand2 = new ArrayList<>();
+        // ArrayList<Card> initialHand2 = new ArrayList<>();
 
         Deck d = new Deck();
         for (int i = 0; i < 5; i++) {
             initialHand1.add(d.drawCard());
-            initialHand2.add(d.drawCard());
+            // initialHand2.add(d.drawCard());
         }
         Player p1 = new HumanPlayer(initialHand1);
-        Player p2 = new HumanPlayer(initialHand2);
+        // Player p2 = new HumanPlayer(initialHand2);
 
         Parade curParade = new Parade(new ArrayList<Card>(){{ // initialise parade with 6 cards
             for (int i = 0; i < 6; i++) add(d.drawCard());
