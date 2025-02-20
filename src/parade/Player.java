@@ -21,7 +21,7 @@ public abstract class Player {
     private ArrayList<Card> hand; // current hand
 
     /** The collection of cards the player has acquired, grouped by color. */
-    private EnumMap<Colour, Card> collectedCards; 
+    private EnumMap<Colour, ArrayList<Card>> collectedCards; 
 
     /**
      * Constructs a player with an initial hand of cards.
@@ -48,7 +48,7 @@ public abstract class Player {
      *
      * @return an {@link EnumMap} of collected cards, grouped by {@link Colour}
      */
-    public EnumMap<Colour, Card> getCollectedCards(){
+    public EnumMap<Colour, ArrayList<Card>> getCollectedCards(){
         return this.collectedCards;
     }
 
@@ -88,14 +88,18 @@ public abstract class Player {
      *
      * @param cards the list of cards to be collected
      */
-    public void collectCard(ArrayList<Card> cards) { // add one card to collection
+    public void collectCard(ArrayList<Card> cards) { // add many cards to collection
         for (Card c : cards) {
             // add card to collection
             // but need to remove card from parade too!
-            collectedCards.put(c.getCardColour(), c);
+            Colour curColour = c.getCardColour();
+
+            if (!collectedCards.containsKey(curColour)) { // if first of that colour
+                collectedCards.put(curColour, new ArrayList<Card>());  // add it to map and create list
+            }
+            
+            collectedCards.get(curColour).add(c);
         }
     }
-
-
 
 }
