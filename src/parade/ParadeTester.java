@@ -1,12 +1,28 @@
 package parade;
 
+import parade.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**
+ * A class to test the functionality of the Parade game.
+ * <p>
+ * This class initializes players, a deck, and a parade, and simulates a turn where a player selects 
+ * a card, adds it to the parade, and collects any removable cards.
+ * </p>
+ */
 
 public class ParadeTester {
 
+    /**
+     * Prompts the user to select a card from their hand.
+     * <p>
+     * Displays available options and retrieves the user's choice. The selected card is returned.
+     * </p>
+     *
+     * @param p the player whose hand will be displayed for selection
+     * @return the {@link Card} selected by the user
+     */
     public static Card getUserInput(Player p) {
         Scanner sc = new Scanner(System.in);
 
@@ -38,7 +54,22 @@ public class ParadeTester {
         return selectedCard;
     }
 
-    
+    /**
+     * The main method to test the Parade game mechanics.
+     * <p>
+     * Initializes a deck, players, and the parade, then simulates a player's turn where they:
+     * <ul>
+     *     <li>Select a card</li>
+     *     <li>Identify removable and collectible cards</li>
+     *     <li>Collect applicable cards</li>
+     *     <li>Play their selected card</li>
+     *     <li>Draw a new card</li>
+     * </ul>
+     * The method also prints the game state before and after the player's turn.
+     * </p>
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main (String[] args) {
         ArrayList<Card> initialHand1 = new ArrayList<>();
         ArrayList<Card> initialHand2 = new ArrayList<>();
