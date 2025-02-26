@@ -24,15 +24,14 @@ public abstract class Player {
     private EnumMap<Colour, ArrayList<Card>> collectedCards; 
 
     /**
-     * Constructs a player with an initial hand of cards.
-     *
-     * @param initialHand the initial set of cards given to the player
+     * Constructs a player
      */
-    public Player(ArrayList<Card> initialHand) {
-        this.hand = initialHand;
+
+     public Player() { 
+        this.hand = new ArrayList<Card>(); // new empty array list to store cards
         this.collectedCards = new EnumMap<>(Colour.class); // new empty enum map
     }
-
+    
     /**
      * Returns the player's current hand of cards.
      *
