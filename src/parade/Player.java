@@ -1,6 +1,7 @@
 package parade;
 
 import parade.enums.*;
+import parade.exceptions.EndGameException;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -87,7 +88,7 @@ public abstract class Player {
      *
      * @param cards the list of cards to be collected
      */
-    public void collectCard(ArrayList<Card> cards) { // add many cards to collection
+    public void collectCard(ArrayList<Card> cards) throws EndGameException { // add many cards to collection
         for (Card c : cards) {
             // add card to collection
             // but need to remove card from parade too!
@@ -98,6 +99,10 @@ public abstract class Player {
             }
             
             collectedCards.get(curColour).add(c);
+        }
+
+        if (collectedCards.size() == 6) {
+            throw new EndGameException();
         }
     }
 
