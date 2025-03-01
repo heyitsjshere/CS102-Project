@@ -97,7 +97,6 @@ public class ParadeTester {
 
         int turn = -1;
         while (true) {
-        
             try {
                 ++turn;
                 System.out.println("\n\n||   Turn " + (turn+1) + "   ||    Player " + (turn%3+1));
@@ -106,6 +105,7 @@ public class ParadeTester {
     
                 // now the player picks one card, card is removed from player's hand
                 Card pickedCard = getUserInput(curPlayer, sc); 
+                // Card pickedCard = curPlayer.getHand().get(0);
     
                 System.out.println("Removable: " + par.getRemoveable(pickedCard));
                 ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
@@ -121,10 +121,15 @@ public class ParadeTester {
                 System.out.println("Size of deck: " + d.getSize()); // 56
 
             } catch (EndGameException e) {
-                System.out.println("someone collected all 6 colours!");
+                e.printStackTrace();
+                break;
             }
-
         }
+
+        // TO-DO: add end game things
+        // tip: comment on          Line 107 = getUserInput(curPlayer, sc); 
+        //      and replace it with Line 108 = curPlayer.getHand().get(0);
+
 
         
 
