@@ -2,13 +2,13 @@ package parade;
 
 import java.util.ArrayList;
 
-public class Game {
+public class PlayerList {
 
     private ArrayList<Player> playerList;
     Deck deck;
     private Parade parade;
 
-    public Game (ArrayList<Player> pl, Parade p, Deck d) {
+    public PlayerList (ArrayList<Player> pl, Parade p, Deck d) {
        this.playerList = pl;
        this.deck = d;
     //    parade = new Parade(deck);
