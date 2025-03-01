@@ -32,19 +32,18 @@ public class ParadeTester {
             i++;
         }
         
-        System.out.println(p.getHand());
+        // System.out.println(p.getHand());
         System.out.printf("Selection: Option ");
 
-        System.out.println("Has next int = " + sc.hasNextInt());
+        // System.out.println("Has next int = " + sc.hasNextInt());
 
-        String selectedNum = sc.next();
-        System.out.println("value of next is " + selectedNum);
+        int selectedNum = sc.nextInt();
+        // System.out.println("value of next is " + selectedNum);
 
-        // int selectedNum = rand
-        System.out.println("selected num is " + selectedNum);
+        // System.out.println("selected num is " + selectedNum);
 
-        // Card selectedCard = p.getHand().get(selectedNum-1);
-        Card selectedCard = p.getHand().get(0);
+        Card selectedCard = p.getHand().get(selectedNum-1);
+        // Card selectedCard = p.getHand().get(0);
 
         
         System.out.println("-----------");
@@ -97,7 +96,7 @@ public class ParadeTester {
         int turn = -1;
         while (true) {
             ++turn;
-            System.out.println("||   Turn " + (turn+1) + "   ||");
+            System.out.println("\n\n||   Turn " + (turn+1) + "   ||    Player " + (turn%3+1));
             Player curPlayer = g.getPlayer(turn);
             System.out.println("Parade: " + par.getParade());
 
