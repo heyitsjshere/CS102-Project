@@ -1,1 +1,1 @@
-java -cp "classes" parade.ParadeTester;
+java -cp "classes" parade.ParadeTester
