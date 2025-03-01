@@ -76,7 +76,8 @@ public abstract class Player {
      *
      * @param c the card to be added
      */
-    public void addCard (Card c) { // add card from deck
+    public void addCard (Card c) throws EndGameException { // add card from deck
+        if (c == null) throw new EndGameException("There are no more cards in the deck");
         this.hand.add(c);
     } 
 
@@ -102,7 +103,7 @@ public abstract class Player {
         }
 
         if (collectedCards.size() == 6) {
-            throw new EndGameException();
+            throw new EndGameException("Player has collected all 6 colours"); // can add player name here too
         }
     }
 
