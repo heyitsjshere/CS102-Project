@@ -1,6 +1,7 @@
 package parade;
 
 import parade.enums.*;
+import parade.exceptions.EndGameException;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -75,7 +76,8 @@ public abstract class Player {
      *
      * @param c the card to be added
      */
-    public void addCard (Card c) { // add card from deck
+    public void addCard (Card c) throws EndGameException { // add card from deck
+        if (c == null) throw new EndGameException("There are no more cards in the deck");
         this.hand.add(c);
     } 
 
@@ -87,7 +89,7 @@ public abstract class Player {
      *
      * @param cards the list of cards to be collected
      */
-    public void collectCard(ArrayList<Card> cards) { // add many cards to collection
+    public void collectCard(ArrayList<Card> cards) throws EndGameException { // add many cards to collection
         for (Card c : cards) {
             // add card to collection
             // but need to remove card from parade too!
@@ -98,6 +100,10 @@ public abstract class Player {
             }
             
             collectedCards.get(curColour).add(c);
+        }
+
+        if (collectedCards.size() == 6) {
+            throw new EndGameException("Player has collected all 6 colours"); // can add player name here too
         }
     }
 
