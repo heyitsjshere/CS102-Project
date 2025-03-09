@@ -24,6 +24,9 @@ public abstract class Player {
     /** The collection of cards the player has acquired, grouped by color. */
     private EnumMap<Colour, ArrayList<Card>> collectedCards; 
 
+    // protected score that can be accessed and edited in playerList for scoring
+    protected int score = 0;
+
     /**
      * Constructs a player
      */
@@ -52,6 +55,9 @@ public abstract class Player {
         return this.collectedCards;
     }
 
+    public int getScore(){
+        return score;
+    }
     /**
      * Removes a card from the player's hand and plays it.
      * <p>
@@ -70,6 +76,10 @@ public abstract class Player {
 
     } // depends on human or bot
 
+    // removes all cards of that colour from collection after doing appropriate scoring
+    public void placeColourFaceDown (Colour colour) {
+        this.collectedCards.remove(colour);
+    }
 
     /**
      * Adds a card to the player's hand.
@@ -89,6 +99,8 @@ public abstract class Player {
      *
      * @param cards the list of cards to be collected
      */
+
+     // pass in collectable cards --> par.getCollectibleCards(pickedCard)
     public void collectCard(ArrayList<Card> cards) throws EndGameException { // add many cards to collection
         for (Card c : cards) {
             // add card to collection
@@ -98,8 +110,8 @@ public abstract class Player {
             if (!collectedCards.containsKey(curColour)) { // if first of that colour
                 collectedCards.put(curColour, new ArrayList<Card>());  // add it to map and create list
             }
-            
-            collectedCards.get(curColour).add(c);
+            // if colour already in collection
+            collectedCards.get(curColour).add(c); // add card to list for that colour
         }
 
         if (collectedCards.size() == 6) {

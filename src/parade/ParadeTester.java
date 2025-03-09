@@ -107,12 +107,14 @@ public class ParadeTester {
                 Card pickedCard = getUserInput(curPlayer, sc); 
                 // Card pickedCard = curPlayer.getHand().get(0);
     
-                System.out.println("Removable: " + par.getRemoveable(pickedCard));
-                ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
+                System.out.println("Removable: " + par.getRemoveable(pickedCard)); // get cards in removal mode
+                ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard); // get cards needed to remove/collect
                 curPlayer.collectCard(toCollect);
                 System.out.println("player should collect: " + toCollect);
     
-                par.addCard(curPlayer.playCard(pickedCard)); 
+                // add pickedCard to parade
+                par.addCard(curPlayer.playCard(pickedCard)); // playCard removes pickedCard from player hand
+                // draw new card and add to hand
                 curPlayer.addCard(d.drawCard());
                 System.out.println("Player's Hand: " + curPlayer.getHand());
                 System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
@@ -122,6 +124,7 @@ public class ParadeTester {
 
             } catch (EndGameException e) {
                 e.printStackTrace();
+                playerList.printWinner();
                 break;
             }
         }
