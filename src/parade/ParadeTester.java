@@ -4,6 +4,8 @@ package parade;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import parade.exceptions.EndGameException;
+
 /**
  * A class to test the functionality of the Parade game.
  * <p>
@@ -23,9 +25,7 @@ public class ParadeTester {
      * @param p the player whose hand will be displayed for selection
      * @return the {@link Card} selected by the user
      */
-    public static Card getUserInput(Player p) {
-        Scanner sc = new Scanner(System.in);
-
+    public static Card getUserInput(Player p, Scanner sc) {
         System.out.println("PICK A CARD");
         System.out.println("-----------");
         int i = 1;
@@ -33,26 +33,26 @@ public class ParadeTester {
             System.out.println("Option " + i + ": " + c);
             i++;
         }
-
-        // do {
-        //     System.out.printf("Selection: Option ");
-        //     if (!sc.hasNextInt()) {
-        //         System.out.println("That is not a valid option. Please enter an integer");
-        //         System.out.printf("Selection: Option ");
-        //     }
-        // } while (sc.hasNextInt() == false); // need better handling but just assume user enters correct thing for now
-
+        
+        // System.out.println(p.getHand());
         System.out.printf("Selection: Option ");
-        int selectedNum = sc.nextInt();
-        Card selectedCard = p.getHand().get(selectedNum-1);
 
-        sc.close();
+        // System.out.println("Has next int = " + sc.hasNextInt());
+
+        int selectedNum = sc.nextInt();
+        // System.out.println("value of next is " + selectedNum);
+
+        // System.out.println("selected num is " + selectedNum);
+
+        Card selectedCard = p.getHand().get(selectedNum-1);
+        // Card selectedCard = p.getHand().get(0);
+
         
         System.out.println("-----------");
         System.out.println("You have selected Option " + selectedNum + ": " + selectedCard);
-
         return selectedCard;
     }
+
 
     /**
      * The main method to test the Parade game mechanics.
@@ -71,41 +71,67 @@ public class ParadeTester {
      * @param args command-line arguments (not used)
      */
     public static void main (String[] args) {
-        ArrayList<Card> initialHand1 = new ArrayList<>();
-        // ArrayList<Card> initialHand2 = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
 
         Deck d = new Deck();
-        for (int i = 0; i < 5; i++) {
-            initialHand1.add(d.drawCard());
-            // initialHand2.add(d.drawCard());
+        System.out.println("Size of deck: " + d.getSize()); // 56
+
+        Parade par = new Parade(d);
+        System.out.println("Size of deck (after parade): " + d.getSize()); // 56
+
+        Player p1 = new HumanPlayer();
+        Player p2 = new HumanPlayer();
+        Player p3 = new HumanPlayer();
+
+        PlayerList playerList = new PlayerList(new ArrayList<Player>(){{
+            add(p1);
+            add(p2);
+            add(p3);
+        }}, par, d);
+
+     
+        System.out.println("Size of deck (after initialisation): " + d.getSize()); // 56
+        System.out.println(p1.getHand());
+        System.out.println(p2.getHand());
+        System.out.println(p3.getHand());
+
+        int turn = -1;
+        while (true) {
+            try {
+                ++turn;
+                System.out.println("\n\n||   Turn " + (turn+1) + "   ||    Player " + (turn%3+1));
+                Player curPlayer = playerList.getPlayer(turn);
+                System.out.println("Parade: " + par.getParade());
+    
+                // now the player picks one card, card is removed from player's hand
+                Card pickedCard = getUserInput(curPlayer, sc); 
+                // Card pickedCard = curPlayer.getHand().get(0);
+    
+                System.out.println("Removable: " + par.getRemoveable(pickedCard));
+                ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
+                curPlayer.collectCard(toCollect);
+                System.out.println("player should collect: " + toCollect);
+    
+                par.addCard(curPlayer.playCard(pickedCard)); 
+                curPlayer.addCard(d.drawCard());
+                System.out.println("Player's Hand: " + curPlayer.getHand());
+                System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
+                System.out.println("Parade: " + par.getParade());
+    
+                System.out.println("Size of deck: " + d.getSize()); // 56
+
+            } catch (EndGameException e) {
+                e.printStackTrace();
+                break;
+            }
         }
-        Player p1 = new HumanPlayer(initialHand1);
-        // Player p2 = new HumanPlayer(initialHand2);
 
-        Parade curParade = new Parade(new ArrayList<Card>(){{ // initialise parade with 6 cards
-            for (int i = 0; i < 6; i++) add(d.drawCard());
-        }});
+        // TO-DO: add end game things
+        // tip: comment on          Line 107 = getUserInput(curPlayer, sc); 
+        //      and replace it with Line 108 = curPlayer.getHand().get(0);
 
-        System.out.println("Player 1's Hand: " + p1.getHand());
-        System.out.println("Player 1's Collection: " + p1.getCollectedCards());
-        System.out.println("Parade: " + curParade.getParade());
 
-        System.out.println("Size of deck: " + d.getSize()); // 56
+        
 
-        // now p1 picks one card, card is removed from player's hand
-        Card pickedCard = getUserInput(p1); 
-
-        System.out.println("Removable: " + curParade.getRemoveable(pickedCard));
-        ArrayList<Card> toCollect = curParade.getCollectibleCards(pickedCard);
-        p1.collectCard(toCollect);
-        System.out.println("p1 should collect: " + toCollect);
-
-        curParade.addCard(p1.playCard(pickedCard));
-        p1.addCard(d.drawCard());
-        System.out.println("Player 1's Hand: " + p1.getHand());
-        System.out.println("Player 1's Collection: " + p1.getCollectedCards());
-        System.out.println("Parade: " + curParade.getParade());
-
-        System.out.println("Size of deck: " + d.getSize()); // 56
     }
 }

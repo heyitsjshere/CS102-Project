@@ -1,11 +1,10 @@
 package parade;
 
-import java.util.ArrayList;
 
 public class HumanPlayer extends Player {
 
-    public HumanPlayer(ArrayList<Card> initialHand) {
-        super(initialHand);
+    public HumanPlayer() {
+        super();
     }
 
     // public Card playCard(Card c){

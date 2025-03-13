@@ -21,8 +21,9 @@ public class Parade {
      *
      * @param initialParade the initial state of the parade. Should pass in an ArrayList of 6 cards
      */
-    public Parade(ArrayList<Card> initialParade) {
-        this.curParade = initialParade;
+    public Parade(Deck d) {
+        this.curParade = new ArrayList<Card>();
+        for (int i = 0; i < 6; i++) curParade.add(d.drawCard());
     }
 
     /**
