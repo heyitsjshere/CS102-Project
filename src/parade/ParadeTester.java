@@ -74,7 +74,11 @@ public class ParadeTester {
         }
 
         while (true) {
-            System.out.printf("Enter number of Bot Players (0 - %d): ", 6 - numHumanPlayers);
+            int minNumBots = 0;
+            if (numHumanPlayers == 1) { // if there is only 1 human player, there should at least be 1 bot player
+                minNumBots = 1;
+            }
+            System.out.printf("Enter number of Bot Players (%d - %d): ", minNumBots, 6 - numHumanPlayers);
             if (sc.hasNextInt()) {
                 numBotPlayers = sc.nextInt();
                 totalPlayers = numBotPlayers + numHumanPlayers;
