@@ -4,6 +4,7 @@ package parade;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import parade.enums.Colour;
 import parade.exceptions.EndGameException;
 
 /**
@@ -34,23 +35,113 @@ public class ParadeTester {
             i++;
         }
         
-        // System.out.println(p.getHand());
-        System.out.printf("Selection: Option ");
-
-        // System.out.println("Has next int = " + sc.hasNextInt());
-
-        int selectedNum = sc.nextInt();
-        // System.out.println("value of next is " + selectedNum);
-
-        // System.out.println("selected num is " + selectedNum);
-
-        Card selectedCard = p.getHand().get(selectedNum-1);
-        // Card selectedCard = p.getHand().get(0);
-
+        int selectedNum = -1;
+        while (true) {
+            System.out.print("Selection:  Option ");
+            if (sc.hasNextInt()) {
+                selectedNum = sc.nextInt();
+                sc.nextLine(); // ignore the newline after nextInt()
+                if (selectedNum >= 1 && selectedNum <= p.getHand().size()) { // selected card must be within number of cards in the hand
+                    break;
+                }
+            }
+            sc.nextLine(); // to clear invalid input
+            System.out.println("Invalid selection! Please choose a number between 1 and " + p.getHand().size());
+        }
         
+        Card selectedCard = p.getHand().get(selectedNum - 1);
         System.out.println("-----------");
         System.out.println("You have selected Option " + selectedNum + ": " + selectedCard);
         return selectedCard;
+    }
+
+    public static PlayerList getPlayerList(Deck d, Parade p) {
+        Scanner sc = new Scanner(System.in);
+        int numHumanPlayers = 0;
+        int numBotPlayers = 0;
+        int totalPlayers = 0;
+
+        while (true) { // repeat until user inputs valid number of players
+            System.out.print("Enter number of Human Players (1 - 6): ");
+            if (sc.hasNextInt()) {
+                numHumanPlayers = sc.nextInt();
+                if (numHumanPlayers >= 1 && numHumanPlayers <= 6) {
+                    break;
+                }
+            }
+            sc.nextLine(); // clear invalid input
+            System.out.println("Invalid input! Please enter a number between 1 to 6.");
+        }
+
+        while (true) {
+            System.out.printf("Enter number of Bot Players (0 - %d): ", 6 - numHumanPlayers);
+            if (sc.hasNextInt()) {
+                numBotPlayers = sc.nextInt();
+                totalPlayers = numBotPlayers + numHumanPlayers;
+                if (totalPlayers >= 2 && totalPlayers <= 6) {
+                    break;
+                }
+            }
+            sc.nextLine();
+            System.out.println("Invalid Input! The total number of players must be between 2 and 6");
+        } 
+
+        ArrayList<Player> players = new ArrayList<Player>();
+
+        for (int i = 0 ; i < numHumanPlayers; i++) { 
+            players.add(new HumanPlayer());
+        }
+
+        for (int i = 0 ; i < numBotPlayers ; i++) {
+            players.add(new BotPlayer());
+        }
+
+        return new PlayerList(players, p, d);
+    }
+
+
+    // this method will be called at the end of the game and calculate the scores of each player, followed by listing out the winner(s)
+    public static void calculateScores(PlayerList playerList) {
+        System.out.println("\n=== FINAL SCORES ====");
+
+        int minScore = Integer.MAX_VALUE; // track the minimum score
+        ArrayList<Player> winners = new ArrayList<Player>();
+
+        for (Player p : playerList.getPlayerList()) {
+            int totalScore = 0;
+            System.out.println("\nPlayer " + (playerList.getPlayerList().indexOf(p) + 1) + "'s Collection: " + p.getCollectedCards());
+
+            for (Colour c : Colour.values()) {
+                ArrayList<Card> cards = p.getCollectedCards().get(c);
+                if (cards != null) {
+                    totalScore += cards.stream().mapToInt(Card::getCardNum).sum();
+                } 
+            }
+
+            System.out.println("Total Score: " + totalScore);
+
+            // Check if this player has the lowest score
+            if (totalScore < minScore) {
+                minScore = totalScore;
+                winners.clear(); // reset winners list with this new lowest score
+                winners.add(p); 
+            } else if (totalScore == minScore) { 
+                winners.add(p); // add to winners list if there is a tie
+            }
+        }
+
+        // Announce the winners
+        System.out.println("\n=== WINNNER(s) ====");
+        if (winners.size() == 1) {
+            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners.get(0)) + 1) + " WINS with " + minScore + " points!");
+        } else {
+            System.out.print("It's a TIE between Players "); 
+            for (Player p : winners) {
+                System.out.println(playerList.getPlayerList().indexOf(p) + 1 + " ");
+            }
+            System.out.println("with " + minScore + " points!");
+        }
+
     }
 
 
@@ -79,33 +170,30 @@ public class ParadeTester {
         Parade par = new Parade(d);
         System.out.println("Size of deck (after parade): " + d.getSize()); // 56
 
-        Player p1 = new HumanPlayer();
-        Player p2 = new HumanPlayer();
-        Player p3 = new HumanPlayer();
-
-        PlayerList playerList = new PlayerList(new ArrayList<Player>(){{
-            add(p1);
-            add(p2);
-            add(p3);
-        }}, par, d);
+        PlayerList playerList = getPlayerList(d, par);
 
      
         System.out.println("Size of deck (after initialisation): " + d.getSize()); // 56
-        System.out.println(p1.getHand());
-        System.out.println(p2.getHand());
-        System.out.println(p3.getHand());
+        for (int i = 0 ; i < playerList.getPlayerList().size() ; i++) { // show hand of all the players
+            System.out.println(playerList.getPlayer(i));
+        }
 
         int turn = -1;
-        while (true) {
+        while (d.getSize() > 0) { // changed end-game logic from true to <<<
+            ++turn;
+            Player curPlayer = playerList.getPlayer(turn);
             try {
-                ++turn;
-                System.out.println("\n\n||   Turn " + (turn+1) + "   ||    Player " + (turn%3+1));
-                Player curPlayer = playerList.getPlayer(turn);
+                System.out.println("\n\n||   Turn " + (turn+1) + "   ||    Player " + (playerList.getPlayerList().indexOf(curPlayer) + 1));
                 System.out.println("Parade: " + par.getParade());
     
                 // now the player picks one card, card is removed from player's hand
-                Card pickedCard = getUserInput(curPlayer, sc); 
-                // Card pickedCard = curPlayer.getHand().get(0);
+                Card pickedCard;
+                if (curPlayer instanceof BotPlayer) {
+                    pickedCard = ((BotPlayer) curPlayer).chooseCard(); // bot will randomly pick a card
+                } else {
+                    pickedCard = getUserInput(curPlayer, sc);
+                }
+                // Card pickedCard = curPlayer.getHand().get(0); // test
     
                 System.out.println("Removable: " + par.getRemoveable(pickedCard));
                 ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
@@ -121,17 +209,19 @@ public class ParadeTester {
                 System.out.println("Size of deck: " + d.getSize()); // 56
 
             } catch (EndGameException e) {
-                e.printStackTrace();
-                break;
+                System.out.println("\n=== GAME OVER! ====");
+                System.out.println("Player " + (playerList.getPlayerList().indexOf(curPlayer) + 1) + " has won after collecting 6 cards of the same colou!");
+                // e.printStackTrace();
+                break; // exit loop so game can end
             }
         }
 
+
+
+        calculateScores(playerList);
         // TO-DO: add end game things
         // tip: comment on          Line 107 = getUserInput(curPlayer, sc); 
         //      and replace it with Line 108 = curPlayer.getHand().get(0);
-
-
-        
-
+        sc.close();
     }
 }
