@@ -46,6 +46,7 @@ public abstract class Player {
         return this.collectedCards;
     }
 
+    public abstract Card chooseCard();
     /**
      * Removes a card from the player's hand and plays it.
      *
