@@ -8,14 +8,16 @@ public class PlayerList {
 
     private ArrayList<Player> playerList;
     Deck deck;
+    private static final int MAX_PLAYER_NUM = 6;
+    private static final int HAND_SIZE = 5;
 
     public PlayerList(Deck d){
         UserInput input = new UserInput();
 
-        int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d - %d): ", 1, 6);
+        int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d - %d): ", 1, MAX_PLAYER_NUM);
         int minNumBots = 0; 
         if (numHumanPlayers == 1) { minNumBots = 1; } 
-        int numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots, 6 - minNumBots);
+        int numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots, MAX_PLAYER_NUM - numHumanPlayers);
         
         ArrayList<Player> players = new ArrayList<Player>();
 
@@ -39,7 +41,7 @@ public class PlayerList {
     // }
 
     private void dealInitialCards() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < HAND_SIZE; i++) {
             for (Player p : playerList) {
                 try {
                     p.addCard(deck.drawCard());
