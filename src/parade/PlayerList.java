@@ -57,6 +57,10 @@ public class PlayerList {
         return this.playerList;
     }
 
+    public int getNumberOfPlayers(){
+        return playerList.size();
+    }
+
     public Player getPlayer(int i){
         int size = playerList.size(); // it will never go out
         return playerList.get(i % size);

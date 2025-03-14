@@ -37,6 +37,11 @@ public abstract class Player {
         return this.hand;
     }
 
+    public int getHandSize() {
+        return this.hand.size();
+    }
+
+
     /**
      * Returns the cards the player has collected during the game.
      *
@@ -69,11 +74,11 @@ public abstract class Player {
     }
 
     public void addCard(Card c, Boolean endGame) throws EndGameException {
-        if (c != null) this.hand.add(c); // add as normal
+        if (c != null && endGame == false) this.hand.add(c); // add as normal
 
         if (c == null && endGame == false) throw new EndGameException("There are no more cards in the deck. ");
         
-        // if c is null but it is the endGame, then there is no need to do anything
+        // in end game, should not draw cards
     }
     
     /**
@@ -100,10 +105,8 @@ public abstract class Player {
             collectedCards.get(curColour).add(c);
         }
 
-        if (!endGame) {
-            if (collectedCards.size() == 6) {
-                throw new EndGameException("Player has collected all 6 colors! ");
-            }
+        if (!endGame && collectedCards.size() == 6) {
+            throw new EndGameException("Player has collected all 6 colors! ");
         }
     }
 

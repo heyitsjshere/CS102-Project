@@ -19,7 +19,7 @@ public class HumanPlayer extends Player {
             i++;
         }
 
-        int selectedNum = input.getUserInt("Selection: Option ", 1, super.getHand().size());
+        int selectedNum = input.getUserInt("Selection: Option ", 1, super.getHandSize());
 
         return super.getHand().get(selectedNum-1);
     }
