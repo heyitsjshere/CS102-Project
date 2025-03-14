@@ -83,18 +83,8 @@ public class ParadeTester {
         Scanner sc = new Scanner(System.in);
 
         Deck d = new Deck();
-        System.out.println("Size of deck: " + d.getSize()); // 56
-
         Parade par = new Parade(d);
-        System.out.println("Size of deck (after parade): " + d.getSize()); // 56
-
         PlayerList playerList = new PlayerList(d);
-
-     
-        System.out.println("Size of deck (after initialisation): " + d.getSize()); // 56
-        for (int i = 0 ; i < playerList.getPlayerList().size() ; i++) { // show hand of all the players
-            System.out.println(playerList.getPlayer(i));
-        }
 
         int turn = -1;
         while (d.getSize() > 0) { // changed end-game logic from true to <<<
@@ -104,26 +94,24 @@ public class ParadeTester {
                 System.out.println("\n\n||   Turn " + (turn+1) + "   ||    Player " + (playerList.getPlayerList().indexOf(curPlayer) + 1));
                 System.out.println("Parade: " + par.getParade());
     
-                // now the player picks one card, card is removed from player's hand
-                Card pickedCard;
-                pickedCard = curPlayer.chooseCard();
+                // now the player picks one card
+                Card pickedCard = curPlayer.chooseCard();
+                System.out.println("Player has played: " + pickedCard);
 
-                System.out.println("Removable: " + par.getRemoveable(pickedCard));
+                // collect cards
                 ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
                 curPlayer.collectCard(toCollect);
                 System.out.println("player should collect: " + toCollect);
     
+                // play card (officially add it to the parade and remove it from the player's hand)
                 par.addCard(curPlayer.playCard(pickedCard)); 
-                curPlayer.addCard(d.drawCard());
-                System.out.println("Player's Hand: " + curPlayer.getHand());
-                System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
-                System.out.println("Parade: " + par.getParade());
-    
-                System.out.println("Size of deck: " + d.getSize()); // 56
-
+                curPlayer.addCard(d.drawCard()); // draw a new card
+                System.out.println("Player's Collection: " + curPlayer.getCollectedCards());    
+                
             } catch (EndGameException e) {
-                System.out.println("\n=== GAME OVER! ====");
-                System.out.println("Player " + (playerList.getPlayerList().indexOf(curPlayer) + 1) + " has won after collecting 6 cards of the same colou!");
+                
+                System.out.println("\n=== GAME OVER! ===="); // this is technically not true
+                // System.out.println("Player " + (playerList.getPlayerList().indexOf(curPlayer) + 1) + " has won after collecting 6 cards of the same colou!");
                 // e.printStackTrace();
                 break; // exit loop so game can end
             }
