@@ -8,15 +8,35 @@ public class PlayerList {
 
     private ArrayList<Player> playerList;
     Deck deck;
-    private Parade parade;
 
-    public PlayerList (ArrayList<Player> pl, Parade p, Deck d) {
-       this.playerList = pl;
-       this.deck = d;
-    //    parade = new Parade(deck);
-       this.parade = p;
-       dealInitialCards();
+    public PlayerList(Deck d){
+        UserInput input = new UserInput();
+
+        int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d - %d): ", 1, 6);
+        int minNumBots = 0; 
+        if (numHumanPlayers == 1) { minNumBots = 1; } 
+        int numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots, 6 - minNumBots);
+        
+        ArrayList<Player> players = new ArrayList<Player>();
+
+        for (int i = 0 ; i < numHumanPlayers; i++) { 
+            players.add(new HumanPlayer());
+        }
+
+        for (int i = 0 ; i < numBotPlayers ; i++) {
+            players.add(new BotPlayer());
+        }
+
+        this.playerList = players;
+        this.deck = d;
+        dealInitialCards();
     }
+
+    // public PlayerList (ArrayList<Player> pl, Deck d) {
+    //    this.playerList = pl;
+    //    this.deck = d;
+    //    dealInitialCards();
+    // }
 
     private void dealInitialCards() {
         for (int i = 0; i < 5; i++) {

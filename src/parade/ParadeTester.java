@@ -55,55 +55,6 @@ public class ParadeTester {
         return selectedCard;
     }
 
-    public static PlayerList getPlayerList(Deck d, Parade p) {
-        Scanner sc = new Scanner(System.in);
-        int numHumanPlayers = 0;
-        int numBotPlayers = 0;
-        int totalPlayers = 0;
-
-        while (true) { // repeat until user inputs valid number of players
-            System.out.print("Enter number of Human Players (1 - 6): ");
-            if (sc.hasNextInt()) {
-                numHumanPlayers = sc.nextInt();
-                if (numHumanPlayers >= 1 && numHumanPlayers <= 6) {
-                    break;
-                }
-            }
-            sc.nextLine(); // clear invalid input
-            System.out.println("Invalid input! Please enter a number between 1 to 6.");
-        }
-
-        while (true) {
-            int minNumBots = 0;
-            if (numHumanPlayers == 1) { // if there is only 1 human player, there should at least be 1 bot player
-                minNumBots = 1;
-            }
-            System.out.printf("Enter number of Bot Players (%d - %d): ", minNumBots, 6 - numHumanPlayers);
-            if (sc.hasNextInt()) {
-                numBotPlayers = sc.nextInt();
-                totalPlayers = numBotPlayers + numHumanPlayers;
-                if (totalPlayers >= 2 && totalPlayers <= 6) {
-                    break;
-                }
-            }
-            sc.nextLine();
-            System.out.println("Invalid Input! The total number of players must be between 2 and 6");
-        } 
-
-        ArrayList<Player> players = new ArrayList<Player>();
-
-        for (int i = 0 ; i < numHumanPlayers; i++) { 
-            players.add(new HumanPlayer());
-        }
-
-        for (int i = 0 ; i < numBotPlayers ; i++) {
-            players.add(new BotPlayer());
-        }
-
-        return new PlayerList(players, p, d);
-    }
-
-
     // this method will be called at the end of the game and calculate the scores of each player, followed by listing out the winner(s)
     public static void calculateScores(PlayerList playerList) {
         System.out.println("\n=== FINAL SCORES ====");
@@ -174,7 +125,7 @@ public class ParadeTester {
         Parade par = new Parade(d);
         System.out.println("Size of deck (after parade): " + d.getSize()); // 56
 
-        PlayerList playerList = getPlayerList(d, par);
+        PlayerList playerList = new PlayerList(d);
 
      
         System.out.println("Size of deck (after initialisation): " + d.getSize()); // 56
@@ -219,8 +170,6 @@ public class ParadeTester {
                 break; // exit loop so game can end
             }
         }
-
-
 
         calculateScores(playerList);
         // TO-DO: add end game things
