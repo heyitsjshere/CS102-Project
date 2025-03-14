@@ -45,10 +45,7 @@ public class Parade {
      * @param p the card being added to the parade
      * @return a list of removable cards
      */
-    public ArrayList<Card> getRemoveable(Card p) { // all cards that are removable, but not necessarily removed
-        
-        // if doing animations, may need this (can show which is the removeable stack)
-        // if not doing animations or not presenting this information, change to private
+    private ArrayList<Card> getRemoveable(Card p) { // all cards that are removable, but not necessarily removed
         int numRemovable = curParade.size() - p.getCardNum();
         ArrayList<Card> toReturn = new ArrayList<>();
 
