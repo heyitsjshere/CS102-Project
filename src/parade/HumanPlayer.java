@@ -3,7 +3,6 @@ package parade;
 public class HumanPlayer extends Player {
 
     private UserInput input;
-    private static final int HAND_SIZE = 5;
 
     public HumanPlayer() {
         super();
@@ -20,9 +19,9 @@ public class HumanPlayer extends Player {
             i++;
         }
 
-        int selectedNum = input.getUserInt("Selection: Option ", 1, HAND_SIZE);
+        int selectedNum = input.getUserInt("Selection: Option ", 1, super.getHand().size());
 
-        return super.getHand().get(selectedNum);
+        return super.getHand().get(selectedNum-1);
     }
 
     
