@@ -25,6 +25,7 @@ public class BotPlayer extends Player {
      *
      * @return the randomly selected {@link Card} to play
      */
+    @Override
     public Card chooseCard() {
         Random random = new Random();
         if (this.getHand().isEmpty()) {
