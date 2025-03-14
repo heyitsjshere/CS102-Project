@@ -1,7 +1,5 @@
 package parade;
 
-import java.util.Scanner;
-
 public class HumanPlayer extends Player {
 
     private UserInput input;
