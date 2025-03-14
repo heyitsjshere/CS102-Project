@@ -17,43 +17,6 @@ import parade.exceptions.EndGameException;
 
 public class ParadeTester {
 
-    /**
-     * Prompts the user to select a card from their hand.
-     * <p>
-     * Displays available options and retrieves the user's choice. The selected card is returned.
-     * </p>
-     *
-     * @param p the player whose hand will be displayed for selection
-     * @return the {@link Card} selected by the user
-     */
-    public static Card getUserInput(Player p, Scanner sc) {
-        System.out.println("PICK A CARD");
-        System.out.println("-----------");
-        int i = 1;
-        for (Card c: p.getHand()) {
-            System.out.println("Option " + i + ": " + c);
-            i++;
-        }
-        
-        int selectedNum = -1;
-        while (true) {
-            System.out.print("Selection:  Option ");
-            if (sc.hasNextInt()) {
-                selectedNum = sc.nextInt();
-                sc.nextLine(); // ignore the newline after nextInt()
-                if (selectedNum >= 1 && selectedNum <= p.getHand().size()) { // selected card must be within number of cards in the hand
-                    break;
-                }
-            }
-            sc.nextLine(); // to clear invalid input
-            System.out.println("Invalid selection! Please choose a number between 1 and " + p.getHand().size());
-        }
-        
-        Card selectedCard = p.getHand().get(selectedNum - 1);
-        System.out.println("-----------");
-        System.out.println("You have selected Option " + selectedNum + ": " + selectedCard);
-        return selectedCard;
-    }
 
     // this method will be called at the end of the game and calculate the scores of each player, followed by listing out the winner(s)
     public static void calculateScores(PlayerList playerList) {
@@ -143,13 +106,8 @@ public class ParadeTester {
     
                 // now the player picks one card, card is removed from player's hand
                 Card pickedCard;
-                if (curPlayer instanceof BotPlayer) {
-                    pickedCard = ((BotPlayer) curPlayer).chooseCard(); // bot will randomly pick a card
-                } else {
-                    pickedCard = getUserInput(curPlayer, sc);
-                }
-                // Card pickedCard = curPlayer.getHand().get(0); // test
-    
+                pickedCard = curPlayer.chooseCard();
+
                 System.out.println("Removable: " + par.getRemoveable(pickedCard));
                 ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
                 curPlayer.collectCard(toCollect);
@@ -172,9 +130,6 @@ public class ParadeTester {
         }
 
         calculateScores(playerList);
-        // TO-DO: add end game things
-        // tip: comment on          Line 107 = getUserInput(curPlayer, sc); 
-        //      and replace it with Line 108 = curPlayer.getHand().get(0);
         sc.close();
     }
 }
