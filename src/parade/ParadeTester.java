@@ -79,15 +79,19 @@ public class ParadeTester {
      *
      * @param args command-line arguments (not used)
      */
-    public static void main (String[] args) {
+
+ 
+     public static void main (String[] args) {
         Deck d = new Deck();
         Parade par = new Parade(d);
         PlayerList playerList = new PlayerList(d);
+        Boolean endGame = false;
 
         int turn = -1;
         // while (d.getSize() > 0) { // changed end-game logic from true to <<<
-        while (true) { // use true so can display error message
-            ++turn;
+        // while (true) { // use true so can display error message
+        while(playerList.getPlayer(++turn).getHandSize() == 5) { // will keep playing
+            // ++turn;
             Player curPlayer = playerList.getPlayer(turn);
             try {
                 System.out.println("\n\n||   Turn " + (turn+1) + "   ||    Player " + (playerList.getPlayerList().indexOf(curPlayer) + 1));
@@ -97,48 +101,46 @@ public class ParadeTester {
                 Card pickedCard = curPlayer.chooseCard();
                 System.out.println("Player has played: " + pickedCard);
 
-                // collect cards
-                ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
-                curPlayer.collectCard(toCollect);
-                System.out.println("player should collect: " + toCollect);
-    
                 // play card (officially add it to the parade and remove it from the player's hand)
                 par.addCard(curPlayer.playCard(pickedCard)); 
-                curPlayer.addCard(d.drawCard()); // draw a new card
+
+                // collect cards
+                ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
+                curPlayer.collectCard(toCollect, endGame); // will throw end game exception if player has collected all 6 and !endgame
+                System.out.println("player should collect: " + toCollect);
                 System.out.println("Player's Collection: " + curPlayer.getCollectedCards());    
                 
+                curPlayer.addCard(d.drawCard(), endGame); // will throw end game exception if no more in the deck
+
             } catch (EndGameException e) {
-                System.out.println(e.getMessage() + "Everyone has one last turn before the game ends.");
-                break; // exit loop so game can end
+                System.out.println(e.getMessage());
+                if (e.getMessage().toLowerCase().contains("deck")) { // because of empty deck
+                    System.out.println("Everyone else has one last turn before the game ends.");
+                     // curPlayer has 4 cards and nothing to draw
+                     // already played their last turn
+
+                } else { // because player has collected all
+                    System.out.println("Everyone has one last turn before the game ends.");
+                    try {
+                        curPlayer.addCard(d.drawCard(), endGame); 
+                        // player still has to draw card because rules state that
+                        // "she finishes her turn as before"
+                    } catch (EndGameException ee){
+                        System.out.println(ee.getMessage()); 
+                        // this means that on the same turn that the player collects all 6 colours
+                        // the deck also fully depletes
+                    }
+                }
+
+                endGame = true;
+
             }
         }
-
-        // here we need to implement the one last turn
-        int endTurnNum = turn+playerList.getNumberOfPlayers();
-        while (turn < endTurnNum) {
-            ++turn;
-            Player curPlayer = playerList.getPlayer(turn);
-
-            System.out.println("\n\n||   Turn " + (turn+1) + "   ||    Player " + (playerList.getPlayerList().indexOf(curPlayer) + 1));
-            System.out.println("Parade: " + par.getParade());
-
-            // now the player picks one card
-            Card pickedCard = curPlayer.chooseCard();
-            System.out.println("Player has played: " + pickedCard);
-
-            // collect cards
-            ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
-            try {
-                curPlayer.collectCard(toCollect, true); // should never give an error
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            
-            System.out.println("player should collect: " + toCollect);
-            
-        }
-
 
         calculateScores(playerList);
+        
+        for (Player p: playerList.getPlayerList()) {
+            System.out.println(p.getHand());
+        }
     }
 }
