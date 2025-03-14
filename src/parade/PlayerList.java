@@ -92,7 +92,7 @@ public class PlayerList {
         updateIndivScores();
         // ArrayList<Integer> playerScores = updateIndivScores();
         Player winner = Collections.max(playerList, Comparator.comparingInt(Player::getScore));
-        System.out.println(winner + " wins!"); // can use winner.getName() instead if getname implemented
+        System.out.println(winner + " wins with a score of " + winner.score + "!"); // can use winner.getName() instead if getname implemented
     }
 
     // add value of remaining face up cards AFTER removing majority cards
