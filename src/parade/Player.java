@@ -65,10 +65,17 @@ public abstract class Player {
      * @throws EndGameException if there are no more cards in the deck
      */
     public void addCard(Card c) throws EndGameException {
-        if (c == null) throw new EndGameException("There are no more cards in the deck. ");
-        this.hand.add(c);
+        addCard(c, false); // assume false
     }
 
+    public void addCard(Card c, Boolean endGame) throws EndGameException {
+        if (c != null) this.hand.add(c); // add as normal
+
+        if (c == null && endGame == false) throw new EndGameException("There are no more cards in the deck. ");
+        
+        // if c is null but it is the endGame, then there is no need to do anything
+    }
+    
     /**
      * Collects a list of cards and adds them to the player's collection.
      * <p>
