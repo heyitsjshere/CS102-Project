@@ -65,7 +65,7 @@ public abstract class Player {
      * @throws EndGameException if there are no more cards in the deck
      */
     public void addCard(Card c) throws EndGameException {
-        if (c == null) throw new EndGameException("There are no more cards in the deck");
+        if (c == null) throw new EndGameException("There are no more cards in the deck. ");
         this.hand.add(c);
     }
 
@@ -79,6 +79,10 @@ public abstract class Player {
      * @throws EndGameException if the player collects all 6 colors
      */
     public void collectCard(ArrayList<Card> cards) throws EndGameException {
+        collectCard(cards, false); // assume that it is not end game
+    }
+
+    public void collectCard(ArrayList<Card> cards, boolean endGame) throws EndGameException {
         for (Card c : cards) {
             Colour curColour = c.getCardColour();
 
@@ -89,9 +93,11 @@ public abstract class Player {
             collectedCards.get(curColour).add(c);
         }
 
-        // If the player has collected all 6 colors, end the game
-        if (collectedCards.size() == 6) {
-            throw new EndGameException("Player has collected all 6 colors! The game ends.");
+        if (!endGame) {
+            if (collectedCards.size() == 6) {
+                throw new EndGameException("Player has collected all 6 colors! ");
+            }
         }
     }
+
 }
