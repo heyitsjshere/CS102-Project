@@ -37,6 +37,11 @@ public abstract class Player {
         return this.hand;
     }
 
+    public int getHandSize() {
+        return this.hand.size();
+    }
+
+
     /**
      * Returns the cards the player has collected during the game.
      *
@@ -46,6 +51,7 @@ public abstract class Player {
         return this.collectedCards;
     }
 
+    public abstract Card chooseCard();
     /**
      * Removes a card from the player's hand and plays it.
      *
@@ -64,10 +70,17 @@ public abstract class Player {
      * @throws EndGameException if there are no more cards in the deck
      */
     public void addCard(Card c) throws EndGameException {
-        if (c == null) throw new EndGameException("There are no more cards in the deck");
-        this.hand.add(c);
+        addCard(c, false); // assume false
     }
 
+    public void addCard(Card c, Boolean endGame) throws EndGameException {
+        if (c != null && endGame == false) this.hand.add(c); // add as normal
+
+        if (c == null && endGame == false) throw new EndGameException("There are no more cards in the deck. ");
+        
+        // in end game, should not draw cards
+    }
+    
     /**
      * Collects a list of cards and adds them to the player's collection.
      * <p>
@@ -78,6 +91,10 @@ public abstract class Player {
      * @throws EndGameException if the player collects all 6 colors
      */
     public void collectCard(ArrayList<Card> cards) throws EndGameException {
+        collectCard(cards, false); // assume that it is not end game
+    }
+
+    public void collectCard(ArrayList<Card> cards, boolean endGame) throws EndGameException {
         for (Card c : cards) {
             Colour curColour = c.getCardColour();
 
@@ -88,9 +105,9 @@ public abstract class Player {
             collectedCards.get(curColour).add(c);
         }
 
-        // If the player has collected all 6 colors, end the game
-        if (collectedCards.size() == 6) {
-            throw new EndGameException("Player has collected all 6 colors! The game ends.");
+        if (!endGame && collectedCards.size() == 6) {
+            throw new EndGameException("Player has collected all 6 colors! ");
         }
     }
+
 }

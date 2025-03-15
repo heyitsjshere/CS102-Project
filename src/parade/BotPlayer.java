@@ -25,11 +25,12 @@ public class BotPlayer extends Player {
      *
      * @return the randomly selected {@link Card} to play
      */
+    @Override
     public Card chooseCard() {
         Random random = new Random();
         if (this.getHand().isEmpty()) {
             return null; // Handle edge case where bot has no cards
         }
-        return this.getHand().get(random.nextInt(this.getHand().size())); // Picks a valid index (0 to size-1)
+        return this.getHand().get(random.nextInt(this.getHandSize())); // Picks a valid index (0 to size-1)
     }
 }
