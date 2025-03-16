@@ -79,7 +79,7 @@ public class PlayerList {
 
         // iter through colours
         for (Colour colour : Colour.values()){
-            ArrayList<Player> MaxPlayers = new ArrayList<>();
+            ArrayList<Player> maxPlayers = new ArrayList<>();
             int maxCount = 0;
             for (Player p : playerList){
                 // if player doesn't have that colour card, continue to next player
@@ -92,23 +92,27 @@ public class PlayerList {
                 if (playerList.size() > 2){
                     if (count > maxCount){
                         maxCount = count;
-                        MaxPlayers.clear(); // remove all players with fewer cards from list
-                        MaxPlayers.add(p);
+                        maxPlayers.clear(); // remove all players with fewer cards from list
+                        maxPlayers.add(p);
                     } else if (count == maxCount){
-                        MaxPlayers.add(p);
+                        maxPlayers.add(p);
                     }
                 }
                 // if 2 players, get player with majority of >= 2
                 else if (playerList.size() == 2){
+                    // P1 might have been wrongly added bc size was compared to initial maxCount of 0
+                    if (maxCount - count < 2){
+                        maxPlayers.clear();
+                    }
                     if (count > maxCount + 1){
                         maxCount = count;
-                        MaxPlayers.clear();
-                        MaxPlayers.add(p);
+                        maxPlayers.clear();
+                        maxPlayers.add(p);
                     }
                 }
 
             }
-            AllColourMaxPlayers.put(colour, MaxPlayers);
+            AllColourMaxPlayers.put(colour, maxPlayers);
             for (Player p : AllColourMaxPlayers.get(colour)){
                 p.score += p.getCollectedCards().get(colour).size();
                 p.placeColourFaceDown(colour);
@@ -117,8 +121,9 @@ public class PlayerList {
 
         updateIndivScores();
         // ArrayList<Integer> playerScores = updateIndivScores();
-        Player winner = Collections.max(playerList, Comparator.comparingInt(Player::getScore));
-        System.out.println(winner + " wins with a score of " + winner.score + "!"); // can use winner.getName() instead if getname implemented
+        Player winner = Collections.min(playerList, Comparator.comparingInt(Player::getScore));
+        String winnerName= "Player "  + (playerList.indexOf(winner) + 1);
+        System.out.println(winnerName + " wins with a score of " + winner.score + "!"); // can use winner.getName() instead if getname implemented
     }
 
     // add value of remaining face up cards AFTER removing majority cards
@@ -133,5 +138,11 @@ public class PlayerList {
             // playerScores.add(p.getScore());
         }
         // return playerScores;
+    }
+
+    public void printLosers(){
+        for (Player p : playerList){
+            System.out.println(playerList.indexOf(p) + 1 + ": " + p.score);
+        }
     }
 }
