@@ -78,9 +78,7 @@ public class PlayerList {
     private void calculateScores(){ // should only be called once
 
         // EnumMap<Colour, ArrayList<Player>> AllColourMaxPlayers = new EnumMap<>(Colour.class);
-
         // iter through colours
-        
         for (Colour colour : Colour.values()){ 
             ArrayList<Player> maxPlayers = findMaxPlayers(colour); // get list of players with the maximum number of that card
             for (Player p : maxPlayers){
@@ -88,12 +86,10 @@ public class PlayerList {
                 p.placeColourFaceDown(colour); // remove, so won't count the number value later
             }
         }
-
         addRemainingFaces(); 
-
-        Player winner = Collections.min(playerList, Comparator.comparingInt(Player::getScore));
-        String winnerName= "Player "  + (playerList.indexOf(winner) + 1);
-        System.out.println(winnerName + " wins with a score of " + winner.score + "!"); // can use winner.getName() instead if getname implemented
+        // Player winner = Collections.min(playerList, Comparator.comparingInt(Player::getScore));
+        // String winnerName= "Player "  + (playerList.indexOf(winner) + 1);
+        // System.out.println(winnerName + " wins with a score of " + winner.score + "!"); // can use winner.getName() instead if getname implemented
     }
 
     private ArrayList<Player> findMaxPlayers(Colour colour){
@@ -145,7 +141,6 @@ public class PlayerList {
         }
     }
 
-    
     public ArrayList<Player> findWinners(){
         calculateScores(); 
 
