@@ -9,30 +9,30 @@ import java.util.EnumMap;
 /**
  * Represents a player in the Parade game.
  * <p>
- * This is an abstract class that defines common attributes and behaviors 
+ * This is an abstract class that defines common attributes and behaviors
  * for all players, including their hand of cards and collected cards.
  * </p>
  */
 public abstract class Player {
     // change to abstract later
-    
+
     // private String name; // honestly optional but i think can
 
-     /** The player's current hand of cards. */
+    /** The player's current hand of cards. */
     private ArrayList<Card> hand; // current hand
 
     /** The collection of cards the player has acquired, grouped by color. */
-    private EnumMap<Colour, ArrayList<Card>> collectedCards; 
+    private EnumMap<Colour, ArrayList<Card>> collectedCards;
 
     /**
      * Constructs a player
      */
 
-     public Player() { 
+    public Player() {
         this.hand = new ArrayList<Card>(); // new empty array list to store cards
         this.collectedCards = new EnumMap<>(Colour.class); // new empty enum map
     }
-    
+
     /**
      * Returns the player's current hand of cards.
      *
@@ -42,20 +42,19 @@ public abstract class Player {
         return this.hand;
     }
 
-
     /**
      * Returns the cards the player has collected during the game.
      *
      * @return an {@link EnumMap} of collected cards, grouped by {@link Colour}
      */
-    public EnumMap<Colour, ArrayList<Card>> getCollectedCards(){
+    public EnumMap<Colour, ArrayList<Card>> getCollectedCards() {
         return this.collectedCards;
     }
 
     /**
      * Removes a card from the player's hand and plays it.
      * <p>
-     * The selected card is removed from the player's hand and 
+     * The selected card is removed from the player's hand and
      * returned so that it can be added to the parade.
      * </p>
      *
@@ -63,28 +62,29 @@ public abstract class Player {
      * @return the played {@link Card}
      */
 
-    public Card playCard (Card c) { // remove card from hand
+    public Card playCard(Card c) { // remove card from hand
 
         this.hand.remove(c);
         return c; // return card so it can be added to the parade
 
     } // depends on human or bot
 
-
     /**
      * Adds a card to the player's hand.
      *
      * @param c the card to be added
      */
-    public void addCard (Card c) throws EndGameException { // add card from deck
-        if (c == null) throw new EndGameException("There are no more cards in the deck");
+    public void addCard(Card c) throws EndGameException { // add card from deck
+        if (c == null)
+            throw new EndGameException("There are no more cards in the deck");
         this.hand.add(c);
-    } 
+    }
 
     /**
      * Collects a list of cards and adds them to the player's collection.
      * <p>
-     * Each collected card is stored in the {@code collectedCards} map based on its color.
+     * Each collected card is stored in the {@code collectedCards} map based on its
+     * color.
      * </p>
      *
      * @param cards the list of cards to be collected
@@ -96,9 +96,9 @@ public abstract class Player {
             Colour curColour = c.getCardColour();
 
             if (!collectedCards.containsKey(curColour)) { // if first of that colour
-                collectedCards.put(curColour, new ArrayList<Card>());  // add it to map and create list
+                collectedCards.put(curColour, new ArrayList<Card>()); // add it to map and create list
             }
-            
+
             collectedCards.get(curColour).add(c);
         }
 

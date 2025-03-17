@@ -2,14 +2,18 @@ package parade;
 
 // import parade.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
+import parade.enums.Colour;
 import parade.exceptions.EndGameException;
 
 /**
  * A class to test the functionality of the Parade game.
  * <p>
- * This class initializes players, a deck, and a parade, and simulates a turn where a player selects 
+ * This class initializes players, a deck, and a parade, and simulates a turn
+ * where a player selects
  * a card, adds it to the parade, and collects any removable cards.
  * </p>
  */
@@ -19,7 +23,8 @@ public class ParadeTester {
     /**
      * Prompts the user to select a card from their hand.
      * <p>
-     * Displays available options and retrieves the user's choice. The selected card is returned.
+     * Displays available options and retrieves the user's choice. The selected card
+     * is returned.
      * </p>
      *
      * @param p the player whose hand will be displayed for selection
@@ -29,11 +34,11 @@ public class ParadeTester {
         System.out.println("PICK A CARD");
         System.out.println("-----------");
         int i = 1;
-        for (Card c: p.getHand()) {
+        for (Card c : p.getHand()) {
             System.out.println("Option " + i + ": " + c);
             i++;
         }
-        
+
         // System.out.println(p.getHand());
         System.out.printf("Selection: Option ");
 
@@ -44,33 +49,32 @@ public class ParadeTester {
 
         // System.out.println("selected num is " + selectedNum);
 
-        Card selectedCard = p.getHand().get(selectedNum-1);
+        Card selectedCard = p.getHand().get(selectedNum - 1);
         // Card selectedCard = p.getHand().get(0);
 
-        
         System.out.println("-----------");
         System.out.println("You have selected Option " + selectedNum + ": " + selectedCard);
         return selectedCard;
     }
 
-
     /**
      * The main method to test the Parade game mechanics.
      * <p>
-     * Initializes a deck, players, and the parade, then simulates a player's turn where they:
+     * Initializes a deck, players, and the parade, then simulates a player's turn
+     * where they:
      * <ul>
-     *     <li>Select a card</li>
-     *     <li>Identify removable and collectible cards</li>
-     *     <li>Collect applicable cards</li>
-     *     <li>Play their selected card</li>
-     *     <li>Draw a new card</li>
+     * <li>Select a card</li>
+     * <li>Identify removable and collectible cards</li>
+     * <li>Collect applicable cards</li>
+     * <li>Play their selected card</li>
+     * <li>Draw a new card</li>
      * </ul>
      * The method also prints the game state before and after the player's turn.
      * </p>
      *
      * @param args command-line arguments (not used)
      */
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         Deck d = new Deck();
@@ -83,13 +87,14 @@ public class ParadeTester {
         Player p2 = new HumanPlayer();
         Player p3 = new HumanPlayer();
 
-        PlayerList playerList = new PlayerList(new ArrayList<Player>(){{
-            add(p1);
-            add(p2);
-            add(p3);
-        }}, par, d);
+        PlayerList playerList = new PlayerList(new ArrayList<Player>() {
+            {
+                add(p1);
+                add(p2);
+                add(p3);
+            }
+        }, par, d);
 
-     
         System.out.println("Size of deck (after initialisation): " + d.getSize()); // 56
         System.out.println(p1.getHand());
         System.out.println(p2.getHand());
@@ -99,39 +104,63 @@ public class ParadeTester {
         while (true) {
             try {
                 ++turn;
-                System.out.println("\n\n||   Turn " + (turn+1) + "   ||    Player " + (turn%3+1));
+                System.out.println("\n\n||   Turn " + (turn + 1) + "   ||    Player " + (turn % 3 + 1));
                 Player curPlayer = playerList.getPlayer(turn);
                 System.out.println("Parade: " + par.getParade());
-    
+
                 // now the player picks one card, card is removed from player's hand
-                Card pickedCard = getUserInput(curPlayer, sc); 
-                // Card pickedCard = curPlayer.getHand().get(0);
-    
+                // Card pickedCard = getUserInput(curPlayer, sc);
+                Card pickedCard = curPlayer.getHand().get(0);
+
                 System.out.println("Removable: " + par.getRemoveable(pickedCard));
                 ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
                 curPlayer.collectCard(toCollect);
                 System.out.println("player should collect: " + toCollect);
-    
-                par.addCard(curPlayer.playCard(pickedCard)); 
+
+                par.addCard(curPlayer.playCard(pickedCard));
                 curPlayer.addCard(d.drawCard());
                 System.out.println("Player's Hand: " + curPlayer.getHand());
                 System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
                 System.out.println("Parade: " + par.getParade());
-    
+
                 System.out.println("Size of deck: " + d.getSize()); // 56
 
+                // Set<Colour> uniqueColors = new HashSet<>();
+                Set<Colour> collectedColors = curPlayer.getCollectedCards().keySet();
+
+                // for (Card c : curPlayer.getCollectedCards()) {
+                // uniqueColors.add(c.getCardColour());
+                // }
+                if (collectedColors.size() == 6) {
+                    System.out.println("Player has all 6 unique colors!");
+                    break;
+
+                } else if (d.getSize() == 0) {
+                    System.out.println("No more cards in the deck! This is the final round!");
+                    break;
+                }
+
+                // if (d.drawCard())
+
+                // break;
+
+                // if (d.getSize() == 0) {
+                // System.out.println("No more cards in deck");
+                // }
+
+                // if (c.getCardColour())
+
+                // System.out.println(collectedColors);
             } catch (EndGameException e) {
                 e.printStackTrace();
                 break;
             }
+
         }
 
         // TO-DO: add end game things
-        // tip: comment on          Line 107 = getUserInput(curPlayer, sc); 
-        //      and replace it with Line 108 = curPlayer.getHand().get(0);
-
-
-        
+        // tip: comment on Line 107 = getUserInput(curPlayer, sc);
+        // and replace it with Line 108 = curPlayer.getHand().get(0);
 
     }
 }
