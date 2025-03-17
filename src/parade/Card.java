@@ -1,11 +1,13 @@
 package parade;
+
 import parade.enums.*;
 
 /**
  * Represents a card in the Parade game.
  * <p>
- * Each card has a numeric value and a color, defined by the {@link Colour} enum.
- * This class provides methods to access the card's properties and a string 
+ * Each card has a numeric value and a color, defined by the {@link Colour}
+ * enum.
+ * This class provides methods to access the card's properties and a string
  * representation of the card.
  * </p>
  */
@@ -20,7 +22,7 @@ public class Card {
      * @param n the numeric value of the card
      * @param c the color of the card, from the {@link Colour} enum
      */
-    public Card (int n, Colour c) {
+    public Card(int n, Colour c) {
         this.num = n;
         this.colour = c;
     }
@@ -53,8 +55,7 @@ public class Card {
      */
     @Override
     public String toString() {
-        return "" + this.colour + " " + this.num ;
+        return "" + this.colour + " " + this.num;
     }
-
 
 }

@@ -2,9 +2,7 @@ package parade;
 
 // import parade.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 import parade.enums.Colour;
 import parade.exceptions.EndGameException;
@@ -20,41 +18,51 @@ import parade.exceptions.EndGameException;
 
 public class ParadeTester {
 
-    /**
-     * Prompts the user to select a card from their hand.
-     * <p>
-     * Displays available options and retrieves the user's choice. The selected card
-     * is returned.
-     * </p>
-     *
-     * @param p the player whose hand will be displayed for selection
-     * @return the {@link Card} selected by the user
-     */
-    public static Card getUserInput(Player p, Scanner sc) {
-        System.out.println("PICK A CARD");
-        System.out.println("-----------");
-        int i = 1;
-        for (Card c : p.getHand()) {
-            System.out.println("Option " + i + ": " + c);
-            i++;
+    // this method will be called at the end of the game and calculate the scores of
+    // each player, followed by listing out the winner(s)
+    public static void calculateScores(PlayerList playerList) {
+        System.out.println("\n=== FINAL SCORES ====");
+
+        int minScore = Integer.MAX_VALUE; // track the minimum score
+        ArrayList<Player> winners = new ArrayList<Player>();
+
+        for (Player p : playerList.getPlayerList()) {
+            int totalScore = 0;
+            System.out.println("\nPlayer " + (playerList.getPlayerList().indexOf(p) + 1) + "'s Collection: "
+                    + p.getCollectedCards());
+
+            for (Colour c : Colour.values()) {
+                ArrayList<Card> cards = p.getCollectedCards().get(c);
+                if (cards != null) {
+                    totalScore += cards.stream().mapToInt(Card::getCardNum).sum();
+                }
+            }
+
+            System.out.println("Total Score: " + totalScore);
+
+            // Check if this player has the lowest score
+            if (totalScore < minScore) {
+                minScore = totalScore;
+                winners.clear(); // reset winners list with this new lowest score
+                winners.add(p);
+            } else if (totalScore == minScore) {
+                winners.add(p); // add to winners list if there is a tie
+            }
         }
 
-        // System.out.println(p.getHand());
-        System.out.printf("Selection: Option ");
+        // Announce the winners
+        System.out.println("\n=== WINNNER(s) ====");
+        if (winners.size() == 1) {
+            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners.get(0)) + 1) + " WINS with "
+                    + minScore + " points!");
+        } else {
+            System.out.print("It's a TIE between Players ");
+            for (Player p : winners) {
+                System.out.println(playerList.getPlayerList().indexOf(p) + 1 + " ");
+            }
+            System.out.println("with " + minScore + " points!");
+        }
 
-        // System.out.println("Has next int = " + sc.hasNextInt());
-
-        int selectedNum = sc.nextInt();
-        // System.out.println("value of next is " + selectedNum);
-
-        // System.out.println("selected num is " + selectedNum);
-
-        Card selectedCard = p.getHand().get(selectedNum - 1);
-        // Card selectedCard = p.getHand().get(0);
-
-        System.out.println("-----------");
-        System.out.println("You have selected Option " + selectedNum + ": " + selectedCard);
-        return selectedCard;
     }
 
     /**
@@ -74,93 +82,75 @@ public class ParadeTester {
      *
      * @param args command-line arguments (not used)
      */
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
         Deck d = new Deck();
-        System.out.println("Size of deck: " + d.getSize()); // 56
-
         Parade par = new Parade(d);
-        System.out.println("Size of deck (after parade): " + d.getSize()); // 56
-
-        Player p1 = new HumanPlayer();
-        Player p2 = new HumanPlayer();
-        Player p3 = new HumanPlayer();
-
-        PlayerList playerList = new PlayerList(new ArrayList<Player>() {
-            {
-                add(p1);
-                add(p2);
-                add(p3);
-            }
-        }, par, d);
-
-        System.out.println("Size of deck (after initialisation): " + d.getSize()); // 56
-        System.out.println(p1.getHand());
-        System.out.println(p2.getHand());
-        System.out.println(p3.getHand());
+        PlayerList playerList = new PlayerList(d);
+        Boolean endGame = false;
 
         int turn = -1;
-        while (true) {
+        // while (d.getSize() > 0) { // changed end-game logic from true to <<<
+        // while (true) { // use true so can display error message
+        while (playerList.getPlayer(++turn).getHandSize() == 5) { // will keep playing
+            // ++turn;
+            Player curPlayer = playerList.getPlayer(turn);
             try {
-                ++turn;
-                System.out.println("\n\n||   Turn " + (turn + 1) + "   ||    Player " + (turn % 3 + 1));
-                Player curPlayer = playerList.getPlayer(turn);
+                System.out.println("\n\n||   Turn " + (turn + 1) + "   ||    Player "
+                        + (playerList.getPlayerList().indexOf(curPlayer) + 1));
                 System.out.println("Parade: " + par.getParade());
 
-                // now the player picks one card, card is removed from player's hand
-                // Card pickedCard = getUserInput(curPlayer, sc);
-                Card pickedCard = curPlayer.getHand().get(0);
+                // now the player picks one card
+                Card pickedCard = curPlayer.chooseCard();
+                System.out.println("Player has played: " + pickedCard);
 
-                System.out.println("Removable: " + par.getRemoveable(pickedCard));
-                ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
-                curPlayer.collectCard(toCollect);
-                System.out.println("player should collect: " + toCollect);
-
+                // play card (officially add it to the parade and remove it from the player's
+                // hand)
                 par.addCard(curPlayer.playCard(pickedCard));
-                curPlayer.addCard(d.drawCard());
-                System.out.println("Player's Hand: " + curPlayer.getHand());
+
+                // collect cards
+                ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
+                curPlayer.collectCard(toCollect, endGame); // will throw end game exception if player has collected all
+                                                           // 6 and !endgame
+                System.out.println("player should collect: " + toCollect);
                 System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
-                System.out.println("Parade: " + par.getParade());
 
-                System.out.println("Size of deck: " + d.getSize()); // 56
+                curPlayer.addCard(d.drawCard(), endGame); // will throw end game exception if no more in the deck
 
-                // Set<Colour> uniqueColors = new HashSet<>();
-                Set<Colour> collectedColors = curPlayer.getCollectedCards().keySet();
+            } catch (EndGameException e) {
+                System.out.println(e.getMessage());
+                if (e.getMessage().toLowerCase().contains("deck")) { // because of empty deck
+                    System.out.println("Everyone else has one last turn before the game ends.");
+                    // curPlayer has 4 cards and nothing to draw
+                    // already played their last turn
 
-                // for (Card c : curPlayer.getCollectedCards()) {
-                // uniqueColors.add(c.getCardColour());
-                // }
-                if (collectedColors.size() == 6) {
-                    System.out.println("Player has all 6 unique colors!");
-                    break;
-
-                } else if (d.getSize() == 0) {
-                    System.out.println("No more cards in the deck! This is the final round!");
-                    break;
+                } else { // because player has collected all
+                    System.out.println("Everyone has one last turn before the game ends.");
+                    try {
+                        curPlayer.addCard(d.drawCard(), endGame);
+                        // player still has to draw card because rules state that
+                        // "she finishes her turn as before"
+                    } catch (EndGameException ee) {
+                        System.out.println(ee.getMessage());
+                        // this means that on the same turn that the player collects all 6 colours
+                        // the deck also fully depletes
+                    }
                 }
 
-                // if (d.drawCard())
+                endGame = true;
 
-                // break;
-
-                // if (d.getSize() == 0) {
-                // System.out.println("No more cards in deck");
-                // }
-
-                // if (c.getCardColour())
-
-                // System.out.println(collectedColors);
-            } catch (EndGameException e) {
-                e.printStackTrace();
-                break;
             }
-
         }
 
-        // TO-DO: add end game things
-        // tip: comment on Line 107 = getUserInput(curPlayer, sc);
-        // and replace it with Line 108 = curPlayer.getHand().get(0);
-
+        // calculateScores(playerList);
+        System.out.println("here");
+        System.out.printf("\n\nGame is over.\nPlayer collections: \n");
+        for (Player p : playerList.getPlayerList()) {
+            System.out.println();
+            System.out.println(p.getCollectedCards());
+        }
+        System.out.println();
+        playerList.printWinner();
+        playerList.printLosers();
     }
 }
