@@ -20,6 +20,9 @@ public abstract class Player {
     /** The collection of cards the player has acquired, grouped by color. */
     private EnumMap<Colour, ArrayList<Card>> collectedCards; 
 
+    // protected score that can be accessed and edited in playerList for scoring
+    protected int score = 0;
+
     /**
      * Constructs a player with an empty hand and collection.
      */
@@ -51,7 +54,12 @@ public abstract class Player {
         return this.collectedCards;
     }
 
+    public int getScore(){
+        return score;
+    }
+
     public abstract Card chooseCard();
+
     /**
      * Removes a card from the player's hand and plays it.
      *
@@ -60,7 +68,13 @@ public abstract class Player {
      */
     public Card playCard(Card c) {
         this.hand.remove(c);
-        return c; 
+        return c; // return card so it can be added to the parade
+
+    } // depends on human or bot
+
+    // removes all cards of that colour from collection after doing appropriate scoring
+    public void placeColourFaceDown (Colour colour) {
+        this.collectedCards.remove(colour);
     }
 
     /**
@@ -90,6 +104,8 @@ public abstract class Player {
      * @param cards the list of cards to be collected
      * @throws EndGameException if the player collects all 6 colors
      */
+
+     // pass in collectable cards --> par.getCollectibleCards(pickedCard)
     public void collectCard(ArrayList<Card> cards) throws EndGameException {
         collectCard(cards, false); // assume that it is not end game
     }
@@ -101,8 +117,8 @@ public abstract class Player {
             if (!collectedCards.containsKey(curColour)) {
                 collectedCards.put(curColour, new ArrayList<>()); // Initialize list for new color
             }
-
-            collectedCards.get(curColour).add(c);
+            // if colour already in collection
+            collectedCards.get(curColour).add(c); // add card to list for that colour
         }
 
         if (!endGame && collectedCards.size() == 6) {

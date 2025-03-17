@@ -137,10 +137,15 @@ public class ParadeTester {
             }
         }
 
-        calculateScores(playerList);
-        
+        // calculateScores(playerList);
+        System.out.println("here");
+        System.out.printf("\n\nGame is over.\nPlayer collections: \n");
         for (Player p: playerList.getPlayerList()) {
-            System.out.println(p.getHand());
+            System.out.println();
+            System.out.println(p.getCollectedCards());
         }
+        System.out.println();
+        playerList.printWinner();
+        playerList.printLosers();
     }
 }
