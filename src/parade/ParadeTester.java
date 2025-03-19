@@ -86,38 +86,51 @@ public class ParadeTester {
                 }
 
                 endGame = true;
-
             }
+
         }
 
+        // discard two cards here
+
+
+
+        
         System.out.printf("\n\nGame is over.\nPlayer collections: \n");
         for (Player p: playerList.getPlayerList()) {
-            System.out.println(p.getCollectedCards());
+            System.out.println(
+                p.getName() + 
+                "\t Hand: " + p.getHand()
+            );
+            System.out.println("\t Collection: ");
+            for (Colour c : p.getCollectedCards().keySet()) {
+                System.out.print("\t\t");
+                for (Card card : p.getCollectedCardsWithColour(c)){
+                    System.out.print(card + " ");
+                }
+                System.out.println();
+            }
+            System.out.println();
         }
-
 
         System.out.println();
         ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
-        ArrayList<Player> winners2 = scoreCalc.findWinners();
-        int minScore2 = scoreCalc.getMinScore();
+        ArrayList<Player> winners = scoreCalc.findWinners();
+        int minScore = scoreCalc.getMinScore();
         
 
         System.out.println("\n=== WINNNER(s) ====");
-        if (winners2.size() == 1) {
-            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners2.get(0)) + 1) + " WINS with " + minScore2 + " points!");
+        if (winners.size() == 1) {
+            System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
         } else {
             System.out.print("It's a TIE between Players "); 
-            for (Player p : winners2) {
-                System.out.print(playerList.getPlayerList().indexOf(p) + 1 + " ");
+            for (Player p : winners) {
+                System.out.print(p.getName());
             }
-            System.out.println("with " + minScore2 + " points!");
+            System.out.println("with " + minScore + " points!");
         }
 
         System.out.println("=== ALL SCORES ====");
         scoreCalc.printLosers();
         
-
-
-
     }
 }
