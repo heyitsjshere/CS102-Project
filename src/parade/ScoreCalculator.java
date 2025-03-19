@@ -2,52 +2,52 @@ package parade;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.EnumMap;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import parade.enums.Colour;
 
 public class ScoreCalculator {
 
     private ArrayList<Player> playerList;
-
-    // private Hashtable<Player, Integer> playerScores = new Hashtable<Player, Integer>();
+    private HashMap<Player, Integer> scoreTracker;
     
     public ScoreCalculator(PlayerList pl){
         this.playerList = pl.getPlayerList();
+        scoreTracker = new HashMap<>() {{ // initialise scoreTracker with all players' score = 0
+            for (Player p : playerList) {
+                put(p, 0);
+            }
+        }};
+
         calculateScores();
     }
 
 
-     // in player class,
-    // collected cards per player rep by EnumMap<Colour, ArrayList<Card>> collectedCards
-    // use getCollectedCards
-    // to remove cards from collectedCards
-    private void calculateScores(){
-        resetScores(); 
-        EnumMap<Colour, ArrayList<Player>> AllColourMaxPlayers = new EnumMap<>(Colour.class);
 
+    private void calculateScores(){
         // add scores when player has max number of that colour
         for (Colour colour : Colour.values()){ 
             ArrayList<Player> maxPlayers = findMaxPlayers(colour); // get list of players with the maximum number of that card
-            for (Player p : maxPlayers){
-                p.addScore(p.getCollectedCards().get(colour).size());  // add the number of cards to the score
-            }
-            AllColourMaxPlayers.put(colour, maxPlayers); // record it
-        }
+            
+            for (Player p : playerList) {
+                // for each player
+                int curScore = scoreTracker.get(p); // get current score (before adding)
+                int toAdd = 0;
 
-        // add all other scores (skip if have max colour)
-        for (Player p : playerList){
-            EnumMap<Colour, ArrayList<Card>> collectedCards = p.getCollectedCards();
-            collectedCards.forEach((colour, cardList) ->  {
-                if (!AllColourMaxPlayers.get(colour).contains(p)) {
-                    for (Card c: cardList) {
-                        p.addScore(c.getCardNum());
+                if (maxPlayers.contains(p)) {
+                    // if max player, only add number of cards, not value
+                    toAdd = p.getCollectedCards().get(colour).size();
+                } else if (p.getCollectedCardsWithColour(colour) != null ){ // check if player has any of that colour
+                    // add value of cards
+                    for (Card c : p.getCollectedCardsWithColour(colour)) {
+                        toAdd += c.getCardNum();
                     }
                 }
-            });
+
+                scoreTracker.put(p, toAdd + curScore);
+            }
         }
+            
     }
 
     private ArrayList<Player> findMaxPlayers(Colour colour){
@@ -88,12 +88,6 @@ public class ScoreCalculator {
         return maxPlayers;
     }
 
-    private void resetScores(){
-        for (Player p : playerList) {
-            int score = p.getScore();
-            p.addScore(-score); // set score to 0
-        }
-    }
     
     public ArrayList<Player> findWinners(){
         calculateScores(); 
@@ -101,20 +95,35 @@ public class ScoreCalculator {
         ArrayList<Player> winners = new ArrayList<>();
 
         // get one winner (could have more)
-        Player winner = Collections.min(playerList, Comparator.comparingInt(Player::getScore));
+        int minScore = Collections.min(scoreTracker.values());
 
-        for (Player p : playerList) {
-            if (p.getScore() == winner.getScore()) winners.add(p);
+        for (Player p : scoreTracker.keySet()) {
+            if (scoreTracker.get(p) == minScore) {
+                winners.add(p);
+            }   
         }
         return winners;
         
     }
 
+    public int getMinScore(){
+       return Collections.min(scoreTracker.values());
+    }
+
+    // public HashMap<Player, Integer> getScoreTracker(){
+    //     // for testing only
+    //     return this.scoreTracker;
+    // }
+
     public void printLosers(){
-        for (Player p : playerList){
-            System.out.println(playerList.indexOf(p) + 1 + ": " + p.getScore());
+
+        for (Player p : scoreTracker.keySet()) {
+            System.out.println("Player " + (playerList.indexOf(p) + 1) + " has a score of " + scoreTracker.get(p)) ;
         }
     }
+
+
+
 
 }
 
