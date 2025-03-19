@@ -2,20 +2,27 @@ package parade;
 
 // import parade.*;
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import parade.enums.Colour;
 import parade.exceptions.EndGameException;
 
 /**
  * A class to test the functionality of the Parade game.
  * <p>
- * This class initializes players, a deck, and a parade, and simulates a turn where a player selects 
- * a card, adds it to the parade, and collects any removable cards.
+ * This class initializes a deck, players, and a parade, then simulates a game 
+ * turn-by-turn. It allows each player to select and play a card, determines 
+ * collectible cards, and applies endgame conditions.
  * </p>
+ *
+ * <p>Example usage:</p>
+ * <pre>
+ *     java parade.ParadeTester
+ * </pre>
+ *
+ * @author Your Name
+ * @version 1.0
  */
-
 public class ParadeTester {
+
     /**
      * The main method to test the Parade game mechanics.
      * <p>
@@ -32,64 +39,80 @@ public class ParadeTester {
      *
      * @param args command-line arguments (not used)
      */
-
-
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         Deck d = new Deck();
         Parade par = new Parade(d);
         PlayerList playerList = new PlayerList(d);
-        Boolean endGame = false;
+        boolean endGame = false;
 
         int turn = -1;
-        // while (d.getSize() > 0) { // changed end-game logic from true to <<<
-        // while (true) { // use true so can display error message
-        while(playerList.getPlayer(++turn).getHandSize() == 5) { // will keep playing
-            // ++turn;
+
+        /**
+         * Simulates the game loop.
+         * <p>
+         * Each player takes turns playing a card until the conditions for ending the game are met.
+         * Players will:
+         * <ul>
+         *     <li>Pick a card from their hand</li>
+         *     <li>Play the selected card</li>
+         *     <li>Collect applicable cards</li>
+         *     <li>Draw a new card</li>
+         * </ul>
+         * If the deck runs out or a player collects all six colors, the game enters its final round.
+         * </p>
+         */
+        while (playerList.getPlayer(++turn).getHandSize() == 5) { 
             Player curPlayer = playerList.getPlayer(turn);
             try {
+<<<<<<< Updated upstream
                 System.out.println("\n\n||   Turn " + (turn+1) + "   ||   " + curPlayer.getName());
+=======
+                System.out.println("\n\n||   Turn " + (turn + 1) + "   ||    " + curPlayer.getName());
+>>>>>>> Stashed changes
                 System.out.println("Parade: " + par.getParade());
-    
-                // now the player picks one card
+
+                // Player picks a card
                 Card pickedCard = curPlayer.chooseCard();
                 System.out.println("Player has played: " + pickedCard);
 
-                // play card (officially add it to the parade and remove it from the player's hand)
-                par.addCard(curPlayer.playCard(pickedCard)); 
+                // Play card (add it to the parade and remove from the player's hand)
+                par.addCard(curPlayer.playCard(pickedCard));
 
-                // collect cards
+                // Collect cards based on game rules
                 ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
-                curPlayer.collectCard(toCollect, endGame); // will throw end game exception if player has collected all 6 and !endgame
-                System.out.println("player should collect: " + toCollect);
-                System.out.println("Player's Collection: " + curPlayer.getCollectedCards());    
-                
-                curPlayer.addCard(d.drawCard(), endGame); // will throw end game exception if no more in the deck
+                curPlayer.collectCard(toCollect, endGame); 
+                System.out.println("Player should collect: " + toCollect);
+                System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
+
+                // Player draws a new card (throws exception if deck is empty)
+                curPlayer.addCard(d.drawCard(), endGame);
 
             } catch (EndGameException e) {
+                /**
+                 * Handles endgame conditions.
+                 * <p>
+                 * If the deck runs out or a player collects all six colors, the game enters its final phase,
+                 * where each remaining player gets one last turn.
+                 * </p>
+                 */
                 System.out.println(e.getMessage());
-                if (e.getMessage().toLowerCase().contains("deck")) { // because of empty deck
+                if (e.getMessage().toLowerCase().contains("deck")) {
+                    // Deck is empty
                     System.out.println("Everyone else has one last turn before the game ends.");
-                    // curPlayer has 4 cards and nothing to draw
-                    // already played their last turn
-
-                } else { // because player has collected all
+                } else {
+                    // Player has collected all six colors
                     System.out.println("Everyone has one last turn before the game ends.");
                     try {
                         curPlayer.addCard(d.drawCard(), endGame); 
-                        // player still has to draw card because rules state that
-                        // "she finishes her turn as before"
-                    } catch (EndGameException ee){
+                    } catch (EndGameException ee) {
                         System.out.println(ee.getMessage()); 
-                        // this means that on the same turn that the player collects all 6 colours
-                        // the deck also fully depletes
                     }
                 }
-
                 endGame = true;
-
             }
         }
 
+<<<<<<< Updated upstream
         // game ends
         // discard 2 cards from hand
         System.out.printf("\n\nThe game is over.\n" +
@@ -116,26 +139,45 @@ public class ParadeTester {
         for (Player p: playerList.getPlayerList()) {
             System.out.println(p.getCollectedCards());
         }
+=======
+        /**
+         * Displays final player collections after the game ends.
+         */
+        System.out.printf("\n\nGame is over.\nPlayer collections: \n");
+        for (Player p : playerList.getPlayerList()) {
+            System.out.println(p.getCollectedCards());
+        }
+
+        /**
+         * Determines and displays the winner(s).
+         * <p>
+         * The player(s) with the lowest score win the game. 
+         * In the case of a tie, multiple players are announced as winners.
+         * </p>
+         */
+>>>>>>> Stashed changes
         System.out.println();
         
 
         // calculate scores
         ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
-        ArrayList<Player> winners2 = scoreCalc.findWinners();
-        int minScore2 = scoreCalc.getMinScore();
-        
+        ArrayList<Player> winners = scoreCalc.findWinners();
+        int minScore = scoreCalc.getMinScore();
 
         System.out.println("\n=== WINNNER(s) ====");
-        if (winners2.size() == 1) {
-            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners2.get(0)) + 1) + " WINS with " + minScore2 + " points!");
+        if (winners.size() == 1) {
+            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners.get(0)) + 1) + " WINS with " + minScore + " points!");
         } else {
             System.out.print("It's a TIE between Players "); 
-            for (Player p : winners2) {
-                System.out.print(playerList.getPlayerList().indexOf(p) + 1 + " ");
+            for (Player p : winners) {
+                System.out.print((playerList.getPlayerList().indexOf(p) + 1) + " ");
             }
-            System.out.println("with " + minScore2 + " points!");
+            System.out.println("with " + minScore + " points!");
         }
 
+        /**
+         * Displays the final scores of all players.
+         */
         System.out.println("=== ALL SCORES ====");
         scoreCalc.printLosers();
     }
