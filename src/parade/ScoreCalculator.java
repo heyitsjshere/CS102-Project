@@ -90,8 +90,6 @@ public class ScoreCalculator {
 
     
     public ArrayList<Player> findWinners(){
-        calculateScores(); 
-
         ArrayList<Player> winners = new ArrayList<>();
 
         // get one winner (could have more)
