@@ -10,7 +10,7 @@ public class PlayerList {
     private ArrayList<Player> playerList;
     Deck deck;
     private static final int MAX_PLAYER_NUM = 6;
-    private static final int HAND_SIZE = 5;
+    private static final int INITIAL_HAND_SIZE = 5;
 
     public PlayerList(Deck d){
         UserInput input = new UserInput();
@@ -43,7 +43,7 @@ public class PlayerList {
 
 
     private void dealInitialCards() {
-        for (int i = 0; i < HAND_SIZE; i++) {
+        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
             for (Player p : playerList) {
                 try {
                     p.addCard(deck.drawCard());

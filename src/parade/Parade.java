@@ -15,6 +15,8 @@ public class Parade {
 
     /** The list of cards currently in the parade. */
     private ArrayList<Card> curParade; 
+    private static final int INITIAL_PARADE_SIZE = 6;
+
 
     /**
      * Constructs a Parade with an initial list of cards.
@@ -23,7 +25,7 @@ public class Parade {
      */
     public Parade(Deck d) {
         this.curParade = new ArrayList<Card>();
-        for (int i = 0; i < 6; i++) curParade.add(d.drawCard());
+        for (int i = 0; i < INITIAL_PARADE_SIZE; i++) curParade.add(d.drawCard());
     }
 
     /**
