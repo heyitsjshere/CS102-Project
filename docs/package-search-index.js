@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"parade"},{"l":"parade.enums"},{"l":"parade.exceptions"}];updateSearchResults();

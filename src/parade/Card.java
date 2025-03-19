@@ -9,7 +9,6 @@ import parade.enums.*;
  * representation of the card.
  * </p>
  */
-
 public class Card {
     private int num;
     private Colour colour;
