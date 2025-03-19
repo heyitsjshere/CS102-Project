@@ -47,10 +47,16 @@ public class ParadeTester {
             // ++turn;
             Player curPlayer = playerList.getPlayer(turn);
             try {
-                System.out.println("\n\n||   Turn " + (turn+1) + "   ||   " + curPlayer.getName());
+                System.out.println("\n\n||   Turn " + (turn + 1) + "   ||    " + curPlayer.getName());
                 System.out.println("Parade: " + par.getParade());
-    
-                // now the player picks one card
+
+                if (curPlayer instanceof BotPlayer){
+                    System.out.println(curPlayer.getName() + " is selecting their cards...");
+                    Thread.sleep(2000);
+                    System.out.println("Selection complete.");
+                }
+
+                // Player picks a card
                 Card pickedCard = curPlayer.chooseCard();
                 System.out.println("Player has played: " + pickedCard);
 
@@ -86,30 +92,41 @@ public class ParadeTester {
                 }
 
                 endGame = true;
-
+            } catch (InterruptedException e){
+                
             }
         }
 
-        // game ends
         // discard 2 cards from hand
         System.out.printf("\n\nThe game is over.\n" +
                             "Each player will now discard 2 cards.\n" + 
                             "The remaining cards will be added to your collection.\n");
         try {
             for (Player p : playerList.getPlayerList()){
+                // pause thread during bot's term
                 System.out.println("\n\n||   Please select 2 cards to discard.   ||   " + p.getName());
+                if (p instanceof BotPlayer){
+                    System.out.println(p.getName() + " is selecting their cards...");
+                    Thread.sleep(2000);
+                    System.out.print("Selection complete.");
+                }
+
                 // pick 1st card to discard
                 Card discard1 = p.chooseCard();
                 p.playCard(discard1); // remove card from hand
-                // pick 2nd card to discard
                 System.out.println();
+
+                // pick 2nd card to discard
                 Card discard2 = p.chooseCard();
                 p.playCard(discard2);
-    
+                
+                // add remaining hand cards to collection
                 p.collectCard(p.getHand(), false);
             }
         } catch (EndGameException e){
             // just to handle the exception, but should never be thrown
+        } catch (InterruptedException e){
+            e.printStackTrace();
         }
     
 
