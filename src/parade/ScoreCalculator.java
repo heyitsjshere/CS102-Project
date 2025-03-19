@@ -27,7 +27,7 @@ public class ScoreCalculator {
     private void calculateScores(){
         // add scores when player has max number of that colour
         for (Colour colour : Colour.values()){ 
-            ArrayList<Player> maxPlayers = findMaxPlayers(colour); // get list of players with the maximum number of that card
+            ArrayList<Player> maxPlayers = findMaxPlayers(colour); // get list of players with the maximum number of that colour
             
             for (Player p : playerList) {
                 // for each player
