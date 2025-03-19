@@ -4,8 +4,8 @@ public class HumanPlayer extends Player {
 
     private UserInput input;
 
-    public HumanPlayer() {
-        super();
+    public HumanPlayer(String name) {
+        super(name);
         input = new UserInput();
     }
 

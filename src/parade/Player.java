@@ -20,16 +20,19 @@ public abstract class Player {
     /** The collection of cards the player has acquired, grouped by color. */
     private EnumMap<Colour, ArrayList<Card>> collectedCards; 
 
-    // protected score that can be accessed and edited in playerList for scoring
-    protected int score;
+    private String name;
 
     /**
      * Constructs a player with an empty hand and collection.
      */
-    public Player() { 
+    public Player(String name) { 
         this.hand = new ArrayList<>();
         this.collectedCards = new EnumMap<>(Colour.class);
-        this.score = 0; 
+        this.name = name;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     /**
@@ -55,12 +58,9 @@ public abstract class Player {
         return this.collectedCards;
     }
 
-    public void addScore(int s) {
-        this.score += s;
-    }
-
-    public int getScore(){
-        return score;
+    public ArrayList<Card> getCollectedCardsWithColour(Colour colour) {
+        if (collectedCards.containsKey(colour)) return this.collectedCards.get(colour);
+        else return null;
     }
 
     public abstract Card chooseCard();
