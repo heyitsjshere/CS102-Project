@@ -2,24 +2,14 @@ package parade;
 
 // import parade.*;
 import java.util.ArrayList;
-import parade.enums.Colour;
+// import parade.enums.Colour;
 import parade.exceptions.EndGameException;
 
 /**
- * A class to test the functionality of the Parade game.
+ * The ParadeTester class is used to simulate a game of Parade.
  * <p>
- * This class initializes a deck, players, and a parade, then simulates a game 
- * turn-by-turn. It allows each player to select and play a card, determines 
- * collectible cards, and applies endgame conditions.
- * </p>
- *
- * <p>Example usage:</p>
- * <pre>
- *     java parade.ParadeTester
- * </pre>
- *
- * @author Your Name
- * @version 1.0
+ * It initializes the deck, parade, and players, then iterates through 
+ * turns to determine the game's outcome.
  */
 public class ParadeTester {
 
