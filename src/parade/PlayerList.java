@@ -41,11 +41,6 @@ public class PlayerList {
         dealInitialCards();
     }
 
-    // public PlayerList (ArrayList<Player> pl, Deck d) {
-    //    this.playerList = pl;
-    //    this.deck = d;
-    //    dealInitialCards();
-    // }
 
     private void dealInitialCards() {
         for (int i = 0; i < HAND_SIZE; i++) {

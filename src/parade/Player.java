@@ -77,11 +77,6 @@ public abstract class Player {
 
     } // depends on human or bot
 
-    // removes all cards of that colour from collection after doing appropriate scoring
-    public void placeColourFaceDown (Colour colour) {
-        this.collectedCards.remove(colour);
-    }
-
     /**
      * Adds a card to the player's hand.
      *
