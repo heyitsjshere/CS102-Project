@@ -30,8 +30,30 @@ public class UserInput {
             }
             System.out.printf(errorMessage, min, max);
         }
-        
+    }
+
+    public String getString(String message){
+        System.out.print(message);
+        String output = sc.nextLine().strip();
+        return output;
     }
     
 
+    // public String getString(String message, String errorMessage){
+    //     String output = "";
+
+    //     while (true) {
+    //         System.out.print(message);
+        
+    //         if (sc.hasNextLine()) {
+    //             output = sc.nextLine();
+    //             if (!output.isEmpty()) {
+    //                 return output;
+    //             }
+    //         } else {
+    //             sc.nextLine();
+    //         }
+    //         System.out.print(errorMessage);
+    //     }
+    // }
 }

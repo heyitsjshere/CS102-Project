@@ -47,7 +47,7 @@ public class ParadeTester {
             // ++turn;
             Player curPlayer = playerList.getPlayer(turn);
             try {
-                System.out.println("\n\n||   Turn " + (turn+1) + "   ||    Player " + (playerList.getPlayerList().indexOf(curPlayer) + 1));
+                System.out.println("\n\n||   Turn " + (turn+1) + "   ||    " + curPlayer.getName());
                 System.out.println("Parade: " + par.getParade());
     
                 // now the player picks one card
@@ -99,7 +99,8 @@ public class ParadeTester {
         System.out.println();
         ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
         ArrayList<Player> winners2 = scoreCalc.findWinners();
-        int minScore2 = winners2.get(0).getScore();
+        int minScore2 = scoreCalc.getMinScore();
+        
 
         System.out.println("\n=== WINNNER(s) ====");
         if (winners2.size() == 1) {
@@ -107,29 +108,16 @@ public class ParadeTester {
         } else {
             System.out.print("It's a TIE between Players "); 
             for (Player p : winners2) {
-                System.out.println(playerList.getPlayerList().indexOf(p) + 1 + " ");
+                System.out.print(playerList.getPlayerList().indexOf(p) + 1 + " ");
             }
             System.out.println("with " + minScore2 + " points!");
         }
+
+        System.out.println("=== ALL SCORES ====");
         scoreCalc.printLosers();
-
-
-        System.out.println();
-        ArrayList<Player> winners = playerList.findWinners();
-        int minScore = winners.get(0).getScore();
-
-        System.out.println("\n=== WINNNER(s) ====");
-        if (winners.size() == 1) {
-            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners.get(0)) + 1) + " WINS with " + minScore + " points!");
-        } else {
-            System.out.print("It's a TIE between Players "); 
-            for (Player p : winners) {
-                System.out.println(playerList.getPlayerList().indexOf(p) + 1 + " ");
-            }
-            System.out.println("with " + minScore + " points!");
-        }
         
-        playerList.printLosers();
+
+
 
     }
 }
