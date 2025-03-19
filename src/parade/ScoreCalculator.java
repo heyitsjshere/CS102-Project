@@ -55,14 +55,9 @@ public class ScoreCalculator {
      * </p>
      */
     private void calculateScores(){
-<<<<<<< Updated upstream
         // add scores when player has max number of that colour
         for (Colour colour : Colour.values()){ 
             ArrayList<Player> maxPlayers = findMaxPlayers(colour); // get list of players with the maximum number of that colour
-=======
-        for (Colour colour : Colour.values()) { 
-            ArrayList<Player> maxPlayers = findMaxPlayers(colour); // Players with the most cards of this color
->>>>>>> Stashed changes
             
             for (Player p : playerList) {
                 int curScore = scoreTracker.get(p); // Get current score before adding

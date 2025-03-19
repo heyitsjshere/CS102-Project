@@ -64,11 +64,7 @@ public class ParadeTester {
         while (playerList.getPlayer(++turn).getHandSize() == 5) { 
             Player curPlayer = playerList.getPlayer(turn);
             try {
-<<<<<<< Updated upstream
-                System.out.println("\n\n||   Turn " + (turn+1) + "   ||   " + curPlayer.getName());
-=======
                 System.out.println("\n\n||   Turn " + (turn + 1) + "   ||    " + curPlayer.getName());
->>>>>>> Stashed changes
                 System.out.println("Parade: " + par.getParade());
 
                 // Player picks a card
@@ -112,7 +108,6 @@ public class ParadeTester {
             }
         }
 
-<<<<<<< Updated upstream
         // game ends
         // discard 2 cards from hand
         System.out.printf("\n\nThe game is over.\n" +
@@ -139,23 +134,6 @@ public class ParadeTester {
         for (Player p: playerList.getPlayerList()) {
             System.out.println(p.getCollectedCards());
         }
-=======
-        /**
-         * Displays final player collections after the game ends.
-         */
-        System.out.printf("\n\nGame is over.\nPlayer collections: \n");
-        for (Player p : playerList.getPlayerList()) {
-            System.out.println(p.getCollectedCards());
-        }
-
-        /**
-         * Determines and displays the winner(s).
-         * <p>
-         * The player(s) with the lowest score win the game. 
-         * In the case of a tie, multiple players are announced as winners.
-         * </p>
-         */
->>>>>>> Stashed changes
         System.out.println();
         
 
