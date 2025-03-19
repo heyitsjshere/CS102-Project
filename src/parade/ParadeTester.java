@@ -90,13 +90,34 @@ public class ParadeTester {
             }
         }
 
-        System.out.printf("\n\nGame is over.\nPlayer collections: \n");
+        // game ends
         for (Player p: playerList.getPlayerList()) {
             System.out.println(p.getCollectedCards());
         }
-
-
         System.out.println();
+        
+        // discard 2 colours
+        System.out.printf("\n\nGame is over.\n" +
+                            "Each player will now discard 2 cards.\n" + 
+                            "The remaining cards will be added to your collection.\n");
+        try {
+            for (Player p : playerList.getPlayerList()){
+                System.out.println("\n\n||   Please select 2 cards to discard.   ||    " + p.getName());
+                // pick 1st card to discard
+                Card discard1 = p.chooseCard();
+                p.playCard(discard1); // remove card from hand
+                // pick 2nd card to discard
+                System.out.println();
+                Card discard2 = p.chooseCard();
+                p.playCard(discard2);
+    
+                p.collectCard(p.getHand(), false);
+            }
+        } catch (EndGameException e){
+            // just to handle the exception, but should never be thrown
+        }
+
+        // calculate scores
         ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
         ArrayList<Player> winners2 = scoreCalc.findWinners();
         int minScore2 = scoreCalc.getMinScore();
@@ -115,9 +136,5 @@ public class ParadeTester {
 
         System.out.println("=== ALL SCORES ====");
         scoreCalc.printLosers();
-        
-
-
-
     }
 }
