@@ -33,6 +33,8 @@ public class UserInput {
         }
     }
 
+
+    // this 
     public String getString(String message){
         System.out.print(message);
         String output = sc.nextLine().strip();

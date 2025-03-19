@@ -33,8 +33,8 @@ public class ParadeTester {
      * @param args command-line arguments (not used)
      */
 
- 
-     public static void main (String[] args) {
+
+    public static void main (String[] args) {
         Deck d = new Deck();
         Parade par = new Parade(d);
         PlayerList playerList = new PlayerList(d);
@@ -69,8 +69,8 @@ public class ParadeTester {
                 System.out.println(e.getMessage());
                 if (e.getMessage().toLowerCase().contains("deck")) { // because of empty deck
                     System.out.println("Everyone else has one last turn before the game ends.");
-                     // curPlayer has 4 cards and nothing to draw
-                     // already played their last turn
+                    // curPlayer has 4 cards and nothing to draw
+                    // already played their last turn
 
                 } else { // because player has collected all
                     System.out.println("Everyone has one last turn before the game ends.");
