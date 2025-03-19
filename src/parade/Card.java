@@ -16,7 +16,7 @@ import parade.enums.Colour;
  *     System.out.println(card); // Outputs: RED 5
  * </pre>
  *
- * @author Your Name
+ * @author G3T7
  * @version 1.0
  */
 public class Card {

@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import parade.exceptions.EndGameException;
 
 /**
- * The ParadeTester class is used to simulate a game of Parade.
+ * A class to test the Parade game.
  * <p>
- * It initializes the deck, parade, and players, then iterates through 
- * turns to determine the game's outcome.
+ * This class initializes a deck, players, and the parade, then simulates a turn-based game.
+ * </p>
+ *
+ * @author G3T7
+ * @version 1.0
  */
 public class ParadeTester {
 
@@ -25,7 +28,6 @@ public class ParadeTester {
      *     <li>Draw a new card</li>
      * </ul>
      * The method also prints the game state before and after the player's turn.
-     * </p>
      *
      * @param args command-line arguments (not used)
      */

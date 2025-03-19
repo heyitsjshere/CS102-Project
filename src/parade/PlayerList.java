@@ -12,7 +12,7 @@ import parade.exceptions.EndGameException;
  * maintaining player order during the game.
  * </p>
  *
- * @author Your Name
+ * @author G3T7
  * @version 1.0
  */
 public class PlayerList {

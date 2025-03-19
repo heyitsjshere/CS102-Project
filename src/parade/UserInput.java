@@ -9,7 +9,7 @@ import java.util.Scanner;
  * a specified range and that string inputs are properly captured.
  * </p>
  *
- * @author Your Name
+ * @author G3T7
  * @version 1.0
  */
 public class UserInput {

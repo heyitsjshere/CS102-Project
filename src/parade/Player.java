@@ -14,7 +14,7 @@ import java.util.EnumMap;
  * ability to play, collect, and manage cards according to the game rules.
  * </p>
  *
- * @author Your Name
+ * @author G3T7
  * @version 1.0
  */
 public abstract class Player {

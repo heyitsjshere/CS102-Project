@@ -40,7 +40,6 @@ public class Parade {
      * <p>
      * This method returns a list of cards that are considered removable based
      * on the given card's number. It does not actually remove them.
-     * </p>
      *
      * @param p the card being added to the parade
      * @return a list of removable cards
@@ -65,7 +64,6 @@ public class Parade {
      *   <li>The card has a number less than or equal to the added card.</li>
      * </ul>
      * The method removes the collectible cards from the parade and returns them.
-     * </p>
      *
      * @param p the card being added to the parade
      * @return a list of collectible cards that the player must take

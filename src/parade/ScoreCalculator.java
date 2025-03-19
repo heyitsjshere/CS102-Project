@@ -14,7 +14,7 @@ import parade.enums.Colour;
  * while others score based on the sum of card values.
  * </p>
  *
- * @author Your Name
+ * @author G3T7
  * @version 1.0
  */
 public class ScoreCalculator {
