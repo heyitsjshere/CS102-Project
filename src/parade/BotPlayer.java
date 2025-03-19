@@ -13,8 +13,8 @@ public class BotPlayer extends Player {
     /**
      * Constructs a bot player.
      */
-    public BotPlayer() {
-        super();
+    public BotPlayer(String name) {
+        super(name);
     }
 
     /**

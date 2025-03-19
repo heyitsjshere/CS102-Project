@@ -16,53 +16,6 @@ import parade.exceptions.EndGameException;
  */
 
 public class ParadeTester {
-
-
-    // this method will be called at the end of the game and calculate the scores of each player, followed by listing out the winner(s)
-    public static void calculateScores(PlayerList playerList) {
-        System.out.println("\n=== FINAL SCORES ====");
-
-        int minScore = Integer.MAX_VALUE; // track the minimum score
-        ArrayList<Player> winners = new ArrayList<Player>();
-
-        for (Player p : playerList.getPlayerList()) {
-            int totalScore = 0;
-            System.out.println("\nPlayer " + (playerList.getPlayerList().indexOf(p) + 1) + "'s Collection: " + p.getCollectedCards());
-
-            for (Colour c : Colour.values()) {
-                ArrayList<Card> cards = p.getCollectedCards().get(c);
-                if (cards != null) {
-                    totalScore += cards.stream().mapToInt(Card::getCardNum).sum();
-                } 
-            }
-
-            System.out.println("Total Score: " + totalScore);
-
-            // Check if this player has the lowest score
-            if (totalScore < minScore) {
-                minScore = totalScore;
-                winners.clear(); // reset winners list with this new lowest score
-                winners.add(p); 
-            } else if (totalScore == minScore) { 
-                winners.add(p); // add to winners list if there is a tie
-            }
-        }
-
-        // Announce the winners
-        System.out.println("\n=== WINNNER(s) ====");
-        if (winners.size() == 1) {
-            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners.get(0)) + 1) + " WINS with " + minScore + " points!");
-        } else {
-            System.out.print("It's a TIE between Players "); 
-            for (Player p : winners) {
-                System.out.println(playerList.getPlayerList().indexOf(p) + 1 + " ");
-            }
-            System.out.println("with " + minScore + " points!");
-        }
-
-    }
-
-
     /**
      * The main method to test the Parade game mechanics.
      * <p>
@@ -94,7 +47,7 @@ public class ParadeTester {
             // ++turn;
             Player curPlayer = playerList.getPlayer(turn);
             try {
-                System.out.println("\n\n||   Turn " + (turn+1) + "   ||    Player " + (playerList.getPlayerList().indexOf(curPlayer) + 1));
+                System.out.println("\n\n||   Turn " + (turn+1) + "   ||   " + curPlayer.getName());
                 System.out.println("Parade: " + par.getParade());
     
                 // now the player picks one card
@@ -137,20 +90,14 @@ public class ParadeTester {
             }
         }
 
-        
         // game ends
-        for (Player p: playerList.getPlayerList()) {
-            System.out.println(p.getCollectedCards());
-        }
-        System.out.println();
-        
-        // discard 2 colours
-        System.out.printf("\n\nGame is over.\n" +
+        // discard 2 cards from hand
+        System.out.printf("\n\nThe game is over.\n" +
                             "Each player will now discard 2 cards.\n" + 
                             "The remaining cards will be added to your collection.\n");
         try {
             for (Player p : playerList.getPlayerList()){
-                System.out.println("\n\n||   Please select 2 cards to discard.   ||    " + p.getName());
+                System.out.println("\n\n||   Please select 2 cards to discard.   ||   " + p.getName());
                 // pick 1st card to discard
                 Card discard1 = p.chooseCard();
                 p.playCard(discard1); // remove card from hand
@@ -164,17 +111,32 @@ public class ParadeTester {
         } catch (EndGameException e){
             // just to handle the exception, but should never be thrown
         }
+    
 
-
-        // calculateScores(playerList);
-        System.out.println("here");
-        System.out.printf("\n\nGame is over.\nPlayer collections: \n");
         for (Player p: playerList.getPlayerList()) {
-            System.out.println();
             System.out.println(p.getCollectedCards());
         }
         System.out.println();
-        playerList.printWinner();
-        playerList.printLosers();
+        
+
+        // calculate scores
+        ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
+        ArrayList<Player> winners2 = scoreCalc.findWinners();
+        int minScore2 = scoreCalc.getMinScore();
+        
+
+        System.out.println("\n=== WINNNER(s) ====");
+        if (winners2.size() == 1) {
+            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners2.get(0)) + 1) + " WINS with " + minScore2 + " points!");
+        } else {
+            System.out.print("It's a TIE between Players "); 
+            for (Player p : winners2) {
+                System.out.print(playerList.getPlayerList().indexOf(p) + 1 + " ");
+            }
+            System.out.println("with " + minScore2 + " points!");
+        }
+
+        System.out.println("=== ALL SCORES ====");
+        scoreCalc.printLosers();
     }
 }
