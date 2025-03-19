@@ -22,6 +22,7 @@ public class UserInput {
         
             if (sc.hasNextInt()) {
                 userInt = sc.nextInt();
+                sc.nextLine();
                 if (userInt >= min && userInt <= max) {
                     return userInt;
                 }
