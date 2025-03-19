@@ -51,9 +51,8 @@ public class Card {
      *
      * @return a string describing the card's color and number
      */
-    @Override
     public String toString() {
-        return "" + this.colour + " " + this.num ;
+        return colour.getColorCode() + this.colour + " " + this.num + "\033[0m"; // Reset color after printing
     }
 
 

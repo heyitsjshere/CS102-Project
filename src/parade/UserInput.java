@@ -22,6 +22,7 @@ public class UserInput {
         
             if (sc.hasNextInt()) {
                 userInt = sc.nextInt();
+                sc.nextLine();
                 if (userInt >= min && userInt <= max) {
                     return userInt;
                 }
@@ -32,6 +33,8 @@ public class UserInput {
         }
     }
 
+
+    // this 
     public String getString(String message){
         System.out.print(message);
         String output = sc.nextLine().strip();
