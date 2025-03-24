@@ -133,7 +133,7 @@ public class ScoreCalculator {
      * @return A list of players who achieved the lowest score.
      */
     public ArrayList<Player> findWinners(){
-        calculateScores();
+
         ArrayList<Player> winners = new ArrayList<>();
 
         int minScore = Collections.min(scoreTracker.values()); // Lowest score in the game

@@ -97,36 +97,35 @@ public class ParadeTester {
                     }
                 }
                 endGame = true;
-            }
-        }
 
-        // game ends
-        // discard 2 cards from hand
-        System.out.printf("\n\nThe game is over.\n" +
-                            "Each player will now discard 2 cards.\n" + 
-                            "The remaining cards will be added to your collection.\n");
-        try {
-            for (Player p : playerList.getPlayerList()){
-                System.out.println("\n\n||   Please select 2 cards to discard.   ||   " + p.getName());
-                // pick 1st card to discard
-                Card discard1 = p.chooseCard();
-                p.playCard(discard1); // remove card from hand
-                // pick 2nd card to discard
-                System.out.println();
-                Card discard2 = p.chooseCard();
-                p.playCard(discard2);
-    
-                p.collectCard(p.getHand(), false);
-            }
-        } catch (EndGameException e){
-            // just to handle the exception, but should never be thrown
+
         }
     
+        // discard two cards here
+
+  
+        System.out.printf("\n\nGame is over.\nPlayer collections: \n");
 
         for (Player p: playerList.getPlayerList()) {
-            System.out.println(p.getCollectedCards());
+            System.out.println(
+                p.getName() + 
+                "\t Hand: " + p.getHand()
+            );
+            System.out.println("\t Collection: ");
+            for (Colour c : p.getCollectedCards().keySet()) {
+                System.out.print("\t\t");
+                for (Card card : p.getCollectedCardsWithColour(c)){
+                    System.out.print(card + " ");
+                }
+                System.out.println();
+            }
+            System.out.println();
         }
+
         System.out.println();
+        ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
+        ArrayList<Player> winners = scoreCalc.findWinners();
+        int minScore = scoreCalc.getMinScore();
         
 
         // calculate scores
@@ -136,11 +135,13 @@ public class ParadeTester {
 
         System.out.println("\n=== WINNNER(s) ====");
         if (winners.size() == 1) {
-            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners.get(0)) + 1) + " WINS with " + minScore + " points!");
+
+            System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
         } else {
             System.out.print("It's a TIE between Players "); 
             for (Player p : winners) {
-                System.out.print((playerList.getPlayerList().indexOf(p) + 1) + " ");
+                System.out.print(p.getName());
+
             }
             System.out.println("with " + minScore + " points!");
         }
