@@ -118,4 +118,38 @@ public class PlayerList {
         return playerList.get(i % size);
     }
 
+    /**
+     * Displays a list of all players in the game along with their assigned numbers.
+     * <p>
+     * This method prints a formatted list of players and introduces a 2-second delay
+     * after the display to simulate a pause before the game begins.
+     * </p>
+     *
+     * <p>Example output:</p>
+     * <pre>
+     * ==== Player Profile ====
+     * Player 1: Alice
+     * Player 2: Bot 1
+     * =========================
+     * The game will start now.
+     * </pre>
+     *
+     */
+    public void displayPlayerProfiles() {
+        System.out.println("\n==== Player Profile ====");
+        for (int i = 0; i < playerList.size(); i++) {
+            Player p = playerList.get(i);
+            System.out.println("Player " + (i + 1) + ": " + p.getName());
+        }
+        System.out.println("=========================\n");
+
+        System.out.println("The game will start now.\n\n");
+
+        try { // delay by 2 seconds
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
 }

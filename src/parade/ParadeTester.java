@@ -15,7 +15,13 @@ import parade.exceptions.EndGameException;
  * @version 1.0
  */
 public class ParadeTester {
-
+    /**
+     * Default constructor for ParadeTester.
+     */
+    public ParadeTester() {
+        // No initialization required
+    }
+    
     /**
      * The main method to test the Parade game mechanics.
      * <p>
@@ -35,6 +41,7 @@ public class ParadeTester {
         Deck d = new Deck();
         Parade par = new Parade(d);
         PlayerList playerList = new PlayerList(d);
+        playerList.displayPlayerProfiles();
         boolean endGame = false;
 
         int turn = -1;
