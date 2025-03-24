@@ -35,6 +35,7 @@ public class ParadeTester {
         Deck d = new Deck();
         Parade par = new Parade(d);
         PlayerList playerList = new PlayerList(d);
+        playerList.displayPlayerProfiles();
         boolean endGame = false;
 
         int turn = -1;

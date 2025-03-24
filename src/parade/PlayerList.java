@@ -118,4 +118,24 @@ public class PlayerList {
         return playerList.get(i % size);
     }
 
+    /**
+ * Displays the names of all players in the game.
+ */
+    public void displayPlayerProfiles() {
+        System.out.println("\n==== Player Profile ====");
+        for (int i = 0; i < playerList.size(); i++) {
+            Player p = playerList.get(i);
+            System.out.println("Player " + (i + 1) + ": " + p.getName());
+        }
+        System.out.println("=========================\n");
+
+        System.out.println("The game will start now.\n\n");
+        
+        try { // delay by 2 seconds
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
 }
