@@ -11,6 +11,8 @@ public class HumanPlayer extends Player {
 
     @Override
     public Card chooseCard() {
+        System.setProperty("file.encoding", "UTF-8");
+
         System.out.println("PICK A CARD");
         System.out.println("-----------");
         int i = 1;

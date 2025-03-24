@@ -21,7 +21,7 @@ public abstract class Player {
     private EnumMap<Colour, ArrayList<Card>> collectedCards;
 
     // protected score that can be accessed and edited in playerList for scoring
-    protected int score = 0;
+    protected int score;
 
     /**
      * Constructs a player with an empty hand and collection.
@@ -29,6 +29,7 @@ public abstract class Player {
     public Player() {
         this.hand = new ArrayList<>();
         this.collectedCards = new EnumMap<>(Colour.class);
+        this.score = 0;
     }
 
     /**
@@ -51,6 +52,10 @@ public abstract class Player {
      */
     public EnumMap<Colour, ArrayList<Card>> getCollectedCards() {
         return this.collectedCards;
+    }
+
+    public void addScore(int s) {
+        this.score += s;
     }
 
     public int getScore() {

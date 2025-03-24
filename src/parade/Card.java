@@ -58,4 +58,62 @@ public class Card {
         return "" + this.colour + " " + this.num;
     }
 
+    public String displayCard() {
+        String value;
+        switch (num) {
+            case 1:
+                value = "A";
+                break;
+            case 11:
+                value = "J";
+                break;
+            case 12:
+                value = "Q";
+                break;
+            case 13:
+                value = "K";
+                break;
+            default:
+                value = String.valueOf(num);
+                break;
+        }
+
+        String symbol;
+        switch (colour) {
+            case RED:
+                symbol = "♥";
+                break;
+            case BLUE:
+                symbol = "♣";
+                break;
+            case GREEN:
+                symbol = "♠";
+                break;
+            case YELLOW:
+                symbol = "♦";
+                break;
+            case PURPLE:
+                symbol = "★";
+                break;
+            case BLACK:
+                symbol = "⬥";
+                break;
+            default:
+                symbol = "?";
+                break;
+        }
+
+        // Padding to align properly (max 2-character values like "10")
+        String topLeft = String.format("%-2s", value);
+        String bottomRight = String.format("%2s", value);
+
+        return "┌──────┐\n" +
+                "│ " + topLeft + "    │\n" +
+                "│      │\n" +
+                "│  " + symbol + "   │\n" +
+                "│      │\n" +
+                "│    " + bottomRight + " │\n" +
+                "└──────┘";
+    }
+
 }
