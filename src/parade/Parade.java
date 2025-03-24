@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import parade.enums.*;
 
 /**
- * Represents the parade in the Parade game.
+ * The ParadeTester class is used to simulate a game of Parade.
  * <p>
- * The parade consists of a list of cards in play. Players can add cards to the parade,
- * and certain cards may be removed based on game rules.
+ * It initializes the deck, parade, and players, then iterates through 
+ * turns to determine the game's outcome.
  * </p>
  */
 
@@ -21,7 +21,7 @@ public class Parade {
     /**
      * Constructs a Parade with an initial list of cards.
      *
-     * @param initialParade the initial state of the parade. Should pass in an ArrayList of 6 cards
+     * @param d the deck from which the initial parade cards are drawn.
      */
     public Parade(Deck d) {
         this.curParade = new ArrayList<Card>();
@@ -42,7 +42,6 @@ public class Parade {
      * <p>
      * This method returns a list of cards that are considered removable based
      * on the given card's number. It does not actually remove them.
-     * </p>
      *
      * @param p the card being added to the parade
      * @return a list of removable cards
@@ -67,7 +66,6 @@ public class Parade {
      *   <li>The card has a number less than or equal to the added card.</li>
      * </ul>
      * The method removes the collectible cards from the parade and returns them.
-     * </p>
      *
      * @param p the card being added to the parade
      * @return a list of collectible cards that the player must take
