@@ -35,6 +35,35 @@ public class ParadeTester {
      *
      * @param args command-line arguments (not used)
      */
+    private static int points = 0;
+    private static int level = 1;
+    private static int xp = 0;
+    private static Random rand = new Random();
+
+    // the rewards of Magic Box
+    private static String[] rewards = {
+            "Congratulations! You found a special card! +50 points!",
+            "You unlocked a new avatar!",
+            "You earned 100 bonus points!",
+            "You gained 1 extra XP for your next game!",
+            "A magical friend joins your parade! +200 points!"
+    };
+
+    private static void triggerMagicBox() {
+        System.out.println("\n🎉 The Magic Box Appears! 🎉");
+        System.out.println("Opening the Magic Box...");
+
+        try {
+            // delay for suspense (e.g., 2 seconds)
+            Thread.sleep(2000); // pauses the game for 2 seconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // randomly select a reward
+        int rewardIndex = rand.nextInt(rewards.length);
+        System.out.println("You got: " + rewards[rewardIndex]);
+    }
 
     public static void main(String[] args) {
         Deck d = new Deck();
@@ -135,6 +164,8 @@ public class ParadeTester {
         }
 
         playerList.printLosers();
+
+        triggerMagicBox();
 
     }
 
