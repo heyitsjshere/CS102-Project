@@ -15,7 +15,13 @@ import parade.exceptions.EndGameException;
  * @version 1.0
  */
 public class ParadeTester {
-
+    /**
+     * Default constructor for ParadeTester.
+     */
+    public ParadeTester() {
+        // No initialization required
+    }
+    
     /**
      * The main method to test the Parade game mechanics.
      * <p>

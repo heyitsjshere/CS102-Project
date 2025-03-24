@@ -134,7 +134,6 @@ public class PlayerList {
      * The game will start now.
      * </pre>
      *
-     * @throws InterruptedException if the thread is interrupted while sleeping
      */
     public void displayPlayerProfiles() {
         System.out.println("\n==== Player Profile ====");
