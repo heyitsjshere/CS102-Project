@@ -64,7 +64,7 @@ public class ParadeTester {
         while (playerList.getPlayer(++turn).getHandSize() == 5) { 
             Player curPlayer = playerList.getPlayer(turn);
             try {
-                System.out.println("\n\n||   Turn " + (turn + 1) + "   ||    " + curPlayer.getName());
+                System.out.println("\n\n||   Turn " + (turn + 1) + "   ||   " + curPlayer.getName());
                 System.out.println("Parade: " + par.getParade());
 
                 if (curPlayer instanceof BotPlayer){
