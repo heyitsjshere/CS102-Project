@@ -31,13 +31,17 @@ public class ParadeTester {
      *
      * @param args command-line arguments (not used)
      */
-    public static void main(String[] args) {
+    // public static void main(String[] args) {
+    public ParadeTester(boolean hasTimeLimit){
         Deck d = new Deck();
         Parade par = new Parade(d);
         PlayerList playerList = new PlayerList(d);
         boolean endGame = false;
 
         int turn = -1;
+
+        // temp line just to test flow
+        System.out.println(hasTimeLimit ? "Time Limit round started" : "Classic round started");;
 
         /**
          * Simulates the game loop.
@@ -59,13 +63,14 @@ public class ParadeTester {
                 System.out.println("\n\n||   Turn " + (turn + 1) + "   ||   " + curPlayer.getName());
                 System.out.println("Parade: " + par.getParade());
 
+                // Delay output for bot players
                 if (curPlayer instanceof BotPlayer){
                     System.out.println(curPlayer.getName() + " is selecting their cards...");
                     Thread.sleep(2000);
                     System.out.println("Selection complete.");
                 }
 
-                // Player picks a card
+                // Prompt player to pick a card, player chooses card
                 Card pickedCard = curPlayer.chooseCard();
                 System.out.println("Player has played: " + pickedCard);
 
@@ -164,7 +169,7 @@ public class ParadeTester {
         ArrayList<Player> winners = scoreCalc.findWinners();
         int minScore = scoreCalc.getMinScore();
 
-        System.out.println("\n=== WINNNER(s) ====");
+        System.out.println("\n=== WINNNER(s) ===");
         if (winners.size() == 1) {
 
             System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
@@ -180,7 +185,7 @@ public class ParadeTester {
         /**
          * Displays the final scores of all players.
          */
-        System.out.println("=== ALL SCORES ====");
+        System.out.println("=== ALL SCORES ===");
         scoreCalc.printLosers();
     }
 }
