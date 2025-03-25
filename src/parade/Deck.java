@@ -19,7 +19,7 @@ import java.util.Collections;
  *     System.out.println("Drawn Card: " + drawnCard);
  * </pre>
  *
- * @author Your Name
+ * @author G3T7
  * @version 1.0
  */
 public class Deck {

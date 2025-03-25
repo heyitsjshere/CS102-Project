@@ -1,40 +1,24 @@
 package parade.exceptions;
 
 /**
- * Exception class to indicate that the game has ended due to specific conditions.
+ * Exception thrown when the Parade game ends due to specific conditions.
  * <p>
- * This exception is thrown when the game-ending criteria are met, such as:
- * <ul>
- *   <li>A player collects at least one card of all six colors.</li>
- *   <li>The deck is depleted, preventing further draws.</li>
- * </ul>
- * </p>
- *
- * <p>Example usage:</p>
- * <pre>
- *     if (player.hasAllColours()) {
- *         throw new EndGameException("Player has collected all six colors!");
- *     }
- * </pre>
- *
- * @author CS102G3T7
- * @version 1.0
+ * This exception is triggered when a player collects all six colors 
+ * or when the deck runs out of cards.
  */
 public class EndGameException extends java.lang.Exception {
-
+    
     /**
-     * Constructs a new {@code EndGameException} with no detail message.
+     * Constructs a new EndGameException with no message.
      */
-    public EndGameException() {
-        super();
-    }
+    public EndGameException() {}
 
     /**
-     * Constructs a new {@code EndGameException} with a specified detail message.
+     * Constructs a new EndGameException with a specified message.
      *
-     * @param message The detail message describing the reason for the exception.
+     * @param s the message describing the reason for the exception
      */
-    public EndGameException(String message) {
-        super(message);
-    }
+    public EndGameException(String s) {
+        super(s);
+    } 
 }

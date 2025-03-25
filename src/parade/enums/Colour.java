@@ -5,15 +5,14 @@ package parade.enums;
  * <p>
  * Each color is associated with an ANSI escape code to enable colored text output in the console.
  * </p>
- * <p>
- * Example usage:
+ *
+ * <p>Example usage:</p>
  * <pre>
  *     Colour c = Colour.RED;
  *     System.out.println(c.getColorCode() + "This is red text" + "\033[0m");
  * </pre>
- * </p>
  *
- * @author CS102G3T67
+ * @author G3T7
  * @version 1.0
  */
 public enum Colour {

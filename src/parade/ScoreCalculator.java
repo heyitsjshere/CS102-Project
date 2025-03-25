@@ -14,7 +14,7 @@ import parade.enums.Colour;
  * while others score based on the sum of card values.
  * </p>
  *
- * @author Your Name
+ * @author G3T7
  * @version 1.0
  */
 public class ScoreCalculator {
@@ -55,8 +55,9 @@ public class ScoreCalculator {
      * </p>
      */
     private void calculateScores(){
-        for (Colour colour : Colour.values()) { 
-            ArrayList<Player> maxPlayers = findMaxPlayers(colour); // Players with the most cards of this color
+        // add scores when player has max number of that colour
+        for (Colour colour : Colour.values()){ 
+            ArrayList<Player> maxPlayers = findMaxPlayers(colour); // get list of players with the maximum number of that colour
             
             for (Player p : playerList) {
                 int curScore = scoreTracker.get(p); // Get current score before adding
@@ -132,7 +133,7 @@ public class ScoreCalculator {
      * @return A list of players who achieved the lowest score.
      */
     public ArrayList<Player> findWinners(){
-        calculateScores();
+
         ArrayList<Player> winners = new ArrayList<>();
 
         int minScore = Collections.min(scoreTracker.values()); // Lowest score in the game

@@ -14,7 +14,7 @@ import java.util.EnumMap;
  * ability to play, collect, and manage cards according to the game rules.
  * </p>
  *
- * @author Your Name
+ * @author G3T7
  * @version 1.0
  */
 public abstract class Player {
@@ -105,15 +105,6 @@ public abstract class Player {
     public Card playCard(Card c) {
         this.hand.remove(c);
         return c; // Return card so it can be added to the parade.
-    }
-
-    /**
-     * Removes all cards of the specified color from the player's collection after scoring.
-     *
-     * @param colour The color of cards to be removed.
-     */
-    public void placeColourFaceDown(Colour colour) {
-        this.collectedCards.remove(colour);
     }
 
     /**

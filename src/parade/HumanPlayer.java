@@ -13,7 +13,7 @@ package parade;
  *     Card selectedCard = player.chooseCard();
  * </pre>
  *
- * @author Your Name
+ * @author G3T7
  * @version 1.0
  */
 public class HumanPlayer extends Player {

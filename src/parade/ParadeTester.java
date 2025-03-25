@@ -6,19 +6,12 @@ import parade.enums.Colour;
 import parade.exceptions.EndGameException;
 
 /**
- * A class to test the functionality of the Parade game.
+ * A class to test the Parade game.
  * <p>
- * This class initializes a deck, players, and a parade, then simulates a game 
- * turn-by-turn. It allows each player to select and play a card, determines 
- * collectible cards, and applies endgame conditions.
+ * This class initializes a deck, players, and the parade, then simulates a turn-based game.
  * </p>
  *
- * <p>Example usage:</p>
- * <pre>
- *     java parade.ParadeTester
- * </pre>
- *
- * @author Your Name
+ * @author G3T7
  * @version 1.0
  */
 public class ParadeTester {
@@ -35,7 +28,6 @@ public class ParadeTester {
      *     <li>Draw a new card</li>
      * </ul>
      * The method also prints the game state before and after the player's turn.
-     * </p>
      *
      * @param args command-line arguments (not used)
      */
@@ -150,27 +142,20 @@ public class ParadeTester {
     
 
         for (Player p: playerList.getPlayerList()) {
-            System.out.println(p.getCollectedCards());
-        }
-
-        /**
-         * Displays final player collections after the game ends.
-         */
-        System.out.printf("\n\nGame is over.\nPlayer collections: \n");
-        for (Player p : playerList.getPlayerList()) {
-            System.out.println(p.getCollectedCards());
-        }
-
-        /**
-         * Determines and displays the winner(s).
-         * <p>
-         * The player(s) with the lowest score win the game. 
-         * In the case of a tie, multiple players are announced as winners.
-         * </p>
-         */
-
-         System.out.println();
-        
+            System.out.println(
+                p.getName() + 
+                "\t Hand: " + p.getHand()
+            );
+            System.out.println("\t Collection: ");
+            for (Colour c : p.getCollectedCards().keySet()) {
+                System.out.print("\t\t");
+                for (Card card : p.getCollectedCardsWithColour(c)){
+                    System.out.print(card + " ");
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }        
 
         // calculate scores
         ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
@@ -179,11 +164,13 @@ public class ParadeTester {
 
         System.out.println("\n=== WINNNER(s) ====");
         if (winners.size() == 1) {
-            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners.get(0)) + 1) + " WINS with " + minScore + " points!");
+
+            System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
         } else {
             System.out.print("It's a TIE between Players "); 
             for (Player p : winners) {
-                System.out.print((playerList.getPlayerList().indexOf(p) + 1) + " ");
+                System.out.print(p.getName());
+
             }
             System.out.println("with " + minScore + " points!");
         }

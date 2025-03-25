@@ -16,7 +16,7 @@ import java.util.Random;
  *     System.out.println("Bot chose: " + selectedCard);
  * </pre>
  *
- * @author Your Name
+ * @author G3T7
  * @version 1.0
  */
 public class BotPlayer extends Player {
