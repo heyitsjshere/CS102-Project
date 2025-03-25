@@ -104,6 +104,13 @@ public class ParadeTester {
                     }
                 }
                 endGame = true;
+
+                // insert delay after the game ends
+                try { // delay by 2 seconds
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
 
