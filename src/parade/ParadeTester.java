@@ -69,14 +69,14 @@ public class ParadeTester {
                 Card pickedCard = curPlayer.chooseCard();
                 System.out.println("Player has played: " + pickedCard);
 
-                // Play card (add it to the parade and remove from the player's hand)
-                par.addCard(curPlayer.playCard(pickedCard));
-
                 // Collect cards based on game rules
                 ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
                 curPlayer.collectCard(toCollect, endGame); 
                 System.out.println("Player should collect: " + toCollect);
                 System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
+
+                // Play card (add it to the parade and remove from the player's hand)
+                par.addCard(curPlayer.playCard(pickedCard));
 
                 // Player draws a new card (throws exception if deck is empty)
                 curPlayer.addCard(d.drawCard(), endGame);
@@ -108,7 +108,7 @@ public class ParadeTester {
             }
         }
 
-        // discard 2 cards from hand
+        // After main gameplay, each player discards 2 cards from hand
         System.out.printf("\n\nThe game is over.\n" +
                             "Each player will now discard 2 cards.\n" + 
                             "The remaining cards will be added to your collection.\n");
@@ -140,7 +140,7 @@ public class ParadeTester {
             e.printStackTrace();
         }
     
-
+        // Display final hand and collection for each player
         for (Player p: playerList.getPlayerList()) {
             System.out.println(
                 p.getName() + 
@@ -157,7 +157,7 @@ public class ParadeTester {
             System.out.println();
         }        
 
-        // calculate scores
+        // Calculate scores
         ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
         ArrayList<Player> winners = scoreCalc.findWinners();
         int minScore = scoreCalc.getMinScore();
