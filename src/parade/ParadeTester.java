@@ -139,6 +139,8 @@ public class ParadeTester {
         } catch (InterruptedException e){
             e.printStackTrace();
         }
+        System.out.println();
+        System.out.println();
     
         // Display final hand and collection for each player
         for (Player p: playerList.getPlayerList()) {

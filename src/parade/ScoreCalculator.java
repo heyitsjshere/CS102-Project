@@ -163,7 +163,7 @@ public class ScoreCalculator {
      */
     public void printLosers(){
         for (Player p : scoreTracker.keySet()) {
-            System.out.println("Player " + (playerList.indexOf(p) + 1) + " has a score of " + scoreTracker.get(p));
+            System.out.println("Player " + (p.getName()) + " has a score of " + scoreTracker.get(p));
         }
     }
 
