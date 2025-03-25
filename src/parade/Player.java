@@ -1,6 +1,7 @@
 package parade;
 
-import parade.enums.*;
+import parade.enums.Colour;
+import parade.exceptions.EndGameException;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -8,98 +9,175 @@ import java.util.EnumMap;
 /**
  * Represents a player in the Parade game.
  * <p>
- * This is an abstract class that defines common attributes and behaviors 
- * for all players, including their hand of cards and collected cards.
+ * This abstract class defines common behaviors for both human and bot players.
+ * Each player has a hand of cards, a collection of acquired cards, and the 
+ * ability to play, collect, and manage cards according to the game rules.
  * </p>
+ *
+ * @author Your Name
+ * @version 1.0
  */
 public abstract class Player {
-    // change to abstract later
-    
-    // private String name; // honestly optional but i think can
 
-     /** The player's current hand of cards. */
-    private ArrayList<Card> hand; // current hand
+    /** The player's current hand of cards. */
+    private ArrayList<Card> hand; 
 
     /** The collection of cards the player has acquired, grouped by color. */
     private EnumMap<Colour, ArrayList<Card>> collectedCards; 
 
+    /** The player's name. */
+    private String name;
+
     /**
-     * Constructs a player with an initial hand of cards.
+     * Constructs a player with an empty hand and collection.
      *
-     * @param initialHand the initial set of cards given to the player
+     * @param name The name of the player.
      */
-    public Player(ArrayList<Card> initialHand) {
-        this.hand = initialHand;
-        this.collectedCards = new EnumMap<>(Colour.class); // new empty enum map
+    public Player(String name) { 
+        this.hand = new ArrayList<>();
+        this.collectedCards = new EnumMap<>(Colour.class);
+        this.name = name;
     }
 
     /**
-     * Returns the player's current hand of cards.
+     * Retrieves the name of the player.
      *
-     * @return the player's hand as an {@link ArrayList} of {@link Card} objects
+     * @return The player's name.
+     */
+    public String getName(){
+        return this.name;
+    }
+
+    /**
+     * Retrieves the player's current hand of cards.
+     *
+     * @return The player's hand as an {@link ArrayList} of {@link Card} objects.
      */
     public ArrayList<Card> getHand() {
         return this.hand;
     }
 
+    /**
+     * Retrieves the number of cards in the player's hand.
+     *
+     * @return The number of cards in hand.
+     */
+    public int getHandSize() {
+        return this.hand.size();
+    }
 
     /**
-     * Returns the cards the player has collected during the game.
+     * Retrieves the cards the player has collected during the game.
      *
-     * @return an {@link EnumMap} of collected cards, grouped by {@link Colour}
+     * @return An {@link EnumMap} of collected cards, grouped by {@link Colour}.
      */
-    public EnumMap<Colour, ArrayList<Card>> getCollectedCards(){
+    public EnumMap<Colour, ArrayList<Card>> getCollectedCards() {
         return this.collectedCards;
     }
 
     /**
-     * Removes a card from the player's hand and plays it.
+     * Retrieves all collected cards of a specific color.
+     *
+     * @param colour The color of cards to retrieve.
+     * @return An {@link ArrayList} of {@link Card} objects of the specified color,
+     *         or {@code null} if no cards of that color have been collected.
+     */
+    public ArrayList<Card> getCollectedCardsWithColour(Colour colour) {
+        return collectedCards.getOrDefault(colour, null);
+    }
+
+    /**
+     * Allows the player to choose a card to play.
      * <p>
-     * The selected card is removed from the player's hand and 
-     * returned so that it can be added to the parade.
+     * This method is implemented differently for human and bot players.
      * </p>
      *
-     * @param c the card to be played
-     * @return the played {@link Card}
+     * @return The chosen {@link Card} to be played.
      */
+    public abstract Card chooseCard();
 
-    public Card playCard (Card c) { // remove card from hand
-
+    /**
+     * Removes a card from the player's hand and returns it to be played.
+     *
+     * @param c The card to be played.
+     * @return The played {@link Card}.
+     */
+    public Card playCard(Card c) {
         this.hand.remove(c);
-        return c; // return card so it can be added to the parade
+        return c; // Return card so it can be added to the parade.
+    }
 
-    } // depends on human or bot
-
+    /**
+     * Removes all cards of the specified color from the player's collection after scoring.
+     *
+     * @param colour The color of cards to be removed.
+     */
+    public void placeColourFaceDown(Colour colour) {
+        this.collectedCards.remove(colour);
+    }
 
     /**
      * Adds a card to the player's hand.
      *
-     * @param c the card to be added
+     * @param c The card to be added.
+     * @throws EndGameException If there are no more cards in the deck.
      */
-    public void addCard (Card c) { // add card from deck
-        this.hand.add(c);
-    } 
+    public void addCard(Card c) throws EndGameException {
+        addCard(c, false); // Assume the game is not in the end phase.
+    }
 
+    /**
+     * Adds a card to the player's hand, considering the endgame state.
+     *
+     * @param c The card to be added.
+     * @param endGame Indicates whether the game is in the final phase.
+     * @throws EndGameException If there are no more cards in the deck.
+     */
+    public void addCard(Card c, Boolean endGame) throws EndGameException {
+        if (c != null && !endGame) {
+            this.hand.add(c); // Add as normal.
+        }
+
+        if (c == null && !endGame) {
+            throw new EndGameException("There are no more cards in the deck.");
+        }
+        
+        // In endgame, players should not draw additional cards.
+    }
+    
     /**
      * Collects a list of cards and adds them to the player's collection.
      * <p>
-     * Each collected card is stored in the {@code collectedCards} map based on its color.
+     * If a player collects at least one card of all six colors, the game ends.
      * </p>
      *
-     * @param cards the list of cards to be collected
+     * @param cards The list of cards to be collected.
+     * @throws EndGameException If the player collects all six colors.
      */
-    public void collectCard(ArrayList<Card> cards) { // add many cards to collection
-        for (Card c : cards) {
-            // add card to collection
-            // but need to remove card from parade too!
-            Colour curColour = c.getCardColour();
-
-            if (!collectedCards.containsKey(curColour)) { // if first of that colour
-                collectedCards.put(curColour, new ArrayList<Card>());  // add it to map and create list
-            }
-            
-            collectedCards.get(curColour).add(c);
-        }
+    public void collectCard(ArrayList<Card> cards) throws EndGameException {
+        collectCard(cards, false); // Assume the game is not in the end phase.
     }
 
+    /**
+     * Collects a list of cards and adds them to the player's collection, considering the endgame state.
+     *
+     * @param cards The list of cards to be collected.
+     * @param endGame Indicates whether the game is in the final phase.
+     * @throws EndGameException If the player collects all six colors.
+     */
+    public void collectCard(ArrayList<Card> cards, boolean endGame) throws EndGameException {
+        for (Card c : cards) {
+            Colour curColour = c.getCardColour();
+
+            if (!collectedCards.containsKey(curColour)) {
+                collectedCards.put(curColour, new ArrayList<>()); // Initialize list for new color.
+            }
+
+            collectedCards.get(curColour).add(c); // Add card to list for that color.
+        }
+
+        if (!endGame && collectedCards.size() == 6) {
+            throw new EndGameException("Player has collected all 6 colors!");
+        }
+    }
 }
