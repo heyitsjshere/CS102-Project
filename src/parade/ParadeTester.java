@@ -2,7 +2,7 @@ package parade;
 
 // import parade.*;
 import java.util.ArrayList;
-// import parade.enums.Colour;
+import parade.enums.Colour;
 import parade.exceptions.EndGameException;
 
 /**
@@ -37,7 +37,8 @@ public class ParadeTester {
      *
      * @param args command-line arguments (not used)
      */
-    public static void main(String[] args) {
+    // public static void main(String[] args) {
+    public ParadeTester(boolean hasTimeLimit){
         Deck d = new Deck();
         Parade par = new Parade(d);
         PlayerList playerList = new PlayerList(d);
@@ -45,6 +46,9 @@ public class ParadeTester {
         boolean endGame = false;
 
         int turn = -1;
+
+        // temp line just to test flow
+        System.out.println(hasTimeLimit ? "Time Limit round started" : "Classic round started");;
 
         /**
          * Simulates the game loop.
@@ -63,21 +67,28 @@ public class ParadeTester {
         while (playerList.getPlayer(++turn).getHandSize() == 5) { 
             Player curPlayer = playerList.getPlayer(turn);
             try {
-                System.out.println("\n\n||   Turn " + (turn + 1) + "   ||    " + curPlayer.getName());
+                System.out.println("\n\n||   Turn " + (turn + 1) + "   ||   " + curPlayer.getName());
                 System.out.println("Parade: " + par.getParade());
 
-                // Player picks a card
+                // Delay output for bot players
+                if (curPlayer instanceof BotPlayer){
+                    System.out.println(curPlayer.getName() + " is selecting their cards...");
+                    Thread.sleep(2000);
+                    System.out.println("Selection complete.");
+                }
+
+                // Prompt player to pick a card, player chooses card
                 Card pickedCard = curPlayer.chooseCard();
                 System.out.println("Player has played: " + pickedCard);
-
-                // Play card (add it to the parade and remove from the player's hand)
-                par.addCard(curPlayer.playCard(pickedCard));
 
                 // Collect cards based on game rules
                 ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
                 curPlayer.collectCard(toCollect, endGame); 
                 System.out.println("Player should collect: " + toCollect);
                 System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
+
+                // Play card (add it to the parade and remove from the player's hand)
+                par.addCard(curPlayer.playCard(pickedCard));
 
                 // Player draws a new card (throws exception if deck is empty)
                 curPlayer.addCard(d.drawCard(), endGame);
@@ -111,50 +122,76 @@ public class ParadeTester {
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
+            } catch (InterruptedException e){
+                
             }
         }
 
-        // game ends
-        // discard 2 cards from hand
+        // After main gameplay, each player discards 2 cards from hand
         System.out.printf("\n\nThe game is over.\n" +
                             "Each player will now discard 2 cards.\n" + 
                             "The remaining cards will be added to your collection.\n");
         try {
             for (Player p : playerList.getPlayerList()){
+                // pause thread during bot's term
                 System.out.println("\n\n||   Please select 2 cards to discard.   ||   " + p.getName());
+                if (p instanceof BotPlayer){
+                    System.out.println(p.getName() + " is selecting their cards...");
+                    Thread.sleep(2000);
+                    System.out.print("Selection complete.");
+                }
+
                 // pick 1st card to discard
                 Card discard1 = p.chooseCard();
                 p.playCard(discard1); // remove card from hand
-                // pick 2nd card to discard
                 System.out.println();
+
+                // pick 2nd card to discard
                 Card discard2 = p.chooseCard();
                 p.playCard(discard2);
-    
+                
+                // add remaining hand cards to collection
                 p.collectCard(p.getHand(), false);
             }
         } catch (EndGameException e){
             // just to handle the exception, but should never be thrown
-        }
-    
-
-        for (Player p: playerList.getPlayerList()) {
-            System.out.println(p.getCollectedCards());
+        } catch (InterruptedException e){
+            e.printStackTrace();
         }
         System.out.println();
-        
+        System.out.println();
+    
+        // Display final hand and collection for each player
+        for (Player p: playerList.getPlayerList()) {
+            System.out.println(
+                p.getName() + 
+                "\t Hand: " + p.getHand()
+            );
+            System.out.println("\t Collection: ");
+            for (Colour c : p.getCollectedCards().keySet()) {
+                System.out.print("\t\t");
+                for (Card card : p.getCollectedCardsWithColour(c)){
+                    System.out.print(card + " ");
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }        
 
-        // calculate scores
+        // Calculate scores
         ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
         ArrayList<Player> winners = scoreCalc.findWinners();
         int minScore = scoreCalc.getMinScore();
 
-        System.out.println("\n=== WINNNER(s) ====");
+        System.out.println("\n=== WINNNER(s) ===");
         if (winners.size() == 1) {
-            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners.get(0)) + 1) + " WINS with " + minScore + " points!");
+
+            System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
         } else {
             System.out.print("It's a TIE between Players "); 
             for (Player p : winners) {
-                System.out.print((playerList.getPlayerList().indexOf(p) + 1) + " ");
+                System.out.print(p.getName());
+
             }
             System.out.println("with " + minScore + " points!");
         }
@@ -162,7 +199,7 @@ public class ParadeTester {
         /**
          * Displays the final scores of all players.
          */
-        System.out.println("=== ALL SCORES ====");
+        System.out.println("=== ALL SCORES ===");
         scoreCalc.printLosers();
     }
 }

@@ -133,7 +133,7 @@ public class ScoreCalculator {
      * @return A list of players who achieved the lowest score.
      */
     public ArrayList<Player> findWinners(){
-        calculateScores();
+
         ArrayList<Player> winners = new ArrayList<>();
 
         int minScore = Collections.min(scoreTracker.values()); // Lowest score in the game
@@ -163,7 +163,7 @@ public class ScoreCalculator {
      */
     public void printLosers(){
         for (Player p : scoreTracker.keySet()) {
-            System.out.println("Player " + (playerList.indexOf(p) + 1) + " has a score of " + scoreTracker.get(p));
+            System.out.println("Player " + (p.getName()) + " has a score of " + scoreTracker.get(p));
         }
     }
 

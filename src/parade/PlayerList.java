@@ -25,9 +25,8 @@ public class PlayerList {
 
     /** The maximum number of players allowed in the game. */
     private static final int MAX_PLAYER_NUM = 6;
+    private static final int INITIAL_HAND_SIZE = 5;
 
-    /** The number of cards each player starts with. */
-    private static final int HAND_SIZE = 5;
 
     /**
      * Constructs a new PlayerList and initializes players.
@@ -78,7 +77,7 @@ public class PlayerList {
      * </p>
      */
     private void dealInitialCards() {
-        for (int i = 0; i < HAND_SIZE; i++) {
+        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
             for (Player p : playerList) {
                 try {
                     p.addCard(deck.drawCard());
@@ -123,7 +122,7 @@ public class PlayerList {
         return playerList.get(i % size);
     }
 
-    /**
+     /*
      * Displays a list of all players in the game along with their assigned numbers.
      * <p>
      * This method prints a formatted list of players and introduces a 2-second delay
