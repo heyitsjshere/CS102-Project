@@ -33,18 +33,19 @@ public class PlayerList {
      * Constructs a new PlayerList and initializes players.
      * <p>
      * This constructor prompts the user for the number of human and bot players,
-     * assigns them names, and distributes initial hands.
+     * assigns them names, shuffles the order of players and distributes initial hands.
+     * There should be at least 1 human player, with a total of 2 players in each game. 
      * </p>
      *
      * @param d The deck of cards used in the game.
      */
     public PlayerList(Deck d){
         UserInput input = new UserInput();
-        ArrayList<Player> players = new ArrayList<>();
+        ArrayList<Player> players = new ArrayList<Player>();
 
         Scanner sc = new Scanner(System.in);
 
-        // Get human players
+        // Get human players (at least 1)
         int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d - %d): ", 1, MAX_PLAYER_NUM);
         for (int i = 0; i < numHumanPlayers; i++) { 
             String name = input.getString("Enter name: ");
@@ -52,7 +53,7 @@ public class PlayerList {
         }
 
         // Determine minimum number of bot players if needed
-        int minNumBots = (numHumanPlayers == 1) ? 1 : 0;
+        int minNumBots = (numHumanPlayers == 1) ? 1 : 0; 
         int numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots, MAX_PLAYER_NUM - numHumanPlayers);
 
         // Create bot players
@@ -60,8 +61,13 @@ public class PlayerList {
             players.add(new BotPlayer("Bot " + i));
         }
 
+        // Shuffle order of players in the game
+        Collections.shuffle(players);
+
         this.playerList = players;
         this.deck = d;
+
+        // Deal cards to all players in the game
         dealInitialCards();
     }
 
