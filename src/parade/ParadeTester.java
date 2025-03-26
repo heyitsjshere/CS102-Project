@@ -16,28 +16,22 @@ import parade.exceptions.EndGameException;
  */
 public class ParadeTester {
     /**
-     * Default constructor for ParadeTester.
+     * Controls the flow of the Parade game.
+     * Used in both classic and timed gameplay modes.
      */
     public ParadeTester() {
         // No initialization required
     }
     
     /**
-     * The main method to test the Parade game mechanics.
+     * Constructs a ParadeTester and starts a new game.
      * <p>
-     * Initializes a deck, players, and the parade, then simulates a player's turn where they:
-     * <ul>
-     *     <li>Select a card</li>
-     *     <li>Identify removable and collectible cards</li>
-     *     <li>Collect applicable cards</li>
-     *     <li>Play their selected card</li>
-     *     <li>Draw a new card</li>
-     * </ul>
-     * The method also prints the game state before and after the player's turn.
+     * Initializes the deck, players, and parade, then runs the game
+     * either in classic or time-limited mode depending on the argument.
+     * </p>
      *
-     * @param args command-line arguments (not used)
+     * @param hasTimeLimit {@code true} for time-limited mode, {@code false} for classic mode.
      */
-    // public static void main(String[] args) {
     public ParadeTester(boolean hasTimeLimit){
         Deck d = new Deck();
         Parade par = new Parade(d);
