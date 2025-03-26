@@ -31,7 +31,7 @@ public class PlayerList {
      * Constructs a new PlayerList and initializes players.
      * <p>
      * This constructor prompts the user for the number of human and bot players,
-     * assigns them names, and distributes initial hands.
+     * assigns them names, shuffles the order and distributes initial hands.
      * </p>
      *
      * @param d The deck of cards used in the game.
@@ -58,6 +58,9 @@ public class PlayerList {
         for (int i = 1; i < numBotPlayers + 1; i++) {
             players.add(new BotPlayer("Bot " + i));
         }
+
+        // Shuffle the order of players
+        Collections.shuffle(players);
 
         this.playerList = players;
         this.deck = d;
@@ -115,12 +118,6 @@ public class PlayerList {
     public Player getPlayer(int i) {
         int size = playerList.size(); // Ensure index wraps around
         return playerList.get(i % size);
-    }
-
-    public void printLosers() {
-        for (Player p : playerList) {
-            System.out.println(playerList.indexOf(p) + 1 + ": " + p.getScore());
-        }
     }
 
     /**
