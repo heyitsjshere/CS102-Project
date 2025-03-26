@@ -108,15 +108,6 @@ public abstract class Player {
     }
 
     /**
-     * Removes all cards of the specified color from the player's collection after scoring.
-     *
-     * @param colour The color of cards to be removed.
-     */
-    public void placeColourFaceDown(Colour colour) {
-        this.collectedCards.remove(colour);
-    }
-
-    /**
      * Adds a card to the player's hand.
      *
      * @param c The card to be added.
