@@ -1,7 +1,6 @@
 package parade;
 
 import parade.enums.*;
-// import parade.Card; // TODO! package this better
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,8 +11,20 @@ import java.util.Collections;
  * The deck consists of a fixed set of 66 cards, each having a color
  * and a number. The deck is initialized in a shuffled order.
  * </p>
+ *
+ * <p>
+ * Example usage:
+ * </p>
+ * 
+ * <pre>
+ * Deck deck = new Deck();
+ * Card drawnCard = deck.drawCard();
+ * System.out.println("Drawn Card: " + drawnCard);
+ * </pre>
+ *
+ * @author G3T7
+ * @version 1.0
  */
-
 public class Deck {
 
     /** The list of cards currently in the deck. */
@@ -28,11 +39,9 @@ public class Deck {
      */
     private static final ArrayList<Card> DECK_REFERENCE = new ArrayList<Card>() {
         {
-            // deck of card is standard so a static array suffices
-            // generating each time is possible but why would u do that
-            for (Colour c : Colour.values()) { // for each colour
-                for (int i = 0; i <= 10; i++) { // for range 0-10 (inclusive)
-                    add(new Card(i, c)); // create the card!
+            for (Colour c : Colour.values()) { // For each color
+                for (int i = 0; i <= 10; i++) { // Cards numbered 0-10
+                    add(new Card(i, c)); // Create and add the card
                 }
             }
         }
@@ -45,25 +54,10 @@ public class Deck {
      * </p>
      */
     public Deck() {
-        // should create an instance of a deck that can be shuffled and all that
-        // this.cardsInDeck = generateShuffledDeck(); // create an array of cards in a
-        // shuffled order
-        cardsInDeck = new ArrayList<Card>();
+        cardsInDeck = new ArrayList<>();
         cardsInDeck.addAll(DECK_REFERENCE);
         Collections.shuffle(cardsInDeck);
     }
-
-    /**
-     * Generates a shuffled version of the reference deck.
-     *
-     * @return a shuffled list of cards representing the deck
-     */
-    // private ArrayList<Card> generateShuffledDeck() {
-    // cardsInDeck = new ArrayList<Card>();
-    // cardsInDeck.addAll(DECK_REFERENCE);
-    // Collections.shuffle(cardsInDeck);
-    // return this.cardsInDeck;
-    // }
 
     /**
      * Returns the reference deck containing all possible cards.
@@ -71,10 +65,9 @@ public class Deck {
      * This method is mainly used for testing purposes.
      * </p>
      *
-     * @return the reference deck as an unshuffled list of cards
+     * @return the reference deck as an unshuffled list of {@link Card} objects.
      */
     public ArrayList<Card> getDeckReference() {
-        // used for testing only
         return DECK_REFERENCE;
     }
 
@@ -84,10 +77,9 @@ public class Deck {
      * This method provides access to the shuffled deck, primarily for testing.
      * </p>
      *
-     * @return the list of cards in the current deck
+     * @return the list of {@link Card} objects in the current deck.
      */
     public ArrayList<Card> getCurrentDeck() {
-        // used for testing only, will not need to see entire deck at once
         return this.cardsInDeck;
     }
 
@@ -98,21 +90,19 @@ public class Deck {
      * {@code null}.
      * </p>
      *
-     * @return the drawn {@link Card}, or {@code null} if the deck is empty
+     * @return the drawn {@link Card}, or {@code null} if the deck is empty.
      */
     public Card drawCard() {
-        // if no more cards in deck
-        if (cardsInDeck.size() == 0)
-            return null;
-
-        // else, return top card and remove
-        return this.cardsInDeck.removeFirst();
+        if (cardsInDeck.isEmpty()) {
+            return null; // No more cards in the deck
+        }
+        return this.cardsInDeck.removeFirst(); // Draw from the top
     }
 
     /**
      * Returns the number of cards remaining in the deck.
      *
-     * @return the size of the deck
+     * @return the number of cards left in the deck.
      */
     public int getSize() {
         return cardsInDeck.size();

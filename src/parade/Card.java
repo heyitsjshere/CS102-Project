@@ -1,6 +1,6 @@
 package parade;
 
-import parade.enums.*;
+import parade.enums.Colour;
 
 /**
  * Represents a card in the Parade game.
@@ -10,10 +10,24 @@ import parade.enums.*;
  * This class provides methods to access the card's properties and a string
  * representation of the card.
  * </p>
+ *
+ * <p>
+ * Example usage:
+ * </p>
+ * 
+ * <pre>
+ * Card card = new Card(5, Colour.RED);
+ * System.out.println(card); // Outputs: RED 5
+ * </pre>
+ *
+ * @author G3T7
+ * @version 1.0
  */
-
 public class Card {
+    /** The numeric value of the card. */
     private int num;
+
+    /** The color of the card, represented as an enum value. */
     private Colour colour;
 
     /**
@@ -49,6 +63,7 @@ public class Card {
      * Returns a string representation of the card.
      * <p>
      * The format is "{Colour} {Number}", for example: "RED 5".
+     * ANSI escape codes are used for color formatting in supported terminals.
      * </p>
      *
      * @return a string describing the card's color and number
@@ -56,64 +71,6 @@ public class Card {
     @Override
     public String toString() {
         return "" + this.colour + " " + this.num;
-    }
-
-    public String displayCard() {
-        String value;
-        switch (num) {
-            case 1:
-                value = "A";
-                break;
-            case 11:
-                value = "J";
-                break;
-            case 12:
-                value = "Q";
-                break;
-            case 13:
-                value = "K";
-                break;
-            default:
-                value = String.valueOf(num);
-                break;
-        }
-
-        String symbol;
-        switch (colour) {
-            case RED:
-                symbol = "♥";
-                break;
-            case BLUE:
-                symbol = "♣";
-                break;
-            case GREEN:
-                symbol = "♠";
-                break;
-            case YELLOW:
-                symbol = "♦";
-                break;
-            case PURPLE:
-                symbol = "★";
-                break;
-            case BLACK:
-                symbol = "⬥";
-                break;
-            default:
-                symbol = "?";
-                break;
-        }
-
-        // Padding to align properly (max 2-character values like "10")
-        String topLeft = String.format("%-2s", value);
-        String bottomRight = String.format("%2s", value);
-
-        return "┌──────┐\n" +
-                "│ " + topLeft + "    │\n" +
-                "│      │\n" +
-                "│  " + symbol + "   │\n" +
-                "│      │\n" +
-                "│    " + bottomRight + " │\n" +
-                "└──────┘";
     }
 
 }

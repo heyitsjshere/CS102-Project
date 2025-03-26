@@ -2,35 +2,61 @@ package parade;
 
 import java.util.*;
 
-import parade.enums.Colour;
+// import parade.enums.Colour;
 import parade.exceptions.EndGameException;
 
+/**
+ * Manages the list of players in the Parade game.
+ * <p>
+ * This class handles player initialization, card distribution, and
+ * maintaining player order during the game.
+ * </p>
+ *
+ * @author G3T7
+ * @version 1.0
+ */
 public class PlayerList {
 
+    /** The list of players in the game. */
     private ArrayList<Player> playerList;
-    Deck deck;
-    private static final int MAX_PLAYER_NUM = 6;
-    private static final int HAND_SIZE = 5;
 
+    /** The deck from which players draw cards. */
+    private Deck deck;
+
+    /** The maximum number of players allowed in the game. */
+    private static final int MAX_PLAYER_NUM = 6;
+    private static final int INITIAL_HAND_SIZE = 5;
+
+    /**
+     * Constructs a new PlayerList and initializes players.
+     * <p>
+     * This constructor prompts the user for the number of human and bot players,
+     * assigns them names, and distributes initial hands.
+     * </p>
+     *
+     * @param d The deck of cards used in the game.
+     */
     public PlayerList(Deck d) {
         UserInput input = new UserInput();
+        ArrayList<Player> players = new ArrayList<>();
 
+        Scanner sc = new Scanner(System.in);
+
+        // Get human players
         int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d - %d): ", 1, MAX_PLAYER_NUM);
-        int minNumBots = 0;
-        if (numHumanPlayers == 1) {
-            minNumBots = 1;
+        for (int i = 0; i < numHumanPlayers; i++) {
+            String name = input.getString("Enter name: ");
+            players.add(new HumanPlayer(name));
         }
+
+        // Determine minimum number of bot players if needed
+        int minNumBots = (numHumanPlayers == 1) ? 1 : 0;
         int numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots,
                 MAX_PLAYER_NUM - numHumanPlayers);
 
-        ArrayList<Player> players = new ArrayList<Player>();
-
-        for (int i = 0; i < numHumanPlayers; i++) {
-            players.add(new HumanPlayer());
-        }
-
-        for (int i = 0; i < numBotPlayers; i++) {
-            players.add(new BotPlayer());
+        // Create bot players
+        for (int i = 1; i < numBotPlayers + 1; i++) {
+            players.add(new BotPlayer("Bot " + i));
         }
 
         this.playerList = players;
@@ -38,131 +64,57 @@ public class PlayerList {
         dealInitialCards();
     }
 
-    // public PlayerList (ArrayList<Player> pl, Deck d) {
-    // this.playerList = pl;
-    // this.deck = d;
-    // dealInitialCards();
-    // }
-
+    /**
+     * Distributes the initial set of cards to each player.
+     * <p>
+     * Each player receives {@code HAND_SIZE} cards from the deck.
+     * If the deck does not have enough cards to start the game, the program exits.
+     * </p>
+     */
     public void dealInitialCards() {
-        for (int i = 0; i < HAND_SIZE; i++) {
+        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
             for (Player p : playerList) {
                 try {
                     p.addCard(deck.drawCard());
                 } catch (EndGameException e) {
                     System.out.println("There are not enough cards to start the game.");
-                    // if printWinner is going to be called when catching endgame exception
-                    // shouldn't this be a different exception
-                    // or just catch the moment a list with >n players is passed in?
-                    System.exit(-1);
+                    System.exit(-1); // Exit if not enough cards are available
                 }
             }
         }
     }
 
+    /**
+     * Retrieves the list of players in the game.
+     *
+     * @return An {@link ArrayList} of {@link Player} objects.
+     */
     public ArrayList<Player> getPlayerList() {
         return this.playerList;
     }
 
+    /**
+     * Retrieves the total number of players in the game.
+     *
+     * @return The number of players.
+     */
     public int getNumberOfPlayers() {
         return playerList.size();
     }
 
+    /**
+     * Retrieves a player based on their turn order.
+     * <p>
+     * The index is wrapped around if it exceeds the number of players, ensuring
+     * continuous looping through the player list.
+     * </p>
+     *
+     * @param i The index of the player (can be greater than the number of players).
+     * @return The {@link Player} at the specified turn position.
+     */
     public Player getPlayer(int i) {
-        int size = playerList.size(); // it will never go out
+        int size = playerList.size(); // Ensure index wraps around
         return playerList.get(i % size);
-    }
-
-    // in player class,
-    // collected cards per player rep by EnumMap<Colour, ArrayList<Card>>
-    // collectedCards
-    // use getCollectedCards
-    // to remove cards from collectedCards
-    private void calculateScores() { // should only be called once
-
-        // EnumMap<Colour, ArrayList<Player>> AllColourMaxPlayers = new
-        // EnumMap<>(Colour.class);
-        // iter through colours
-        for (Colour colour : Colour.values()) {
-            ArrayList<Player> maxPlayers = findMaxPlayers(colour); // get list of players with the maximum number of
-                                                                   // that card
-            for (Player p : maxPlayers) {
-                p.addScore(p.getCollectedCards().get(colour).size()); // add the number of cards to the score
-                p.placeColourFaceDown(colour); // remove, so won't count the number value later
-            }
-        }
-        addRemainingFaces();
-        // Player winner = Collections.min(playerList,
-        // Comparator.comparingInt(Player::getScore));
-        // String winnerName= "Player " + (playerList.indexOf(winner) + 1);
-        // System.out.println(winnerName + " wins with a score of " + winner.score +
-        // "!"); // can use winner.getName() instead if getname implemented
-    }
-
-    private ArrayList<Player> findMaxPlayers(Colour colour) {
-        ArrayList<Player> maxPlayers = new ArrayList<>();
-        int maxCount = 0;
-
-        for (Player p : playerList) {
-            // if player doesn't have that colour card, continue to next player
-            if (!p.getCollectedCards().containsKey(colour)) {
-                continue;
-            }
-
-            int count = p.getCollectedCards().get(colour).size();
-            // if >2 players, get player(s) with largest size
-            if (playerList.size() > 2) {
-                if (count > maxCount) {
-                    maxCount = count;
-                    maxPlayers.clear(); // remove all players with fewer cards from list
-                    maxPlayers.add(p);
-                } else if (count == maxCount) {
-                    maxPlayers.add(p);
-                }
-            }
-            // if 2 players, get player with majority of >= 2
-            else if (playerList.size() == 2) {
-                // P1 might have been wrongly added bc size was compared to initial maxCount of
-                // 0
-                if (maxCount - count < 2) {
-                    maxPlayers.clear();
-                }
-                if (count > maxCount + 1) {
-                    maxCount = count;
-                    maxPlayers.clear();
-                    maxPlayers.add(p);
-                }
-            }
-        }
-
-        return maxPlayers;
-    }
-
-    // add value of remaining face up cards AFTER removing majority cards
-    private void addRemainingFaces() {
-        for (Player p : playerList) {
-            for (ArrayList<Card> cardList : p.getCollectedCards().values()) {
-                for (Card c : cardList) {
-                    p.addScore(c.getCardNum());
-                }
-            }
-        }
-    }
-
-    public ArrayList<Player> findWinners() {
-        calculateScores();
-
-        ArrayList<Player> winners = new ArrayList<>();
-
-        // get one winner (could have more)
-        Player winner = Collections.min(playerList, Comparator.comparingInt(Player::getScore));
-
-        for (Player p : playerList) {
-            if (p.getScore() == winner.getScore())
-                winners.add(p);
-        }
-        return winners;
-
     }
 
     public void printLosers() {
@@ -171,43 +123,84 @@ public class PlayerList {
         }
     }
 
-    public PlayerList(Deck d, int numPlayers) {
-        UserInput input = new UserInput();
-
-        if (numPlayers == 0) { // If no number specified, ask the user for the number of players
-            int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d - %d): ", 1, MAX_PLAYER_NUM);
-            int minNumBots = 0;
-            if (numHumanPlayers == 1) {
-                minNumBots = 1;
-            }
-            int numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots,
-                    MAX_PLAYER_NUM - numHumanPlayers);
-
-            ArrayList<Player> players = new ArrayList<>();
-
-            for (int i = 0; i < numHumanPlayers; i++) {
-                players.add(new HumanPlayer());
-            }
-
-            for (int i = 0; i < numBotPlayers; i++) {
-                players.add(new BotPlayer());
-            }
-
-            this.playerList = players;
-        } else { // If number of players is specified, create a new player list
-            ArrayList<Player> players = new ArrayList<>();
-            for (int i = 0; i < numPlayers; i++) {
-                if (i % 2 == 0) {
-                    players.add(new HumanPlayer());
-                } else {
-                    players.add(new BotPlayer());
-                }
-            }
-            this.playerList = players;
+    /**
+     * Displays a list of all players in the game along with their assigned numbers.
+     * <p>
+     * This method prints a formatted list of players and introduces a 2-second
+     * delay
+     * after the display to simulate a pause before the game begins.
+     * </p>
+     *
+     * <p>
+     * Example output:
+     * </p>
+     * 
+     * <pre>
+     * ==== Player Profile ====
+     * Player 1: Alice
+     * Player 2: Bot 1
+     * =========================
+     * The game will start now.
+     * </pre>
+     *
+     */
+    public void displayPlayerProfiles() {
+        System.out.println("\n==== Player Profile ====");
+        for (int i = 0; i < playerList.size(); i++) {
+            Player p = playerList.get(i);
+            System.out.println("Player " + (i + 1) + ": " + p.getName());
         }
+        System.out.println("=========================\n");
 
-        this.deck = d;
-        dealInitialCards();
+        System.out.println("The game will start now.\n\n");
+
+        try { // delay by 2 seconds
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
+
+    // public PlayerList(Deck d, int numPlayers) {
+    // UserInput input = new UserInput();
+
+    // if (numPlayers == 0) { // If no number specified, ask the user for the number
+    // of players
+    // int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d -
+    // %d): ", 1, MAX_PLAYER_NUM);
+    // int minNumBots = 0;
+    // if (numHumanPlayers == 1) {
+    // minNumBots = 1;
+    // }
+    // int numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d):
+    // ", minNumBots,
+    // MAX_PLAYER_NUM - numHumanPlayers);
+
+    // ArrayList<Player> players = new ArrayList<>();
+
+    // for (int i = 0; i < numHumanPlayers; i++) {
+    // players.add(new HumanPlayer());
+    // }
+
+    // for (int i = 0; i < numBotPlayers; i++) {
+    // players.add(new BotPlayer());
+    // }
+
+    // this.playerList = players;
+    // } else { // If number of players is specified, create a new player list
+    // ArrayList<Player> players = new ArrayList<>();
+    // for (int i = 0; i < numPlayers; i++) {
+    // if (i % 2 == 0) {
+    // players.add(new HumanPlayer());
+    // } else {
+    // players.add(new BotPlayer());
+    // }
+    // }
+    // this.playerList = players;
+    // }
+
+    // this.deck = d;
+    // dealInitialCards();
+    // }
 
 }
