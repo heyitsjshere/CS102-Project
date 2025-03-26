@@ -61,7 +61,7 @@ public class ParadeTester {
             Player curPlayer = playerList.getPlayer(turn);
             try {
                 System.out.println("\n\n||   Turn " + (turn + 1) + "   ||   " + curPlayer.getName());
-                System.out.println("Parade: " + par.getParade());
+                System.out.println("Parade: " + par.getParade() + "\u001B[31m<==\u001B[0m Card inserted here");
 
                 // Delay output for bot players
                 if (curPlayer instanceof BotPlayer){

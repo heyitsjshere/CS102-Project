@@ -1,10 +1,13 @@
 package parade;
 
-// import java.util.Scanner;
+import parade.enums.Colour;
 
 public class ParadeMenu {
     public static void main(String[] args) {
-        System.out.println("=== SELECT GAME MODE ===");
+        // String purple = Colour.PURPLE.getColorCode();
+        // String yellow = Colour.YELLOW.getColorCode();
+        // System.out.println(yellow + "=== " + purple + "WELCOME " + yellow + "TO " + purple + "THE " + yellow + "PARADE " + purple + "===\u001B[0m");
+        System.out.println("SELECT GAME MODE:");
         System.out.println("1. Classic");
         System.out.println("2. Time Limit");
         start();

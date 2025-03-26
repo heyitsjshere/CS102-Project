@@ -50,7 +50,7 @@ public class HumanPlayer extends Player {
             System.out.println("Option " + i + ": " + c);
             i++;
         }
-
+        
         int selectedNum = input.getUserInt("Selection: Option ", 1, super.getHandSize());
 
         return super.getHand().get(selectedNum - 1);
