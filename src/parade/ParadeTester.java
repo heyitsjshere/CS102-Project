@@ -35,9 +35,9 @@ public class ParadeTester {
      *
      * @param args command-line arguments (not used)
      */
-    private static int points = 0;
-    private static int level = 1;
-    private static int xp = 0;
+    // private static int points = 0;
+    // private static int level = 1;
+    // private static int xp = 0;
     private static Random rand = new Random();
 
     // the rewards of Magic Box
@@ -46,7 +46,9 @@ public class ParadeTester {
             "You unlocked a new avatar!",
             "You earned 100 bonus points!",
             "You gained 1 extra XP for your next game!",
-            "A magical friend joins your parade! +200 points!"
+            "A magical friend joins your parade! +200 points!",
+            "You unlocked a new theme for your game interface!",
+            "You got a new background for your game — enjoy the view!"
     };
 
     private static void triggerMagicBox() {
@@ -66,107 +68,149 @@ public class ParadeTester {
     }
 
     public static void main(String[] args) {
-        Deck d = new Deck();
-        Parade par = new Parade(d);
-        PlayerList playerList = new PlayerList(d);
-        Boolean endGame = false;
 
-        int turn = -1;
-        // while (d.getSize() > 0) { // changed end-game logic from true to <<<
-        // while (true) { // use true so can display error message
-        while (playerList.getPlayer(++turn).getHandSize() == 5) { // will keep playing
-            // ++turn;
-            Player curPlayer = playerList.getPlayer(turn);
-            try {
-                System.out.println("\n\n||   Turn " + (turn + 1) + "   ||    Player "
-                        + (playerList.getPlayerList().indexOf(curPlayer) + 1));
-                System.out.println("Parade: " + par.getParade());
+        Scanner scanner = new Scanner(System.in);
+        boolean continuePlaying = true;
 
-                // now the player picks one card
-                Card pickedCard = curPlayer.chooseCard();
-                System.out.println("Player has played: " + pickedCard);
+        // PlayerList playerList = new PlayerList(d);
+        PlayerList playerList = null;
+        while (continuePlaying) {
+            Deck d = new Deck();
+            if (playerList == null) {
+                playerList = new PlayerList(d); // Create new player list only if it's the first round
+            }
+            Parade par = new Parade(d);
+            Boolean endGame = false;
 
-                // play card (officially add it to the parade and remove it from the player's
-                // hand)
-                par.addCard(curPlayer.playCard(pickedCard));
+            int turn = -1;
+            // while (d.getSize() > 0) { // changed end-game logic from true to <<<
+            // while (true) { // use true so can display error message
+            while (playerList.getPlayer(++turn).getHandSize() == 5) { // will keep playing
+                // ++turn;
+                Player curPlayer = playerList.getPlayer(turn);
+                try {
+                    System.out.println("\n\n||   Turn " + (turn + 1) + "   ||    Player "
+                            + (playerList.getPlayerList().indexOf(curPlayer) + 1));
+                    System.out.println("Parade: " + par.getParade());
 
-                // collect cards
-                ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
-                curPlayer.collectCard(toCollect, endGame); // will throw end game exception if player has collected all
-                                                           // 6 and !endgame
-                System.out.println("player should collect: " + toCollect);
-                System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
+                    // now the player picks one card
+                    Card pickedCard = curPlayer.chooseCard();
+                    System.out.println("Player has played: " + pickedCard);
 
-                curPlayer.addCard(d.drawCard(), endGame); // will throw end game exception if no more in the deck
+                    // play card (officially add it to the parade and remove it from the player's
+                    // hand)
+                    par.addCard(curPlayer.playCard(pickedCard));
 
-            } catch (EndGameException e) {
-                System.out.println(e.getMessage());
-                if (e.getMessage().toLowerCase().contains("deck")) { // because of empty deck
-                    System.out.println("Everyone else has one last turn before the game ends.");
-                    // curPlayer has 4 cards and nothing to draw
-                    // already played their last turn
+                    // collect cards
+                    ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
+                    curPlayer.collectCard(toCollect, endGame); // will throw end game exception if player has collected
+                                                               // all
+                                                               // 6 and !endgame
+                    System.out.println("player should collect: " + toCollect);
+                    System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
 
-                } else { // because player has collected all
-                    System.out.println("Everyone has one last turn before the game ends.");
-                    try {
-                        curPlayer.addCard(d.drawCard(), endGame);
-                        // player still has to draw card because rules state that
-                        // "she finishes her turn as before"
-                    } catch (EndGameException ee) {
-                        System.out.println(ee.getMessage());
-                        // this means that on the same turn that the player collects all 6 colours
-                        // the deck also fully depletes
+                    curPlayer.addCard(d.drawCard(), endGame); // will throw end game exception if no more in the deck
+
+                } catch (EndGameException e) {
+                    System.out.println(e.getMessage());
+                    if (e.getMessage().toLowerCase().contains("deck")) { // because of empty deck
+                        System.out.println("Everyone else has one last turn before the game ends.");
+                        // curPlayer has 4 cards and nothing to draw
+                        // already played their last turn
+
+                    } else { // because player has collected all
+                        System.out.println("Everyone has one last turn before the game ends.");
+                        try {
+                            curPlayer.addCard(d.drawCard(), endGame);
+                            // player still has to draw card because rules state that
+                            // "she finishes her turn as before"
+                        } catch (EndGameException ee) {
+                            System.out.println(ee.getMessage());
+                            // this means that on the same turn that the player collects all 6 colours
+                            // the deck also fully depletes
+                        }
                     }
+
+                    endGame = true;
+
                 }
+            }
 
-                endGame = true;
+            System.out.printf("\n\nGame is over.\nPlayer collections: \n");
+            for (Player p : playerList.getPlayerList()) {
+                System.out.println(p.getCollectedCards());
+            }
 
+            // System.out.println();
+            // ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
+            // ArrayList<Player> winners2 = scoreCalc.findWinners();
+            // int minScore2 = winners2.get(0).getScore();
+
+            // Sy lc.printLosers();
+
+            System.out.println();
+            ArrayList<Player> winners = playerList.findWinners();
+            int minScore = winners.get(0).getScore();
+
+            System.out.println("\n=== WINNNER(s) ====");
+            if (winners.size() == 1) {
+                System.out.println(
+                        "Player " + (playerList.getPlayerList().indexOf(winners.get(0)) + 1) + " WINS with "
+                                + minScore + " points!");
+            } else {
+                System.out.print("It's a TIE between Players ");
+                for (Player p : winners) {
+                    System.out.println(playerList.getPlayerList().indexOf(p) + 1 + " ");
+                }
+                System.out.println("with " + minScore + " points!");
+            }
+
+            playerList.printLosers();
+
+            // triggerMagicBox();
+
+            System.out.println("Do you want to play again? (y/n)");
+
+            char playAgainChoice = scanner.next().charAt(0);
+
+            if (playAgainChoice == 'n' || playAgainChoice == 'N') {
+                continuePlaying = false;
+                System.out.println("Thanks for playing!");
+            } else {
+                // Ask if the players want to play with the same players
+                System.out.println("Do you want to play with the same players? (y/n)");
+                char samePlayersChoice = scanner.next().charAt(0);
+
+                if (samePlayersChoice == 'n' || samePlayersChoice == 'N') {
+                    // Ask for new number of players and reset the game
+                    resetGame(playerList, d);
+                    playerList = new PlayerList(d);
+
+                    // System.out.println("Enter the number of players: ");
+                    // int numPlayers = scanner.nextInt();
+                    // playerList = new PlayerList(d, numPlayers); // Reset with new players
+                    // System.out.println("New game started with " + numPlayers + " players.");
+                } else if (samePlayersChoice == 'y' || samePlayersChoice == 'Y') {
+                    // playerList = new PlayerList(d);
+                    // endGame = false;
+                    resetGame(playerList, d);
+                    System.out.println("Continuing game with the same players...");
+
+                }
             }
         }
+    }
 
-        System.out.printf("\n\nGame is over.\nPlayer collections: \n");
-        for (Player p : playerList.getPlayerList()) {
-            System.out.println(p.getCollectedCards());
+    private static void resetGame(PlayerList playerList, Deck deck) {
+        // Reset the player hands
+        for (Player player : playerList.getPlayerList()) {
+            player.clearHand(); // Assuming you have a method in Player class to clear the hand
+            player.clearCollectedCards(); // Clear the collected cards
         }
 
-        System.out.println();
-        ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
-        ArrayList<Player> winners2 = scoreCalc.findWinners();
-        int minScore2 = winners2.get(0).getScore();
-
-        System.out.println("\n=== WINNNER(s) ====");
-        if (winners2.size() == 1) {
-            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners2.get(0)) + 1) + " WINS with "
-                    + minScore2 + " points!");
-        } else {
-            System.out.print("It's a TIE between Players ");
-            for (Player p : winners2) {
-                System.out.println(playerList.getPlayerList().indexOf(p) + 1 + " ");
-            }
-            System.out.println("with " + minScore2 + " points!");
-        }
-        scoreCalc.printLosers();
-
-        System.out.println();
-        ArrayList<Player> winners = playerList.findWinners();
-        int minScore = winners.get(0).getScore();
-
-        System.out.println("\n=== WINNNER(s) ====");
-        if (winners.size() == 1) {
-            System.out.println("Player " + (playerList.getPlayerList().indexOf(winners.get(0)) + 1) + " WINS with "
-                    + minScore + " points!");
-        } else {
-            System.out.print("It's a TIE between Players ");
-            for (Player p : winners) {
-                System.out.println(playerList.getPlayerList().indexOf(p) + 1 + " ");
-            }
-            System.out.println("with " + minScore + " points!");
-        }
-
-        playerList.printLosers();
-
-        triggerMagicBox();
-
+        // Reinitialize the deck and deal cards again
+        deck.resetDeck(); // Assuming the Deck class has a method to reset the deck
+        playerList.dealInitialCards(); // Re-deal the initial 5 cards to each player
     }
 
 }

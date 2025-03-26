@@ -133,4 +133,12 @@ public abstract class Player {
         }
     }
 
+    public void clearHand() {
+        hand.clear();
+    }
+
+    public void clearCollectedCards() {
+        collectedCards.clear();
+    }
+
 }

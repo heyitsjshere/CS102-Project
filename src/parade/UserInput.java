@@ -33,4 +33,8 @@ public class UserInput {
 
     }
 
+    public String getUserYesNo(String message) {
+        return message.strip().toLowerCase();
+    }
+
 }

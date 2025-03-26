@@ -44,7 +44,7 @@ public class PlayerList {
     // dealInitialCards();
     // }
 
-    private void dealInitialCards() {
+    public void dealInitialCards() {
         for (int i = 0; i < HAND_SIZE; i++) {
             for (Player p : playerList) {
                 try {
@@ -169,6 +169,45 @@ public class PlayerList {
         for (Player p : playerList) {
             System.out.println(playerList.indexOf(p) + 1 + ": " + p.getScore());
         }
+    }
+
+    public PlayerList(Deck d, int numPlayers) {
+        UserInput input = new UserInput();
+
+        if (numPlayers == 0) { // If no number specified, ask the user for the number of players
+            int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d - %d): ", 1, MAX_PLAYER_NUM);
+            int minNumBots = 0;
+            if (numHumanPlayers == 1) {
+                minNumBots = 1;
+            }
+            int numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots,
+                    MAX_PLAYER_NUM - numHumanPlayers);
+
+            ArrayList<Player> players = new ArrayList<>();
+
+            for (int i = 0; i < numHumanPlayers; i++) {
+                players.add(new HumanPlayer());
+            }
+
+            for (int i = 0; i < numBotPlayers; i++) {
+                players.add(new BotPlayer());
+            }
+
+            this.playerList = players;
+        } else { // If number of players is specified, create a new player list
+            ArrayList<Player> players = new ArrayList<>();
+            for (int i = 0; i < numPlayers; i++) {
+                if (i % 2 == 0) {
+                    players.add(new HumanPlayer());
+                } else {
+                    players.add(new BotPlayer());
+                }
+            }
+            this.playerList = players;
+        }
+
+        this.deck = d;
+        dealInitialCards();
     }
 
 }
