@@ -47,29 +47,32 @@ public class ParadeTester {
     // private static int xp = 0;
 
     public ParadeTester(boolean hasTimeLimit) {
-        // Deck d = new Deck();
-        // Parade par = new Parade(d);
-        // // PlayerList playerList = new PlayerList(d);
+        Deck d = new Deck();
+        Parade par = new Parade(d);
+        PlayerList playerList = new PlayerList(d);
 
-        // playerList.displayPlayerProfiles();
-        // boolean endGame = false;
-        PlayerList playerList = null;
+        playerList.displayPlayerProfiles();
+        boolean endGame = false;
+        // PlayerList playerList = null;
         Scanner scanner = new Scanner(System.in);
         boolean continuePlaying = true;
+        int turn = -1;
 
         while (continuePlaying) {
-            Deck d = new Deck();
-            if (playerList == null) {
-                playerList = new PlayerList(d); // Create new player list only if it's the first round
-            }
-            Parade par = new Parade(d);
-            Boolean endGame = false;
+            // Deck d = new Deck();
+            // if (playerList == null) {
+            // playerList = new PlayerList(d); // Create new player list only if it's the
+            // first round
+            // playerList.dealInitialCards();
 
-            int turn = -1;
+            // }
+            // Parade par = new Parade(d);
+            // Boolean endGame = false;
+
+            // int turn = -1;
 
             // temp line just to test flow
             System.out.println(hasTimeLimit ? "Time Limit round started" : "Classic round started");
-            ;
 
             /**
              * Simulates the game loop.
@@ -208,7 +211,7 @@ public class ParadeTester {
 
             System.out.println("\n=== WINNNER(s) ===");
             if (winners.size() == 1) {
-
+                winners.get(0).incrementWins();
                 System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
             } else {
                 System.out.print("It's a TIE between Players ");
@@ -224,6 +227,11 @@ public class ParadeTester {
              */
             System.out.println("=== ALL SCORES ===");
             scoreCalc.printLosers();
+
+            System.out.println("=== TOTAL WINS ===");
+            for (Player p : playerList.getPlayerList()) {
+                System.out.println(p.getName() + " has " + p.getWins() + " wins.");
+            }
 
             System.out.println("Do you want to play again? (y/n)");
 
@@ -257,6 +265,19 @@ public class ParadeTester {
 
         }
     }
+
+    private static void resetGame(PlayerList playerList, Deck deck) {
+        // Reset the player hands
+        for (Player player : playerList.getPlayerList()) {
+            player.clearHand();
+            player.clearCollectedCards();
+        }
+
+        // Reinitialize the deck and deal cards again
+        deck.resetDeck();
+        playerList.dealInitialCards();
+    }
+
     // public static void main(String[] args) {
 
     // Scanner scanner = new Scanner(System.in);
@@ -472,17 +493,5 @@ public class ParadeTester {
     // }
     // }
     // }
-
-    private static void resetGame(PlayerList playerList, Deck deck) {
-        // Reset the player hands
-        for (Player player : playerList.getPlayerList()) {
-            player.clearHand(); // Assuming you have a method in Player class to clear the hand
-            player.clearCollectedCards(); // Clear the collected cards
-        }
-
-        // Reinitialize the deck and deal cards again
-        deck.resetDeck(); // Assuming the Deck class has a method to reset the deck
-        playerList.dealInitialCards(); // Re-deal the initial 5 cards to each player
-    }
 
 }
