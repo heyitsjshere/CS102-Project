@@ -5,15 +5,19 @@ import parade.enums.Colour;
 /**
  * Represents a card in the Parade game.
  * <p>
- * Each card has a numeric value and a color, defined by the {@link Colour} enum.
- * This class provides methods to access the card's properties and a string 
+ * Each card has a numeric value and a color, defined by the {@link Colour}
+ * enum.
+ * This class provides methods to access the card's properties and a string
  * representation of the card.
  * </p>
  *
- * <p>Example usage:</p>
+ * <p>
+ * Example usage:
+ * </p>
+ * 
  * <pre>
- *     Card card = new Card(5, Colour.RED);
- *     System.out.println(card); // Outputs: RED 5
+ * Card card = new Card(5, Colour.RED);
+ * System.out.println(card); // Outputs: RED 5
  * </pre>
  *
  * @author G3T7
@@ -66,6 +70,7 @@ public class Card {
      */
     @Override
     public String toString() {
-        return colour.getColorCode() + this.colour + " " + this.num + "\033[0m"; // Reset color after printing
+        return "" + this.colour + " " + this.num;
     }
+
 }

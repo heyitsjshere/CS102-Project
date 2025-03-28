@@ -8,15 +8,18 @@ import java.util.Collections;
 /**
  * Represents a deck of cards for the Parade game.
  * <p>
- * The deck consists of a fixed set of 66 cards, each having a color 
+ * The deck consists of a fixed set of 66 cards, each having a color
  * and a number. The deck is initialized in a shuffled order.
  * </p>
  *
- * <p>Example usage:</p>
+ * <p>
+ * Example usage:
+ * </p>
+ * 
  * <pre>
- *     Deck deck = new Deck();
- *     Card drawnCard = deck.drawCard();
- *     System.out.println("Drawn Card: " + drawnCard);
+ * Deck deck = new Deck();
+ * Card drawnCard = deck.drawCard();
+ * System.out.println("Drawn Card: " + drawnCard);
  * </pre>
  *
  * @author G3T7
@@ -30,17 +33,19 @@ public class Deck {
     /**
      * A static reference deck containing all possible cards.
      * <p>
-     * This deck consists of cards with numbers ranging from 0 to 10 
+     * This deck consists of cards with numbers ranging from 0 to 10
      * for each color in the {@link Colour} enum.
      * </p>
      */
-    private static final ArrayList<Card> DECK_REFERENCE = new ArrayList<Card>() {{
-        for (Colour c : Colour.values()) {  // For each color
-            for (int i = 0; i <= 10; i++) { // Cards numbered 0-10
-                add(new Card(i, c));  // Create and add the card
+    private static final ArrayList<Card> DECK_REFERENCE = new ArrayList<Card>() {
+        {
+            for (Colour c : Colour.values()) { // For each color
+                for (int i = 0; i <= 10; i++) { // Cards numbered 0-10
+                    add(new Card(i, c)); // Create and add the card
+                }
             }
         }
-    }};
+    };
 
     /**
      * Constructs a new shuffled deck.
@@ -81,7 +86,8 @@ public class Deck {
     /**
      * Draws a card from the top of the deck.
      * <p>
-     * Removes and returns the first card in the deck. If the deck is empty, returns {@code null}.
+     * Removes and returns the first card in the deck. If the deck is empty, returns
+     * {@code null}.
      * </p>
      *
      * @return the drawn {@link Card}, or {@code null} if the deck is empty.
@@ -101,4 +107,15 @@ public class Deck {
     public int getSize() {
         return cardsInDeck.size();
     }
+
+    public void resetDeck() {
+        // this.cardsInDeck = new ArrayList<Card>();
+
+        this.cardsInDeck.clear();
+        cardsInDeck = new ArrayList<Card>();
+        cardsInDeck.addAll(DECK_REFERENCE);
+        Collections.shuffle(cardsInDeck);
+
+    }
+
 }

@@ -10,7 +10,7 @@ import java.util.EnumMap;
  * Represents a player in the Parade game.
  * <p>
  * This abstract class defines common behaviors for both human and bot players.
- * Each player has a hand of cards, a collection of acquired cards, and the 
+ * Each player has a hand of cards, a collection of acquired cards, and the
  * ability to play, collect, and manage cards according to the game rules.
  * </p>
  *
@@ -20,20 +20,22 @@ import java.util.EnumMap;
 public abstract class Player {
 
     /** The player's current hand of cards. */
-    private ArrayList<Card> hand; 
+    private ArrayList<Card> hand;
 
     /** The collection of cards the player has acquired, grouped by color. */
-    private EnumMap<Colour, ArrayList<Card>> collectedCards; 
+    private EnumMap<Colour, ArrayList<Card>> collectedCards;
 
     /** The player's name. */
     private String name;
+
+    private int wins;
 
     /**
      * Constructs a player with an empty hand and collection.
      *
      * @param name The name of the player.
      */
-    public Player(String name) { 
+    public Player(String name) {
         this.hand = new ArrayList<>();
         this.collectedCards = new EnumMap<>(Colour.class);
         this.name = name;
@@ -44,7 +46,7 @@ public abstract class Player {
      *
      * @return The player's name.
      */
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
@@ -64,6 +66,10 @@ public abstract class Player {
      */
     public int getHandSize() {
         return this.hand.size();
+    }
+
+    public int getWins() {
+        return wins;
     }
 
     /**
@@ -104,7 +110,15 @@ public abstract class Player {
      */
     public Card playCard(Card c) {
         this.hand.remove(c);
-        return c; // Return card so it can be added to the parade.
+        return c; // return card so it can be added to the parade
+
+    } // depends on human or bot
+
+    // removes all cards of that colour from collection after doing appropriate
+    // scoring
+    public void placeColourFaceDown(Colour colour) {
+        this.collectedCards.remove(colour);
+        // return c; // Return card so it can be added to the parade.
     }
 
     /**
@@ -120,22 +134,28 @@ public abstract class Player {
     /**
      * Adds a card to the player's hand, considering the endgame state.
      *
-     * @param c The card to be added.
+     * @param c       The card to be added.
      * @param endGame Indicates whether the game is in the final phase.
      * @throws EndGameException If there are no more cards in the deck.
      */
     public void addCard(Card c, Boolean endGame) throws EndGameException {
+        if (c != null && endGame == false)
+            this.hand.add(c); // add as normal
         if (c != null && !endGame) {
             this.hand.add(c); // Add as normal.
         }
 
+        if (c == null && endGame == false)
+            throw new EndGameException("There are no more cards in the deck. ");
+
+        // in end game, should not draw cards
         if (c == null && !endGame) {
             throw new EndGameException("There are no more cards in the deck.");
         }
-        
+
         // In endgame, players should not draw additional cards.
     }
-    
+
     /**
      * Collects a list of cards and adds them to the player's collection.
      * <p>
@@ -145,14 +165,17 @@ public abstract class Player {
      * @param cards The list of cards to be collected.
      * @throws EndGameException If the player collects all six colors.
      */
+
+    // pass in collectable cards --> par.getCollectibleCards(pickedCard)
     public void collectCard(ArrayList<Card> cards) throws EndGameException {
         collectCard(cards, false); // Assume the game is not in the end phase.
     }
 
     /**
-     * Collects a list of cards and adds them to the player's collection, considering the endgame state.
+     * Collects a list of cards and adds them to the player's collection,
+     * considering the endgame state.
      *
-     * @param cards The list of cards to be collected.
+     * @param cards   The list of cards to be collected.
      * @param endGame Indicates whether the game is in the final phase.
      * @throws EndGameException If the player collects all six colors.
      */
@@ -171,4 +194,17 @@ public abstract class Player {
             throw new EndGameException("Player has collected all 6 colors!");
         }
     }
+
+    public void clearHand() {
+        hand.clear();
+    }
+
+    public void clearCollectedCards() {
+        collectedCards.clear();
+    }
+
+    public void incrementWins() {
+        wins++;
+    }
+
 }
