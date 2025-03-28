@@ -67,12 +67,12 @@ public class ParadeTester {
          */
         while (continueGame) {
             turn++;
-            System.out.println("\n==== ROUND " + turn + " ====");
+            System.out.println("\n\n==== ROUND " + turn + " ====");
         
             for (int i = 0; i < playerList.getNumberOfPlayers(); i++) {
                 Player curPlayer = playerList.getPlayer(i);
                 try {
-                    System.out.println("||  " + curPlayer.getName() + "'s turn  ||");
+                    System.out.println("\n||  " + curPlayer.getName() + "'s turn  ||");
                     System.out.println("Parade: " + par.getParade());
         
                     if (curPlayer instanceof BotPlayer) {
