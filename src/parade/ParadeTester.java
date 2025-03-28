@@ -2,8 +2,6 @@ package parade;
 
 // import parade.*;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
 
 import parade.enums.Colour;
 import parade.exceptions.EndGameException;
