@@ -28,6 +28,8 @@ public abstract class Player {
     /** The player's name. */
     private String name;
 
+    private int wins;
+
     /**
      * Constructs a player with an empty hand and collection.
      *
@@ -64,6 +66,10 @@ public abstract class Player {
      */
     public int getHandSize() {
         return this.hand.size();
+    }
+
+    public int getWins() {
+        return wins;
     }
 
     /**
@@ -195,6 +201,10 @@ public abstract class Player {
 
     public void clearCollectedCards() {
         collectedCards.clear();
+    }
+
+    public void incrementWins() {
+        wins++;
     }
 
 }
