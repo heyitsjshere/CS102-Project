@@ -195,4 +195,16 @@ public abstract class Player {
             throw new EndGameException("Player has collected all 6 colors!");
         }
     }
+
+    public void clearHand() {
+        hand.clear();
+    }
+
+    public void clearCollectedCards() {
+        collectedCards.clear();
+    }
+
+    public void incrementWins() {
+        ++wins;
+    }
 }
