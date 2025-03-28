@@ -101,4 +101,14 @@ public class Deck {
     public int getSize() {
         return cardsInDeck.size();
     }
+
+    public void resetDeck() {
+        // this.cardsInDeck = new ArrayList<Card>();
+
+        this.cardsInDeck.clear();
+        cardsInDeck = new ArrayList<Card>();
+        cardsInDeck.addAll(DECK_REFERENCE);
+        Collections.shuffle(cardsInDeck);
+
+    }
 }

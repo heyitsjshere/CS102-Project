@@ -28,6 +28,9 @@ public abstract class Player {
     /** The player's name. */
     private String name;
 
+    /** Number of wins this player has */
+    private int wins = 0;
+
     /**
      * Constructs a player with an empty hand and collection.
      *
@@ -64,6 +67,10 @@ public abstract class Player {
      */
     public int getHandSize() {
         return this.hand.size();
+    }
+
+    public int getWins() {
+        return wins;
     }
 
     /**
@@ -170,5 +177,17 @@ public abstract class Player {
         if (!endGame && collectedCards.size() == 6) {
             throw new EndGameException("Player has collected all 6 colors!");
         }
+    }
+
+    public void clearHand() {
+        hand.clear();
+    }
+
+    public void clearCollectedCards() {
+        collectedCards.clear();
+    }
+
+    public void incrementWins() {
+        ++wins;
     }
 }
