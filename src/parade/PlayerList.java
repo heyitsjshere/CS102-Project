@@ -121,12 +121,7 @@ public class PlayerList {
         int size = playerList.size(); // Ensure index wraps around
         return playerList.get(i % size);
     }
-
-<<<<<<<<< Temporary merge branch 1
     /**
-=========
-        /**
->>>>>>>>> Temporary merge branch 2
      * Displays a list of all players in the game along with their assigned numbers.
      * <p>
      * This method prints a formatted list of players and introduces a 2-second delay
