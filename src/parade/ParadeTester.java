@@ -150,7 +150,7 @@ public class ParadeTester {
                     }
     
                 } catch (InterruptedException e){
-                    
+                    // to handle exception for Thread.sleep, should not be thrown
                 }
             }
     
@@ -184,7 +184,7 @@ public class ParadeTester {
             } catch (EndGameException e){
                 // just to handle the exception, but should never be thrown in this block
             } catch (InterruptedException e){
-                e.printStackTrace();
+                // to handle exception for Thread.sleep, should not be thrown
             }
     
             System.out.println();
