@@ -7,14 +7,17 @@ import java.util.Timer;
 /**
  * Represents a human player in the Parade game.
  * <p>
- * This class extends {@link Player} and allows a human user to 
+ * This class extends {@link Player} and allows a human user to
  * manually select a card to play based on user input.
  * </p>
  *
- * <p>Example usage:</p>
+ * <p>
+ * Example usage:
+ * </p>
+ * 
  * <pre>
- *     HumanPlayer player = new HumanPlayer("Alice");
- *     Card selectedCard = player.chooseCard();
+ * HumanPlayer player = new HumanPlayer("Alice");
+ * Card selectedCard = player.chooseCard();
  * </pre>
  *
  * @author G3T7
@@ -38,7 +41,7 @@ public class HumanPlayer extends Player {
     /**
      * Allows the human player to manually choose a card from their hand.
      * <p>
-     * The method displays the available cards, prompts the user for input, 
+     * The method displays the available cards, prompts the user for input,
      * and returns the selected card.
      * </p>
      *
@@ -46,6 +49,8 @@ public class HumanPlayer extends Player {
      */
     @Override
     public Card chooseCard() {
+        System.setProperty("file.encoding", "UTF-8");
+
         System.out.println("PICK A CARD");
         System.out.println("-----------");
 

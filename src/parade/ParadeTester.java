@@ -9,30 +9,37 @@ import parade.exceptions.EndGameException;
 /**
  * A class to test the Parade game.
  * <p>
- * This class initializes a deck, players, and the parade, then simulates a turn-based game.
+ * This class initializes a deck, players, and the parade, then simulates a
+ * turn-based game.
  * </p>
  *
  * @author G3T7
  * @version 1.0
  */
 public class ParadeTester {
+    /**
+     * Default constructor for ParadeTester.
+     */
+    public ParadeTester() {
+        // No initialization required
+    }
 
     /**
      * The main method to test the Parade game mechanics.
      * <p>
-     * Initializes a deck, players, and the parade, then simulates a player's turn where they:
+     * Initializes a deck, players, and the parade, then simulates a player's turn
+     * where they:
      * <ul>
-     *     <li>Select a card</li>
-     *     <li>Identify removable and collectible cards</li>
-     *     <li>Collect applicable cards</li>
-     *     <li>Play their selected card</li>
-     *     <li>Draw a new card</li>
+     * <li>Select a card</li>
+     * <li>Identify removable and collectible cards</li>
+     * <li>Collect applicable cards</li>
+     * <li>Play their selected card</li>
+     * <li>Draw a new card</li>
      * </ul>
      * The method also prints the game state before and after the player's turn.
      *
      * @param args command-line arguments (not used)
      */
-    // public static void main(String[] args) {
     public ParadeTester(boolean hasTimeLimit){
         Deck d = new Deck();
         Parade par = new Parade(d);
@@ -155,45 +162,84 @@ public class ParadeTester {
         System.out.println();
         System.out.println();
     
-        // Display final hand and collection for each player
-        for (Player p: playerList.getPlayerList()) {
-            System.out.println(
-                p.getName() + 
-                "\t Hand: " + p.getHand()
-            );
-            System.out.println("\t Collection: ");
-            for (Colour c : p.getCollectedCards().keySet()) {
-                System.out.print("\t\t");
-                for (Card card : p.getCollectedCardsWithColour(c)){
-                    System.out.print(card + " ");
+            for (Player p : playerList.getPlayerList()) {
+                System.out.println(p.getName() + "\t Hand: " + p.getHand());
+                System.out.println("\t Collection: ");
+                for (Colour c : p.getCollectedCards().keySet()) {
+                    System.out.print("\t\t");
+                    for (Card card : p.getCollectedCardsWithColour(c)) {
+                        System.out.print(card + " ");
+                    }
+                    System.out.println();
                 }
                 System.out.println();
             }
-            System.out.println();
-        }        
-
-        // Calculate scores
-        ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
-        ArrayList<Player> winners = scoreCalc.findWinners();
-        int minScore = scoreCalc.getMinScore();
-
-        System.out.println("\n=== WINNNER(s) ===");
-        if (winners.size() == 1) {
-
-            System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
-        } else {
-            System.out.print("It's a TIE between Players "); 
-            for (Player p : winners) {
-                System.out.print(p.getName());
-
+    
+            ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
+            ArrayList<Player> winners = scoreCalc.findWinners();
+            int minScore = scoreCalc.getMinScore();
+    
+            System.out.println("\n=== WINNNER(s) ===");
+            if (winners.size() == 1) {
+                System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
+            } else {
+                System.out.print("It's a TIE between Players ");
+                for (Player p : winners) {
+                    System.out.print(p.getName() + " ");
+                }
+                System.out.println("with " + minScore + " points!");
             }
-            System.out.println("with " + minScore + " points!");
+
+            for (Player p : winners) { // increment wins for ALL winners
+                p.incrementWins();
+            }
+    
+            System.out.println("=== ALL SCORES ===");
+            scoreCalc.printLosers();
+    
+            System.out.println("=== Total WINS ===");
+            for (Player p : playerList.getPlayerList()) {
+                System.out.println(p.getName() + " has " + p.getWins() + " win.");
+            }
+    
+            playMoreGames = askToPlayAgain();
+            if (!playMoreGames) {
+                System.out.println("Thanks for playing!");
+            }
+        }
+    }
+
+    private static void resetGame(PlayerList playerList, Deck deck) {
+        // Reset the player hands
+        for (Player player : playerList.getPlayerList()) {
+            player.clearHand();
+            player.clearCollectedCards();
         }
 
-        /**
-         * Displays the final scores of all players.
-         */
-        System.out.println("=== ALL SCORES ===");
-        scoreCalc.printLosers();
+        playerList.setDeck(deck);     // Update deck reference
+        deck.resetDeck();             // Reset card order
+        playerList.dealInitialCards(); // Deal from the new deck
+    }
+
+    private boolean askToPlayAgain() {
+        UserInput input = new UserInput();
+        String playAgainChoice;
+        while (true) {
+            playAgainChoice = input.getString("\n\nDo you want to play again? (y/n): ").toLowerCase();
+            if (playAgainChoice.equals("y") || playAgainChoice.equals("n")) break;
+            System.out.println("Invalid input. Please enter 'y' for Yes or 'n' for No.");
+        }
+        return playAgainChoice.equals("y");
+    }
+    
+    private boolean askSamePlayers() {
+        UserInput input = new UserInput();
+        String choice;
+        while (true) {
+            choice = input.getString("Do you want to play with the same players? (y/n): ").toLowerCase();
+            if (choice.equals("y") || choice.equals("n")) break;
+            System.out.println("Invalid input. Please enter 'y' for Yes or 'n' for No.");
+        }
+        return choice.equals("y");
     }
 }
