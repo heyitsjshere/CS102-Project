@@ -88,6 +88,7 @@ public class ParadeTester {
                 Player curPlayer = playerList.getPlayer(turn);
                 try {
                     round = turn/playerList.getNumberOfPlayers() + 1;
+                    // Display round number before first turn of that round
                     if (turn % playerList.getNumberOfPlayers() == 0) {
                         System.out.println("\n\n==== ROUND " + round + " ====");
                     }
