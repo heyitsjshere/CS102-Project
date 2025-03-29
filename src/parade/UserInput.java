@@ -1,6 +1,12 @@
 package parade;
 
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Handles user input for the Parade game.
@@ -69,6 +75,120 @@ public class UserInput {
             System.out.printf(errorMessage, min, max);
         }
     }
+
+
+    public int getUserIntWithTimeout(String message, int min, int max, int durationInMilliseconds, CountdownTimer timer) {
+        AtomicInteger selectedNum = new AtomicInteger(-1); // Stores user's selection safely across threads
+
+        // Start a new thread for user input
+        Thread inputThread = new Thread(() -> {
+            Scanner newsc = new Scanner(System.in);
+            int userInt = 0;
+            while (true) {
+                // clear buffer
+                // if (newsc.hasNextLine()) {
+                //     newsc.nextLine(); // This will consume any extra newline or invalid characters left in the buffer
+                // }
+                System.out.printf(message, min, max);
+                if (newsc.hasNextInt()) {
+                    userInt = newsc.nextInt();
+                    newsc.nextLine(); // Consume newline to avoid input issues
+
+                    if (userInt >= min && userInt <= max) {
+                        selectedNum.set(userInt);
+                        break; // Stop input thread once valid input is received
+                    }
+                } else {
+                    newsc.next(); // Discard invalid input
+                }
+                System.out.printf("Invalid input! Please enter a number between %d and %d.%n", min, max);
+            }
+            // newsc.close();
+            // newsc = new Scanner(System.in);
+        });
+
+        // Start input thread
+        inputThread.start();
+
+        // Start the countdown timer
+        timer.start(durationInMilliseconds);
+
+        // Wait until either time runs out or the user makes a selection
+        while (!timer.hasTimeExpired() && selectedNum.get() == -1) {
+            // Do nothing, just waiting for either input or timeout
+        }
+
+        if (timer.hasTimeExpired()) {
+            System.out.println("Randomising card...");
+            // try {
+            //     Thread.sleep(1000);
+            // } catch (InterruptedException e){}
+        }
+
+        timer.stop();
+        
+        // Return selectedNum if within time and valid, else return -1 if no valid input was received
+        return selectedNum.get() == -1 ? -1 : selectedNum.get(); 
+
+    }
+
+
+//     public Integer getUserIntWithTimeout(String message, int min, int max, long timeoutMillis) {
+//     ExecutorService executor = Executors.newSingleThreadExecutor();
+
+//     Future<Integer> future = executor.submit(() -> {
+//         // Create a fresh Scanner inside the thread to avoid stale input state
+//         Scanner threadScanner = new Scanner(System.in);
+//         int userInt = 0;
+
+//         while (true) {
+//             System.out.printf(message, min, max);
+
+//             if (threadScanner.hasNextInt()) {
+//                 userInt = threadScanner.nextInt();
+//                 threadScanner.nextLine(); // Consume newline
+//                 if (userInt >= min && userInt <= max) {
+//                     return userInt;
+//                 }
+//             } else {
+//                 threadScanner.next(); // discard invalid
+//             }
+//             System.out.printf("Invalid Input! Please enter a number between %d and %d!%n", min, max);
+//         }
+//     });
+
+//     try {
+//         return future.get(timeoutMillis, TimeUnit.MILLISECONDS);
+//     } catch (TimeoutException e) {
+//         future.cancel(true); // interrupt the input thread
+//         System.out.println("⏰ Time's up! You didn't respond in time.");
+//     } catch (Exception e) {
+//         e.printStackTrace();
+//     } finally {
+//         executor.shutdownNow(); // cleanup
+//     }
+
+//     return null;
+// }
+
+    // public Integer getUserIntWithTimeout(String message, int min, int max, long timeoutMillis) {
+    //     ExecutorService executor = Executors.newSingleThreadExecutor();
+    //     Future<Integer> future = executor.submit(() -> getUserInt(message, min, max));
+
+    //     try {
+    //         return future.get(timeoutMillis, TimeUnit.MILLISECONDS); // Wait for input or timeout
+    //     } catch (TimeoutException e) {
+    //         future.cancel(true); // Cancel input task
+    //         System.out.println("Time's up! You didn't respond in time.");
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         executor.shutdownNow();
+            
+    //     }
+
+    //     return null; // No valid input
+    // }
 
     /**
      * Prompts the user for a string input.

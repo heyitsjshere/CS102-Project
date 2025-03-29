@@ -2,6 +2,7 @@ package parade;
 
 // import parade.*;
 import java.util.ArrayList;
+import java.util.Timer;
 import parade.enums.Colour;
 import parade.exceptions.EndGameException;
 
@@ -71,7 +72,14 @@ public class ParadeTester {
                 }
 
                 // Prompt player to pick a card, player chooses card
-                Card pickedCard = curPlayer.chooseCard();
+                Card pickedCard;
+                if (curPlayer instanceof HumanPlayer){
+                    HumanPlayer hPlayer = (HumanPlayer)curPlayer;
+                    // Timer timer = new Timer();
+                    pickedCard = hPlayer.chooseCardTimed();
+                } else {
+                    pickedCard = curPlayer.chooseCard();
+                }
                 System.out.println("Player has played: " + pickedCard);
 
                 // Collect cards based on game rules
