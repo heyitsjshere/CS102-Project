@@ -71,7 +71,7 @@ public class PlayerList {
      * If the deck does not have enough cards to start the game, the program exits.
      * </p>
      */
-    private void dealInitialCards() {
+    public void dealInitialCards() {
         for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
             for (Player p : playerList) {
                 try {
@@ -150,5 +150,10 @@ public class PlayerList {
             Thread.currentThread().interrupt();
         }
     }
+
+    public void setDeck(Deck newDeck) {
+        this.deck = newDeck;
+    }
+
 
 }

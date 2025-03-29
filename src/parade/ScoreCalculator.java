@@ -165,6 +165,7 @@ public class ScoreCalculator {
         for (Player p : scoreTracker.keySet()) {
             System.out.println("Player " + (p.getName()) + " has a score of " + scoreTracker.get(p));
         }
+        System.out.println();
     }
 
 }
