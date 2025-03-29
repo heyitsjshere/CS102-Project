@@ -85,17 +85,19 @@ public class ParadeTester {
 
             // Start main gameplay for each turn
             while (playerList.getPlayer(++turn).getHandSize() == 5) { 
+                Player curPlayer = playerList.getPlayer(turn);
                 try {
-                    Player curPlayer = playerList.getPlayer(turn);
-                    round = turn/playerList.getPlayerList().size() + 1;
-                    System.out.println("\n\n==== ROUND " + round + " ====");
+                    round = turn/playerList.getNumberOfPlayers() + 1;
+                    if (turn % playerList.getNumberOfPlayers() == 0) {
+                        System.out.println("\n\n==== ROUND " + round + " ====");
+                    }
                     System.out.println("\n\n||   Turn " + (turn + 1) + "   ||   " + curPlayer.getName());
                     System.out.println("Parade: " + par.getParade() + "\u001B[31m <==\u001B[0m Card inserted here");
     
                     // Delay output for bot players
                     if (curPlayer instanceof BotPlayer){
                         System.out.println(curPlayer.getName() + " is selecting their cards...");
-                        Thread.sleep(2000);
+                        Thread.sleep(20);
                         System.out.println("Selection complete.");
                     }
     
@@ -159,6 +161,7 @@ public class ParadeTester {
                 for (Player p : playerList.getPlayerList()){
                     // pause thread during bot's term
                     System.out.println("\n\n||   Please select 2 cards to discard.   ||   " + p.getName());
+
                     if (p instanceof BotPlayer){
                         System.out.println(p.getName() + " is selecting their cards...");
                         Thread.sleep(2000);
