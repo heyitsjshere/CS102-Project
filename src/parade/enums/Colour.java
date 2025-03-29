@@ -3,13 +3,17 @@ package parade.enums;
 /**
  * Represents the different colors available in the Parade game.
  * <p>
- * Each color is associated with an ANSI escape code to enable colored text output in the console.
+ * Each color is associated with an ANSI escape code to enable colored text
+ * output in the console.
  * </p>
  *
- * <p>Example usage:</p>
+ * <p>
+ * Example usage:
+ * </p>
+ * 
  * <pre>
- *     Colour c = Colour.RED;
- *     System.out.println(c.getColorCode() + "This is red text" + "\033[0m");
+ * Colour c = Colour.RED;
+ * System.out.println(c.getColorCode() + "This is red text" + "\033[0m");
  * </pre>
  *
  * @author G3T7
