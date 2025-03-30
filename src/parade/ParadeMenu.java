@@ -7,6 +7,11 @@ public class ParadeMenu {
         // String purple = Colour.PURPLE.getColorCode();
         // String yellow = Colour.YELLOW.getColorCode();
         // System.out.println(yellow + "=== " + purple + "WELCOME " + yellow + "TO " + purple + "THE " + yellow + "PARADE " + purple + "===\u001B[0m");
+
+        // System.out.println("\033[31;48;2;218;0;32m  This is grey  \033[0m");
+        // System.out.println("\033[31;48;2;128;128;128m  This is red on grey  \033[0m");
+        
+
         System.out.println("SELECT GAME MODE:");
         System.out.println("1. Classic");
         System.out.println("2. Time Limit");

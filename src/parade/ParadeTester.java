@@ -93,7 +93,7 @@ public class ParadeTester {
                         System.out.println("\n\n==== ROUND " + round + " ====");
                     }
                     System.out.println("\n\n||   Turn " + (turn + 1) + "   ||   " + curPlayer.getName());
-                    System.out.println("Parade: " + par.getParade() + "\u001B[31m <==\u001B[0m Card inserted here");
+                    System.out.println("Parade: " + par.getParade() + "\u001B[31m <==\u001B[0m Card inserted here\n");
     
                     // Delay output for bot players
                     if (curPlayer instanceof BotPlayer){
@@ -113,7 +113,8 @@ public class ParadeTester {
                     ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
                     curPlayer.collectCard(toCollect, endGame); // endgame exception might be thrown here
                     System.out.println("Player should collect: " + toCollect);
-                    System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
+                    // System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
+                    curPlayer.printCollectedCards(false);
     
                     // Player draws a new card (throws exception if deck is empty)
                     curPlayer.addCard(d.drawCard(), endGame);
@@ -196,14 +197,7 @@ public class ParadeTester {
                     p.getName() + 
                     "\t Hand: " + p.getHand()
                 );
-                System.out.println("\t Collection: ");
-                for (Colour c : p.getCollectedCards().keySet()) {
-                    System.out.print("\t\t");
-                    for (Card card : p.getCollectedCardsWithColour(c)){
-                        System.out.print(card + " ");
-                    }
-                    System.out.println();
-                }
+                p.printCollectedCards(true);
                 System.out.println();
             }        
     
@@ -218,10 +212,16 @@ public class ParadeTester {
                 System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
             } else {
                 System.out.print("It's a TIE between Players ");
-                for (Player p : winners) {
-                    System.out.print(p.getName() + " ");
+                int size = winners.size();
+                for (int i = 0; i < size; i++) {
+                    System.out.print(winners.get(i).getName());
+                    
+                    if (i < size - 2) { // If there are more than two remaining, add a comma
+                        System.out.print(", ");
+                    } else if (i == size - 2) { // Before the last name, add "and"
+                        System.out.print(" and ");
+                    }
                 }
-                System.out.println("with " + minScore + " points!");
             }
             System.out.println();
 
@@ -232,11 +232,11 @@ public class ParadeTester {
     
             // Print all scores and tally for number of wins
             System.out.println("=== ALL SCORES ===");
-            scoreCalc.printLosers();
+            scoreCalc.printAllScores();
 
             System.out.println("=== Total WINS ===");
             for (Player p : playerList.getPlayerList()) {
-                System.out.println(p.getName() + " has " + p.getWins() + " win.");
+                System.out.println(p.getName() + " has " + p.getWins() + (p.getWins() == 1 ? " win." : " wins."));
             }
     
             // Prompt user for if they want to play again
@@ -256,15 +256,15 @@ public class ParadeTester {
         }
 
         playerList.setDeck(deck);      // Update deck reference
-        deck.resetDeck();              // Reset card order
-        playerList.dealInitialCards(); // Deal from the new deck
+        deck.resetDeck();              // Reset and shuffle deck
+        playerList.dealInitialCards(); // Deal from new deck
     }
 
     private boolean askToPlayAgain() {
         UserInput input = new UserInput();
         String playAgainChoice;
         while (true) {
-            playAgainChoice = input.getString("\n\nDo you want to play again? (y/n): ").toLowerCase();
+            playAgainChoice = input.getString("\n\nDo you want to play again? (Y/N): ").toLowerCase();
             if (playAgainChoice.equals("y") || playAgainChoice.equals("n")) break;
             System.out.println("Invalid input. Please enter 'y' for Yes or 'n' for No.");
         }
@@ -275,7 +275,7 @@ public class ParadeTester {
         UserInput input = new UserInput();
         String choice;
         while (true) {
-            choice = input.getString("Do you want to play with the same players? (y/n): ").toLowerCase();
+            choice = input.getString("Do you want to play with the same players? (Y/N): ").toLowerCase();
             if (choice.equals("y") || choice.equals("n")) break;
             System.out.println("Invalid input. Please enter 'y' for Yes or 'n' for No.");
         }

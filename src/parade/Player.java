@@ -180,6 +180,17 @@ public abstract class Player {
         }
     }
 
+    public void printCollectedCards(boolean forFinalDisplay){
+        System.out.println(forFinalDisplay ? "\t Collection: " : "Collection: ");
+            for (Colour c : collectedCards.keySet()) {
+                System.out.print(forFinalDisplay ? "\t\t" : "\t");
+                for (Card card : getCollectedCardsWithColour(c)){
+                    System.out.print(card + " ");
+                }
+                System.out.println();
+            }
+    }
+
     public void clearHand() {
         hand.clear();
     }

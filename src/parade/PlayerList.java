@@ -140,7 +140,7 @@ public class PlayerList {
             Player p = playerList.get(i);
             System.out.println("Player " + (i + 1) + ": " + p.getName());
         }
-        System.out.println("=========================\n");
+        System.out.println("========================\n");
 
         System.out.println("The game will start now.\n\n");
 
