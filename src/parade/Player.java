@@ -28,7 +28,8 @@ public abstract class Player {
     /** The player's name. */
     private String name;
 
-    private int wins;
+    /** Number of wins this player has */
+    private int wins = 0;
 
     /**
      * Constructs a player with an empty hand and collection.
@@ -205,7 +206,6 @@ public abstract class Player {
     }
 
     public void incrementWins() {
-        wins++;
+        ++wins;
     }
-
 }

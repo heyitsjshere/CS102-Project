@@ -31,7 +31,8 @@ public class PlayerList {
      * Constructs a new PlayerList and initializes players.
      * <p>
      * This constructor prompts the user for the number of human and bot players,
-     * assigns them names, shuffles the order and distributes initial hands.
+     * assigns them names, shuffles the order shuffles the order of players and distributes initial hands.
+     * There should be at least 1 human player, with a total of 2 players in each game. 
      * </p>
      *
      * @param d The deck of cards used in the game.
@@ -39,31 +40,48 @@ public class PlayerList {
     public PlayerList(Deck d) {
         UserInput input = new UserInput();
         ArrayList<Player> players = new ArrayList<>();
-
-        Scanner sc = new Scanner(System.in);
-
+        
         // Get human players
         int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d - %d): ", 1, MAX_PLAYER_NUM);
         for (int i = 0; i < numHumanPlayers; i++) {
-            String name = input.getString("Enter name: ");
+            String name;
+            while (true) {
+                name = input.getString("Enter name for Human Player " + (i + 1) + ": ");
+                boolean isDuplicate = false;
+                for (Player p : players) {
+                    if (p.getName().equalsIgnoreCase(name)) {
+                        System.out.println("This name is already taken. Please choose a different name.");
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+                if (!isDuplicate) break;
+            }
             players.add(new HumanPlayer(name));
         }
 
-        // Determine minimum number of bot players if needed
-        int minNumBots = (numHumanPlayers == 1) ? 1 : 0;
-        int numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots,
-                MAX_PLAYER_NUM - numHumanPlayers);
+        // Get bot players only if space remains
+        int numBotPlayers = 0;
+        if (numHumanPlayers == MAX_PLAYER_NUM) {
+            System.out.println("Since you have selected " + MAX_PLAYER_NUM + " human players, there is no space for bot players.");
+        } else {
+            int minNumBots = (numHumanPlayers == 1) ? 1 : 0;
+            numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots, MAX_PLAYER_NUM - numHumanPlayers);
+            for (int i = 1; i <= numBotPlayers; i++) {
+                players.add(new BotPlayer("Bot " + i));
+            }
+        }
+
 
         // Create bot players
         for (int i = 1; i < numBotPlayers + 1; i++) {
             players.add(new BotPlayer("Bot " + i));
         }
 
-        // Shuffle the order of players
-        Collections.shuffle(players);
-
         this.playerList = players;
         this.deck = d;
+
+        // Deal cards to all players in the game
         dealInitialCards();
     }
 
@@ -119,6 +137,7 @@ public class PlayerList {
         int size = playerList.size(); // Ensure index wraps around
         return playerList.get(i % size);
     }
+    /**
 
     /**
      * Displays a list of all players in the game along with their assigned numbers.
@@ -158,46 +177,8 @@ public class PlayerList {
         }
     }
 
-    // public PlayerList(Deck d, int numPlayers) {
-    // UserInput input = new UserInput();
-
-    // if (numPlayers == 0) { // If no number specified, ask the user for the number
-    // of players
-    // int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d -
-    // %d): ", 1, MAX_PLAYER_NUM);
-    // int minNumBots = 0;
-    // if (numHumanPlayers == 1) {
-    // minNumBots = 1;
-    // }
-    // int numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d):
-    // ", minNumBots,
-    // MAX_PLAYER_NUM - numHumanPlayers);
-
-    // ArrayList<Player> players = new ArrayList<>();
-
-    // for (int i = 0; i < numHumanPlayers; i++) {
-    // players.add(new HumanPlayer());
-    // }
-
-    // for (int i = 0; i < numBotPlayers; i++) {
-    // players.add(new BotPlayer());
-    // }
-
-    // this.playerList = players;
-    // } else { // If number of players is specified, create a new player list
-    // ArrayList<Player> players = new ArrayList<>();
-    // for (int i = 0; i < numPlayers; i++) {
-    // if (i % 2 == 0) {
-    // players.add(new HumanPlayer());
-    // } else {
-    // players.add(new BotPlayer());
-    // }
-    // }
-    // this.playerList = players;
-    // }
-
-    // this.deck = d;
-    // dealInitialCards();
-    // }
+    public void setDeck(Deck newDeck) {
+        this.deck = newDeck;
+    }
 
 }

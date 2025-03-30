@@ -1,8 +1,22 @@
 package parade;
 
-// import java.util.Scanner;
-
+/**
+ * Provides the main menu for starting the Parade game in different modes.
+ */
 public class ParadeMenu {
+
+    /**
+     * Default constructor.
+     */
+    public ParadeMenu() {
+        
+    }
+
+    /**
+     * Entry point for launching the Parade game.
+     *
+     * @param args command-line arguments (unused)
+     */
     public static void main(String[] args) {
         System.out.println("=== SELECT GAME MODE ===");
         System.out.println("1. Classic");
@@ -10,6 +24,9 @@ public class ParadeMenu {
         start();
     }
 
+    /**
+     * Prompts the user to select a game mode and starts the game.
+     */
     public static void start() {
         UserInput input = new UserInput();
         int choice = input.getUserInt("Enter choice: ", 1, 2);

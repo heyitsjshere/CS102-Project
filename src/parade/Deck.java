@@ -117,5 +117,4 @@ public class Deck {
         Collections.shuffle(cardsInDeck);
 
     }
-
 }
