@@ -39,6 +39,7 @@ public abstract class Player {
         this.hand = new ArrayList<>();
         this.collectedCards = new EnumMap<>(Colour.class);
         this.name = name;
+        this.wins = 0;
     }
 
     /**
