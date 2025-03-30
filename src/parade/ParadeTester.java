@@ -105,15 +105,15 @@ public class ParadeTester {
                     // Prompt player to pick a card, player chooses card
                     Card pickedCard = curPlayer.chooseCard();
                     System.out.println("Player has played: " + pickedCard);
+
+                    // Play card (add it to the parade and remove from the player's hand)
+                    par.addCard(curPlayer.playCard(pickedCard));
     
                     // Collect cards based on game rules
                     ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
-                    curPlayer.collectCard(toCollect, endGame); 
+                    curPlayer.collectCard(toCollect, endGame); // endgame exception might be thrown here
                     System.out.println("Player should collect: " + toCollect);
                     System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
-    
-                    // Play card (add it to the parade and remove from the player's hand)
-                    par.addCard(curPlayer.playCard(pickedCard));
     
                     // Player draws a new card (throws exception if deck is empty)
                     curPlayer.addCard(d.drawCard(), endGame);
@@ -131,7 +131,7 @@ public class ParadeTester {
                         // Deck is empty
                         System.out.println("Everyone else has one last turn before the game ends.");
                     } else {
-                        // Player has collected all six colors
+                        // Player has collected all 6 colors
                         System.out.println("\n\n" + curPlayer.getName() + " has collected all 6 colours!");
                         System.out.println("Everyone has one last turn before the game ends.");
                         try {

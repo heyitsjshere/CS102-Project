@@ -47,7 +47,7 @@ public class Parade {
      * @return a list of removable cards
      */
     private ArrayList<Card> getRemoveable(Card p) { // all cards that are removable, but not necessarily removed
-        int numRemovable = curParade.size() - p.getCardNum();
+        int numRemovable = curParade.size() - p.getCardNum() - 1;
         ArrayList<Card> toReturn = new ArrayList<>();
 
         if (numRemovable >= 1) { // more cards in parade than the card number
@@ -56,6 +56,9 @@ public class Parade {
         } 
         return toReturn; 
     }
+    // 0 1 2 3 | 4 5 6 (7 -> 3) 
+    // current size = 8
+    // numrem = 8-3-1
 
     /**
      * Determines which cards should be collected by the player.
