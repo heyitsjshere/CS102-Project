@@ -78,14 +78,13 @@ public class ParadeTester {
 
                     // Delay output for bot players
                     if (curPlayer instanceof BotPlayer){
-                        System.out.println(curPlayer.getName() + " is selecting their cards...");
-                        Thread.sleep(20);
+                        delayMessageWithDots(curPlayer.getName() + " is selecting their cards");
                         System.out.println("Selection complete.");
                     }
     
                     // Prompt player to pick a card, player chooses card
                     Card pickedCard = curPlayer.chooseCard();
-                    System.out.println("Player has played: " + pickedCard);
+                    System.out.println("\nPlayer has played: " + pickedCard);
 
                     // Play card (add it to the parade and remove from the player's hand)
                     par.addCard(curPlayer.playCard(pickedCard));
@@ -130,18 +129,11 @@ public class ParadeTester {
                     } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
-                } catch (InterruptedException e){
-                    // to handle exception for Thread.sleep, should not be thrown
-                }
+                } 
             }
     
             // Post-game: discard + scoring
-            System.out.println("\n\n🕑 Preparing for final collection phase...");
-            try {
-                Thread.sleep(2000); // brief pause for user experience
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            delayMessageWithDots("\n\n🕑 Preparing for final collection phase");
 
             System.out.printf("\n\n🎉 The game is over! 🎉.\n" +
                     "🃏 Time to discard and score..." +
@@ -149,29 +141,28 @@ public class ParadeTester {
                     "The remaining cards will be added to your collection.\n");
 
             try {
-                for (Player p : playerList.getPlayerList()){
+                for (Player curPlayer : playerList.getPlayerList()){
                     // pause thread during bot's term
-                    System.out.println("\n\n||   Please select 2 cards to discard.   ||   " + p.getName());
+                    System.out.println("\n\n||   Please select 2 cards to discard.   ||   " + curPlayer.getName());
 
-                    if (p instanceof BotPlayer){
-                        System.out.println(p.getName() + " is selecting their cards...");
-                        Thread.sleep(2000);
-                        System.out.print("Selection complete.");
+                    if (curPlayer instanceof BotPlayer){
+                        delayMessageWithDots(curPlayer.getName() + " is selecting their cards");
+                        System.out.println("Selection complete.");
                     }
     
                     // pick 1st card to discard
-                    Card discard1 = p.chooseCard();
-                    p.playCard(discard1); // remove card from hand
+                    Card discard1 = curPlayer.chooseCard();
+                    curPlayer.playCard(discard1); // remove card from hand
                     System.out.println();
     
                     // pick 2nd card to discard
-                    Card discard2 = p.chooseCard();
-                    p.playCard(discard2);
+                    Card discard2 = curPlayer.chooseCard();
+                    curPlayer.playCard(discard2);
                     
                     // add remaining hand cards to collection
-                    p.collectCard(p.getHand(), false);
+                    curPlayer.collectCard(curPlayer.getHand(), false);
                 }
-            } catch (EndGameException | InterruptedException e){
+            } catch (EndGameException e){
                 // just to handle exceptions, but should never be thrown in this try block
             }
     
@@ -242,7 +233,6 @@ public class ParadeTester {
             player.clearHand();
             player.clearCollectedCards();
         }
-
         playerList.setDeck(deck);      // Update deck reference
         deck.resetDeck();              // Reset and shuffle deck
         playerList.dealInitialCards(); // Deal from new deck
@@ -278,5 +268,19 @@ public class ParadeTester {
             System.out.println("Invalid input. Please enter 'y' for Yes or 'n' for No.");
         }
         return choice.equals("y");
+    }
+
+    private void delayMessageWithDots(String message) {
+        System.out.print("🕑" + message);
+        try {
+            for (int i = 0; i < 4; i++) {
+                Thread.sleep(700); // brief pause for user experience
+                System.out.print(".");  // print loading dots every 0.5s in the same line
+                System.out.flush();       // to immediately display each dot in buffer
+            }
+            System.out.println();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
