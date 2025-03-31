@@ -18,26 +18,46 @@ public class ParadeMenu {
      * @param args command-line arguments (unused)
      */
     public static void main(String[] args) {
-        System.out.println("=== SELECT GAME MODE ===");
-        System.out.println("1. Classic");
-        System.out.println("2. Time Limit");
+        clearConsole();
+        printWelcomeBanner();
         start();
     }
 
     /**
-     * Prompts the user to select a game mode and starts the game.
+     * Player will initaliate the start of a game
      */
     public static void start() {
-        UserInput input = new UserInput();
-        int choice = input.getUserInt("Enter choice: ", 1, 2);
-        System.out.println();
-        switch (choice) {
-            case 1:
-                new ParadeTester(false);
-                break;
-            case 2:
-                new ParadeTester(true);
-        }
+        new ParadeTester();
     }
 
+    public static void clearConsole() {
+        // ANSI escape code to clear screen and move cursor to top left
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public static void printWelcomeBanner() {
+        String reset = "\u001B[0m";
+        String yellow = "\u001B[33m";
+        String cyan = "\u001B[36m";
+        String purple = "\u001B[35m";
+        String green = "\u001B[32m";
+    
+        System.out.println();
+        System.out.println(yellow +
+            "                                                                                                               ,---. ");
+        System.out.println(cyan +
+            ",--.   ,--.      ,--.                               ,--.          ,------.                          ,--.       |   | ");
+        System.out.println(purple +
+            "|  |   |  |,---. |  |,---. ,---. ,--,--,--.,---.  ,-'  '-. ,---.  |  .--. ' ,--,--.,--.--.,--,--. ,-|  |,---.  |  .' ");
+        System.out.println(green +
+            "|  |.'.|  | .-. :|  | .--'| .-. ||        | .-. : '-.  .-'| .-. | |  '--' |' ,-.  ||  .--' ,-.  |' .-. | .-. : |  |  ");
+        System.out.println(yellow +
+            "|   ,'.   \\   --.|  \\ `--.' '-' '|  |  |  \\   --.   |  |  ' '-' ' |  | --' \\ '-'  ||  |  \\ '-'  |\\ `-' \\   --. `--'  ");
+        System.out.println(cyan +
+            "'--'   '--'`----'`--'`---' `---' `--`--`--'`----'   `--'   `---'  `--'      `--`--'`--'   `--`--' `---' `----' .--.  ");
+        System.out.println(purple +
+            "                                                                                                               '--'  ");
+        System.out.println(reset);
+    }
 }

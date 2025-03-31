@@ -17,12 +17,6 @@ import parade.exceptions.EndGameException;
  * @version 1.0
  */
 public class ParadeTester {
-    /**
-     * Default constructor for ParadeTester.
-     */
-    public ParadeTester() {
-        // No initialization required
-    }
 
     /**
      * The main method to test the Parade game mechanics.
@@ -40,11 +34,11 @@ public class ParadeTester {
      *
      * @param args command-line arguments (not used)
      */
-    public ParadeTester(boolean hasTimeLimit){
-        runGameLoop(hasTimeLimit);
+    public ParadeTester(){
+        runGameLoop();
     }
 
-    public void runGameLoop(boolean hasTimeLimit) {
+    public void runGameLoop() {
         boolean playMoreGames = true;
         PlayerList playerList = null;
         Deck d = null;
@@ -66,7 +60,6 @@ public class ParadeTester {
             boolean continueGame = true;
             int turn = 0;
     
-            System.out.println(hasTimeLimit ? "Time Limit round started" : "Classic round started");
     
             while (continueGame) {
                 turn++;
@@ -215,7 +208,6 @@ public class ParadeTester {
 
         playerList.setDeck(deck);     // Update deck reference
         deck.resetDeck();             // Reset card order
-        playerList.dealInitialCards(); // Deal from the new deck
     }
 
     private boolean askToPlayAgain() {

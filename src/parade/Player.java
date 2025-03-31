@@ -140,21 +140,14 @@ public abstract class Player {
      * @throws EndGameException If there are no more cards in the deck.
      */
     public void addCard(Card c, Boolean endGame) throws EndGameException {
-        if (c != null && endGame == false)
-            this.hand.add(c); // add as normal
-        if (c != null && !endGame) {
-            this.hand.add(c); // Add as normal.
-        }
-
-        if (c == null && endGame == false)
-            throw new EndGameException("There are no more cards in the deck. ");
-
-        // in end game, should not draw cards
         if (c == null && !endGame) {
             throw new EndGameException("There are no more cards in the deck.");
         }
-
-        // In endgame, players should not draw additional cards.
+    
+        // In endgame, we do not draw cards
+        if (c != null && !endGame) {
+            this.hand.add(c);
+        }
     }
 
     /**

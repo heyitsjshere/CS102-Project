@@ -70,7 +70,7 @@ public class Card {
      */
     @Override
     public String toString() {
-        return "" + this.colour + " " + this.num;
+        return this.colour.getColorCode() + this.colour + " " + this.num + "\u001B[0m";
     }
 
 }

@@ -72,14 +72,11 @@ public class PlayerList {
             }
         }
 
-
-        // Create bot players
-        for (int i = 1; i < numBotPlayers + 1; i++) {
-            players.add(new BotPlayer("Bot " + i));
-        }
-
         this.playerList = players;
         this.deck = d;
+
+        // Shuffle order of players
+        Collections.shuffle(players);
 
         // Deal cards to all players in the game
         dealInitialCards();
