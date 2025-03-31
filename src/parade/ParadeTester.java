@@ -51,7 +51,6 @@ public class ParadeTester {
             Deck d = new Deck();
             Parade par = new Parade(d);
             boolean endGame = false;
-            // boolean continueGame = true;
             int turn = -1;
             int round = 1;
     
@@ -59,7 +58,7 @@ public class ParadeTester {
             if (playerList == null || !askSamePlayers()) {
                 playerList = new PlayerList(d);   // Add players and deal initial cards
             } else { // if user wants to play with SAME players
-                resetGame(playerList, d);         // Reuses players, resets hands
+                resetGame(playerList, d);         // Reuses players, resets hands, deals cards
                 System.out.println("Continuing game with the same players...\n\n");
             }
             playerList.displayPlayerProfiles();
@@ -75,8 +74,8 @@ public class ParadeTester {
                         System.out.println("\n\n==== ROUND " + round + " ====");
                     }
                     System.out.println("\n||  " + curPlayer.getName() + "'s turn  ||");
-                    System.out.println("Parade: " + par.getParade() + "\u001B[31m <==\u001B[0m Card inserted here\n");
-    
+                    System.out.println("Parade: " + par.getParade() + "\u001B[36m <==\u001B[0m Card inserted here\n");
+
                     // Delay output for bot players
                     if (curPlayer instanceof BotPlayer){
                         System.out.println(curPlayer.getName() + " is selecting their cards...");
@@ -111,7 +110,7 @@ public class ParadeTester {
                     System.out.println(e.getMessage());
                     if (e.getMessage().toLowerCase().contains("deck")) {
                         // Deck is empty
-                        System.out.println("💫 Final round initiated... everyone else has one last turn before the game ends.\n");
+                        System.out.println("💫 Final round initiated... Everyone else has one last turn before the game ends.\n");
                     } else {
                         // Player has collected all 6 colors
                         System.out.println("\n🎨 " + curPlayer.getName() + " has collected all 6 colours!");
