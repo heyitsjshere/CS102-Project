@@ -5,31 +5,28 @@ import java.util.Random;
 /**
  * Represents a bot player in the Parade game.
  * <p>
- * This bot player automatically selects a card from its hand based on a simple
- * random selection strategy.
- * It extends the {@link Player} class and overrides the {@code chooseCard()}
- * method to make an automated move.
+ * A {@code BotPlayer} is a non-human player that makes automated moves.
+ * This bot uses a simple random selection strategy to choose cards from its hand.
+ * It inherits from the {@link Player} class and overrides the {@code chooseCard()} method.
  * </p>
  *
- * <p>
- * Example usage:
- * </p>
- * 
- * <pre>
- * BotPlayer bot = new BotPlayer("Bot1");
+ * <p><strong>Example usage:</strong></p>
+ * <pre>{@code
+ * BotPlayer bot = new BotPlayer("Bot 1");
  * Card selectedCard = bot.chooseCard();
  * System.out.println("Bot chose: " + selectedCard);
- * </pre>
+ * }</pre>
  *
  * @author G3T7
  * @version 1.0
+ * @see Player
  */
 public class BotPlayer extends Player {
 
     /**
-     * Constructs a bot player with the given name.
+     * Constructs a new {@code BotPlayer} with the specified name.
      *
-     * @param name The name of the bot player.
+     * @param name the name of the bot player
      */
     public BotPlayer(String name) {
         super(name);
@@ -38,19 +35,15 @@ public class BotPlayer extends Player {
     /**
      * Selects a random card from the bot's hand.
      * <p>
-     * This method generates a random index and picks a card from the bot's hand.
-     * If the hand is empty, it returns {@code null}.
+     * The method randomly selects an index between 0 and the hand size,
+     * and returns the card at that index.
      * </p>
      *
-     * @return the randomly selected {@link Card} from the bot's hand, or
-     *         {@code null} if the hand is empty.
+     * @return the randomly selected {@link Card} from the bot's hand
      */
     @Override
     public Card chooseCard() {
         Random random = new Random();
-        // if (this.getHand().isEmpty()) {
-        // return null; // Handle edge case where bot has no cards
-        // }
-        return this.getHand().get(random.nextInt(this.getHandSize())); // Picks a valid index (0 to size-1)
+        return this.getHand().get(random.nextInt(this.getHandSize()));
     }
 }
