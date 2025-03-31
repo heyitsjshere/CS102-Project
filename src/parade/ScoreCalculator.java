@@ -3,17 +3,26 @@ package parade;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-
 import parade.enums.Colour;
 
 /**
  * Calculates and manages the scores of players in the Parade game.
  * <p>
- * The scoring is based on the number and value of collected cards.
- * Players with the maximum number of a specific color score only the number of cards,
- * while others score based on the sum of card values.
- * </p>
+ * Scoring is determined by evaluating each player's collected cards. For each color:
+ * <ul>
+ *     <li>The player(s) with the most cards of that color only count the number of cards.</li>
+ *     <li>Other players sum the values of the cards in that color.</li>
+ *     <li>In 2-player games, the majority rule requires a margin of 2 to apply.</li>
+ * </ul>
  *
+ * <p>
+ * Example usage:
+ * <pre>
+ * ScoreCalculator sc = new ScoreCalculator(playerList);
+ * sc.printLosers();
+ * ArrayList&lt;Player&gt; winners = sc.findWinners();
+ * </pre>
+ * 
  * @author G3T7
  * @version 1.0
  */
@@ -37,7 +46,6 @@ public class ScoreCalculator {
     public ScoreCalculator(PlayerList pl){
         this.playerList = pl.getPlayerList();
         scoreTracker = new HashMap<>() {{ 
-            // Initialize score tracker with zero for all players
             for (Player p : playerList) {
                 put(p, 0);
             }
@@ -47,60 +55,56 @@ public class ScoreCalculator {
     }
 
     /**
-     * Calculates the scores for each player.
+     * Calculates scores for each player.
      * <p>
-     * The method iterates through all colors and determines which players have the most cards 
-     * of a given color. These players score based on the number of cards they hold. 
-     * Other players score based on the sum of card values.
+     * For each color:
+     * <ul>
+     *     <li>Players with the maximum count of that color receive a score equal to the number of cards.</li>
+     *     <li>All others receive the total sum of card values for that color.</li>
+     * </ul>
      * </p>
      */
     private void calculateScores(){
-        // add scores when player has max number of that colour
-        for (Colour colour : Colour.values()){ 
-            ArrayList<Player> maxPlayers = findMaxPlayers(colour); // get list of players with the maximum number of that colour
-            
+        for (Colour colour : Colour.values()) { 
+            ArrayList<Player> maxPlayers = findMaxPlayers(colour);
+
             for (Player p : playerList) {
-                int curScore = scoreTracker.get(p); // Get current score before adding
+                int currentScore = scoreTracker.get(p);
                 int toAdd = 0;
 
                 if (maxPlayers.contains(p)) {
-                    // Max players only count the number of cards, not their values
                     toAdd = p.getCollectedCards().get(colour).size();
-                } else if (p.getCollectedCardsWithColour(colour) != null) { 
-                    // Other players sum the values of the cards
+                } else if (p.getCollectedCardsWithColour(colour) != null) {
                     for (Card c : p.getCollectedCardsWithColour(colour)) {
                         toAdd += c.getCardNum();
                     }
                 }
 
-                scoreTracker.put(p, toAdd + curScore);
+                scoreTracker.put(p, currentScore + toAdd);
             }
         }
     }
 
     /**
-     * Finds the players with the highest count of a specific color.
+     * Finds the players who have the most cards of a given color.
      * <p>
-     * If multiple players share the maximum count, they all qualify.
-     * Special rules apply when there are only two players.
+     * In 3+ player games, multiple players can tie for max.
+     * In 2-player games, a majority requires a lead of 2 cards or more.
      * </p>
      *
-     * @param colour The {@link Colour} to check.
-     * @return A list of players with the most cards of the given color.
+     * @param colour The {@link Colour} to evaluate.
+     * @return A list of {@link Player}s with the most cards in the given color.
      */
     private ArrayList<Player> findMaxPlayers(Colour colour){
         ArrayList<Player> maxPlayers = new ArrayList<>();
         int maxCount = 0;
 
         for (Player p : playerList){
-            if (!p.getCollectedCards().containsKey(colour)) {
-                continue; // Skip players who do not have this color
-            }
+            if (!p.getCollectedCards().containsKey(colour)) continue;
 
             int count = p.getCollectedCards().get(colour).size();
 
-            if (playerList.size() > 2) { 
-                // Standard rule: find the player(s) with the largest count
+            if (playerList.size() > 2) {
                 if (count > maxCount) {
                     maxCount = count;
                     maxPlayers.clear();
@@ -108,15 +112,14 @@ public class ScoreCalculator {
                 } else if (count == maxCount) {
                     maxPlayers.add(p);
                 }
-            } else if (playerList.size() == 2) {
-                // Special rule: In a two-player game, majority must be at least two more
-                if (maxCount - count < 2) {
-                    maxPlayers.clear();
-                }
+            } else {
+                // Two-player logic
                 if (count > maxCount + 1) {
                     maxCount = count;
                     maxPlayers.clear();
                     maxPlayers.add(p);
+                } else if (count == maxCount + 1) {
+                    maxPlayers.clear(); // No majority
                 }
             }
         }
@@ -125,40 +128,35 @@ public class ScoreCalculator {
     }
 
     /**
-     * Finds the winner(s) of the game.
-     * <p>
-     * The winner is the player (or players) with the lowest score.
-     * </p>
+     * Finds the player(s) with the lowest total score.
      *
-     * @return A list of players who achieved the lowest score.
+     * @return A list of winning {@link Player}s.
      */
     public ArrayList<Player> findWinners(){
-
         ArrayList<Player> winners = new ArrayList<>();
-
-        int minScore = Collections.min(scoreTracker.values()); // Lowest score in the game
+        int minScore = getMinScore();
 
         for (Player p : scoreTracker.keySet()) {
             if (scoreTracker.get(p) == minScore) {
                 winners.add(p);
-            }   
+            }
         }
         return winners;
     }
 
     /**
-     * Retrieves the minimum score among all players.
+     * Retrieves the lowest score achieved by any player.
      *
-     * @return The lowest score in the game.
+     * @return The minimum score.
      */
     public int getMinScore(){
-       return Collections.min(scoreTracker.values());
+        return Collections.min(scoreTracker.values());
     }
 
     /**
-     * Prints the scores of all players.
+     * Prints out the score of each player.
      * <p>
-     * This method is used to display the final results at the end of the game.
+     * Useful for post-game summary.
      * </p>
      */
     public void printAllScores(){
@@ -167,5 +165,4 @@ public class ScoreCalculator {
         }
         System.out.println();
     }
-
 }

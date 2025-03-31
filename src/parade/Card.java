@@ -5,32 +5,37 @@ import parade.enums.Colour;
 /**
  * Represents a card in the Parade game.
  * <p>
- * Each card has a numeric value and a color, defined by the {@link Colour} enum.
- * This class provides methods to access the card's properties and a string 
- * representation of the card.
+ * Each card has a numeric value (from 0 to 10) and a color,
+ * defined by the {@link Colour} enum.
  * </p>
  *
- * <p>Example usage:</p>
- * <pre>
- *     Card card = new Card(5, Colour.RED);
- *     System.out.println(card); // Outputs: RED 5
- * </pre>
+ * <p>
+ * This class provides methods to access a card's number and color,
+ * and formats the card nicely with ANSI color codes for terminal display.
+ * </p>
+ *
+ * <p><strong>Example usage:</strong></p>
+ * <pre>{@code
+ * Card card = new Card(5, Colour.RED);
+ * System.out.println(card); // Outputs: RED 5 (in red color)
+ * }</pre>
  *
  * @author G3T7
  * @version 1.0
  */
 public class Card {
-    /** The numeric value of the card. */
+
+    /** The numeric value of the card (range: 0 to 10). */
     private int num;
 
-    /** The color of the card, represented as an enum value. */
+    /** The color of the card, represented by the {@link Colour} enum. */
     private Colour colour;
 
     /**
-     * Constructs a new card with the specified number and color.
+     * Constructs a new {@code Card} with the specified number and color.
      *
      * @param n the numeric value of the card
-     * @param c the color of the card, from the {@link Colour} enum
+     * @param c the color of the card
      */
     public Card(int n, Colour c) {
         this.num = n;
@@ -38,7 +43,7 @@ public class Card {
     }
 
     /**
-     * Retrieves the numeric value of the card.
+     * Returns the numeric value of this card.
      *
      * @return the card's number
      */
@@ -47,25 +52,25 @@ public class Card {
     }
 
     /**
-     * Retrieves the color of the card.
+     * Returns the color of this card.
      *
-     * @return the card's color as a {@link Colour}
+     * @return the card's color
      */
     public Colour getCardColour() {
         return this.colour;
     }
 
     /**
-     * Returns a string representation of the card.
+     * Returns a formatted string representation of this card.
      * <p>
-     * The format is "{Colour} {Number}", for example: "RED 5".
-     * ANSI escape codes are used for color formatting in supported terminals.
+     * The format is "{Colour} {Number}" (e.g., "BLUE 7") with the appropriate
+     * ANSI color applied for supported terminals.
      * </p>
      *
-     * @return a string describing the card's color and number
+     * @return a color-formatted string representing the card
      */
     @Override
     public String toString() {
-        return colour.getColorCode() + this.colour + " " + this.num + "\033[0m"; // Reset color after printing
+        return this.colour.getColorCode() + this.colour + " " + this.num + "\u001B[0m";
     }
 }

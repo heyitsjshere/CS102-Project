@@ -1,71 +1,54 @@
 package parade;
 
-// import parade.*;
 import java.util.ArrayList;
-import parade.enums.Colour;
 import parade.exceptions.EndGameException;
 
 /**
- * A class to test the Parade game.
+ * Simulates and manages the flow of a Parade game session.
  * <p>
- * This class initializes a deck, players, and the parade, then simulates a turn-based game.
+ * This class initializes the deck, player list, and parade, then controls
+ * the game loop — managing player turns, card play, endgame detection, 
+ * post-game scoring, and replay logic.
  * </p>
- *
+ * 
+ * <p><strong>Features:</strong></p>
+ * <ul>
+ *   <li>Handles initialization of a new game or reuse of previous players</li>
+ *   <li>Controls player turns, card play, and collection logic</li>
+ *   <li>Handles endgame conditions (deck exhaustion or all six colours collected)</li>
+ *   <li>Manages post-game discard, scoring, and win tracking</li>
+ *   <li>Prompts user to replay or restart with new players</li>
+ * </ul>
+ * 
+ * <p><strong>Example usage:</strong></p>
+ * <pre>
+ * new ParadeTester();  // Starts the game loop
+ * </pre>
+ * 
  * @author G3T7
  * @version 1.0
  */
 public class ParadeTester {
     /**
-     * Default constructor for ParadeTester.
+     * Constructs a new ParadeTester instance and starts the game loop.
      */
     public ParadeTester() {
-        // No initialization required
+        runGameLoop();
     }
 
     /**
-     * The main method to test the Parade game mechanics.
+     * Runs the main game loop.
      * <p>
-     * Initializes a deck, players, and the parade, then simulates a player's turn
-     * where they:
-     * <ul>
-     * <li>Select a card</li>
-     * <li>Identify removable and collectible cards</li>
-     * <li>Collect applicable cards</li>
-     * <li>Play their selected card</li>
-     * <li>Draw a new card</li>
-     * </ul>
-     * The method also prints the game state before and after the player's turn.
-     *
-     * @param args command-line arguments (not used)
-     */
-
-    public ParadeTester(boolean hasTimeLimit){
-        runGameLoop(hasTimeLimit);
-    }
-
-    /**
-     * Simulates the game loop.
-     * <p>
-     * Each player takes turns playing a card until the conditions for ending the game are met.
-     * Players will:
-     * <ul>
-     *     <li>Pick a card from their hand</li>
-     *     <li>Play the selected card</li>
-     *     <li>Collect applicable cards</li>
-     *     <li>Draw a new card</li>
-     * </ul>
-     * If the deck runs out or a player collects all six colors, the game enters its final round.
+     * Initializes game state, handles turn-by-turn logic, monitors for
+     * endgame triggers, performs post-game scoring, and prompts for replay.
      * </p>
      */
-
-    // Start game, run in loop so that same players can be reused
-    public void runGameLoop(boolean hasTimeLimit){
+    public void runGameLoop(){
         boolean playMoreGames = true;
         PlayerList playerList = null;
     
         do {
-            boolean reusePlayers = playerList != null && askSamePlayers(); // if (condition), true, else false
-            Deck d = new Deck();                  // Now created AFTER reuse decision
+            Deck d = new Deck();
             Parade par = new Parade(d);
             boolean endGame = false;
             // boolean continueGame = true;
@@ -73,26 +56,25 @@ public class ParadeTester {
             int round = 1;
     
             // if user wants to play with NEW players from previous round (if any)
-            if (!reusePlayers) {
+            if (playerList == null || !askSamePlayers()) {
                 playerList = new PlayerList(d);   // Add players and deal initial cards
             } else { // if user wants to play with SAME players
                 resetGame(playerList, d);         // Reuses players, resets hands
                 System.out.println("Continuing game with the same players...\n\n");
             }
             playerList.displayPlayerProfiles();
-            System.out.println(hasTimeLimit ? "Time Limit round started" : "Classic round started");
 
 
             // Start main gameplay for each turn
             while (playerList.getPlayer(++turn).getHandSize() == 5) { 
                 Player curPlayer = playerList.getPlayer(turn);
                 try {
-                    round = turn/playerList.getNumberOfPlayers() + 1;
                     // Display round number before first turn of that round
+                    round = turn/playerList.getNumberOfPlayers() + 1;
                     if (turn % playerList.getNumberOfPlayers() == 0) {
                         System.out.println("\n\n==== ROUND " + round + " ====");
                     }
-                    System.out.println("\n\n||   Turn " + (turn + 1) + "   ||   " + curPlayer.getName());
+                    System.out.println("\n||  " + curPlayer.getName() + "'s turn  ||");
                     System.out.println("Parade: " + par.getParade() + "\u001B[31m <==\u001B[0m Card inserted here\n");
     
                     // Delay output for bot players
@@ -111,9 +93,8 @@ public class ParadeTester {
     
                     // Collect cards based on game rules
                     ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
-                    curPlayer.collectCard(toCollect, endGame); // endgame exception might be thrown here
+                    curPlayer.collectCard(toCollect, endGame); // endgame exception can be thrown here
                     System.out.println("Player should collect: " + toCollect);
-                    // System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
                     curPlayer.printCollectedCards(false);
     
                     // Player draws a new card (throws exception if deck is empty)
@@ -130,11 +111,12 @@ public class ParadeTester {
                     System.out.println(e.getMessage());
                     if (e.getMessage().toLowerCase().contains("deck")) {
                         // Deck is empty
-                        System.out.println("Everyone else has one last turn before the game ends.");
+                        System.out.println("💫 Final round initiated... everyone else has one last turn before the game ends.\n");
                     } else {
                         // Player has collected all 6 colors
-                        System.out.println("\n\n" + curPlayer.getName() + " has collected all 6 colours!");
-                        System.out.println("Everyone has one last turn before the game ends.");
+                        System.out.println("\n🎨 " + curPlayer.getName() + " has collected all 6 colours!");
+                        System.out.println("💫 Final round triggered! Everyone else gets one last turn.\n");
+
                         try {
                             curPlayer.addCard(d.drawCard(), endGame); 
                         } catch (EndGameException ee) {
@@ -149,16 +131,24 @@ public class ParadeTester {
                     } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
-    
                 } catch (InterruptedException e){
                     // to handle exception for Thread.sleep, should not be thrown
                 }
             }
     
-            // After main gameplay, each player discards 2 cards from hand
-            System.out.printf("\n\nThe game is over.\n" +
-                                "Each player will now discard 2 cards.\n" + 
-                                "The remaining cards will be added to your collection.\n");
+            // Post-game: discard + scoring
+            System.out.println("\n\n🕑 Preparing for final collection phase...");
+            try {
+                Thread.sleep(2000); // brief pause for user experience
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+            System.out.printf("\n\n🎉 The game is over! 🎉.\n" +
+                    "🃏 Time to discard and score..." +
+                    "Each player will now discard 2 cards.\n" +
+                    "The remaining cards will be added to your collection.\n");
+
             try {
                 for (Player p : playerList.getPlayerList()){
                     // pause thread during bot's term
@@ -182,21 +172,15 @@ public class ParadeTester {
                     // add remaining hand cards to collection
                     p.collectCard(p.getHand(), false);
                 }
-            } catch (EndGameException e){
-                // just to handle the exception, but should never be thrown in this block
-            } catch (InterruptedException e){
-                // to handle exception for Thread.sleep, should not be thrown
+            } catch (EndGameException | InterruptedException e){
+                // just to handle exceptions, but should never be thrown in this try block
             }
     
-            System.out.println();
-            System.out.println();
+            System.out.println("\nFinal hands and collections:");
         
             // Display final hand and collection for each player
             for (Player p: playerList.getPlayerList()) {
-                System.out.println(
-                    p.getName() + 
-                    "\t Hand: " + p.getHand()
-                );
+                System.out.println(p.getName() + "\t Hand: " + p.getHand());
                 p.printCollectedCards(true);
                 System.out.println();
             }        
@@ -247,7 +231,12 @@ public class ParadeTester {
         } while (playMoreGames);
     }
 
-    
+    /**
+     * Resets the players' hands and collections and deals new cards from a new deck.
+     *
+     * @param playerList the current list of players
+     * @param deck       the new deck to draw from
+     */
     private static void resetGame(PlayerList playerList, Deck deck) {
         // Reset the player hands
         for (Player player : playerList.getPlayerList()) {
@@ -260,6 +249,11 @@ public class ParadeTester {
         playerList.dealInitialCards(); // Deal from new deck
     }
 
+    /**
+     * Prompts the user to decide whether to play another game.
+     *
+     * @return {@code true} if the player chooses to play again, {@code false} otherwise
+     */
     private boolean askToPlayAgain() {
         UserInput input = new UserInput();
         String playAgainChoice;
@@ -271,6 +265,11 @@ public class ParadeTester {
         return playAgainChoice.equals("y");
     }
     
+    /**
+     * Prompts the user to decide whether to reuse the same players.
+     *
+     * @return {@code true} if the user wants to keep the same players, {@code false} otherwise
+     */
     private boolean askSamePlayers() {
         UserInput input = new UserInput();
         String choice;

@@ -1,52 +1,49 @@
 package parade;
 
 import parade.enums.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Represents a deck of cards for the Parade game.
+ * Represents a full deck of cards used in the Parade game.
  * <p>
- * The deck consists of a fixed set of 66 cards, each having a color 
- * and a number. The deck is initialized in a shuffled order.
+ * A Parade deck contains 66 unique cards: one for each number (0–10) in all six {@link Colour}s.
+ * The deck can be shuffled, drawn from, and reset.
  * </p>
  *
- * <p>Example usage:</p>
- * <pre>
- *     Deck deck = new Deck();
- *     Card drawnCard = deck.drawCard();
- *     System.out.println("Drawn Card: " + drawnCard);
- * </pre>
+ * <p><strong>Example usage:</strong></p>
+ * <pre>{@code
+ * Deck deck = new Deck();
+ * Card drawnCard = deck.drawCard();
+ * System.out.println("Drawn Card: " + drawnCard);
+ * }</pre>
  *
  * @author G3T7
  * @version 1.0
  */
 public class Deck {
 
-    /** The list of cards currently in the deck. */
+    /** The shuffled list of cards currently in the deck. */
     private ArrayList<Card> cardsInDeck;
 
     /**
-     * A static reference deck containing all possible cards.
+     * A static reference deck containing all 66 cards (unshuffled).
      * <p>
-     * This deck consists of cards with numbers ranging from 0 to 10 
-     * for each color in the {@link Colour} enum.
+     * Includes cards numbered 0–10 for each {@link Colour}.
      * </p>
      */
-    private static final ArrayList<Card> DECK_REFERENCE = new ArrayList<Card>() {{
-        for (Colour c : Colour.values()) {  // For each color
-            for (int i = 0; i <= 10; i++) { // Cards numbered 0-10
-                add(new Card(i, c));  // Create and add the card
+    private static final ArrayList<Card> DECK_REFERENCE = new ArrayList<Card>() {
+        {
+            for (Colour c : Colour.values()) {
+                for (int i = 0; i <= 10; i++) {
+                    add(new Card(i, c));
+                }
             }
         }
-    }};
+    };
 
     /**
-     * Constructs a new shuffled deck.
-     * <p>
-     * The deck is initialized with a shuffled version of {@code DECK_REFERENCE}.
-     * </p>
+     * Constructs a new deck and shuffles it.
      */
     public Deck() {
         cardsInDeck = new ArrayList<>();
@@ -55,60 +52,51 @@ public class Deck {
     }
 
     /**
-     * Returns the reference deck containing all possible cards.
-     * <p>
-     * This method is mainly used for testing purposes.
-     * </p>
+     * Returns the unshuffled reference deck (for testing or debugging).
      *
-     * @return the reference deck as an unshuffled list of {@link Card} objects.
+     * @return the original unshuffled list of all {@link Card}s.
      */
     public ArrayList<Card> getDeckReference() {
         return DECK_REFERENCE;
     }
 
     /**
-     * Returns the current state of the deck.
-     * <p>
-     * This method provides access to the shuffled deck, primarily for testing.
-     * </p>
+     * Returns the current list of cards in the deck (shuffled).
      *
-     * @return the list of {@link Card} objects in the current deck.
+     * @return the current deck as an {@link ArrayList} of {@link Card}s.
      */
     public ArrayList<Card> getCurrentDeck() {
         return this.cardsInDeck;
     }
 
     /**
-     * Draws a card from the top of the deck.
-     * <p>
-     * Removes and returns the first card in the deck. If the deck is empty, returns {@code null}.
-     * </p>
+     * Draws and removes the top card from the deck.
      *
      * @return the drawn {@link Card}, or {@code null} if the deck is empty.
      */
     public Card drawCard() {
         if (cardsInDeck.isEmpty()) {
-            return null; // No more cards in the deck
+            return null;
         }
-        return this.cardsInDeck.removeFirst(); // Draw from the top
+        return this.cardsInDeck.removeFirst();
     }
 
     /**
      * Returns the number of cards remaining in the deck.
      *
-     * @return the number of cards left in the deck.
+     * @return the deck size.
      */
     public int getSize() {
         return cardsInDeck.size();
     }
 
+    /**
+     * Resets the deck to its full set of 66 cards and reshuffles it.
+     */
     public void resetDeck() {
-        // this.cardsInDeck = new ArrayList<Card>();
-
         this.cardsInDeck.clear();
-        cardsInDeck = new ArrayList<Card>();
-        cardsInDeck.addAll(DECK_REFERENCE);
+        this.cardsInDeck = new ArrayList<>();
+        this.cardsInDeck.addAll(DECK_REFERENCE);
         Collections.shuffle(cardsInDeck);
-
     }
 }
