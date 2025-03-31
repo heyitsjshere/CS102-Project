@@ -2,7 +2,6 @@ package parade;
 
 import parade.enums.Colour;
 import parade.exceptions.EndGameException;
-
 import java.util.ArrayList;
 import java.util.EnumMap;
 

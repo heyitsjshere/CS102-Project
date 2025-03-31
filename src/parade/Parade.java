@@ -1,7 +1,7 @@
 package parade;
 
 import java.util.ArrayList;
-import parade.enums.*;
+import parade.enums.Colour;
 
 /**
  * Manages the state of the parade in the Parade game.
