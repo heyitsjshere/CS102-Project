@@ -59,6 +59,7 @@ public class ParadeTester {
             } else {
                 d = new Deck();
                 resetGame(playerList, d);
+                playerList.dealInitialCards(); // redeal cards
                 System.out.println("Continuing game with the same players...\n\n");
             }
 
@@ -141,6 +142,8 @@ public class ParadeTester {
                     "🃏 Time to discard and score..." +
                     "Each player will now discard 2 cards.\n" +
                     "The remaining cards will be added to your collection.\n");
+
+            
     
             try {
                 for (Player p : playerList.getPlayerList()) {
@@ -158,10 +161,10 @@ public class ParadeTester {
                     Card discard2 = p.chooseCard();
                     p.playCard(discard2);
 
-                    p.collectCard(p.getHand(), false);
+                    p.collectCard(p.getHand(), true); // Prevents further EndGameExceptions
                 }
             } catch (EndGameException | InterruptedException e) {
-                e.printStackTrace();
+                e.printStackTrace(); // Kept for safety 
             }
 
             System.out.println("\nFinal hands and collections:");

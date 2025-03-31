@@ -157,7 +157,8 @@ public class PlayerList {
         System.out.println("\n==== Player Profile ====");
         for (int i = 0; i < playerList.size(); i++) {
             Player p = playerList.get(i);
-            System.out.println("Player " + (i + 1) + ": " + p.getName());
+            String icon = (p instanceof BotPlayer) ? "🤖" : "🧍";
+            System.out.println("Player " + (i + 1) + ": " + icon + " " + p.getName());
         }
         System.out.println("=========================\n");
         System.out.println("The game will start now.\n");
