@@ -96,12 +96,13 @@ public class ParadeTester {
                         curPlayer.addCard(d.drawCard(), endGame);
     
                     } catch (EndGameException e) {
-                        System.out.println(e.getMessage());
+                        System.out.println("\n🃏" + e.getMessage());
                         if (e.getMessage().toLowerCase().contains("deck")) {
-                            System.out.println("Everyone else has one last turn before the game ends.");
+                            System.out.println("💫 Final round initiated... everyone else has one last turn before the game ends.\n");
                         } else {
-                            System.out.println("\n\n" + curPlayer.getName() + " has collected all 6 colours!");
-                            System.out.println("Everyone has one last turn before the game ends.");
+                            System.out.println("\n🎨 " + curPlayer.getName() + " has collected all 6 colours!");
+                            System.out.println("💫 Final round triggered! Everyone else gets one last turn.\n");
+
                             try {
                                 curPlayer.addCard(d.drawCard(), endGame);
                             } catch (EndGameException ee) {
@@ -110,7 +111,7 @@ public class ParadeTester {
                         }
                         endGame = true;
 
-                        try {
+                        try { // Add delay after message
                             Thread.sleep(2000);
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();
@@ -129,7 +130,15 @@ public class ParadeTester {
             }
 
             // Post-game: discard + scoring
-            System.out.printf("\n\nThe game is over.\n" +
+            System.out.println("\n\n🕑 Preparing for final collection phase...");
+            try {
+                Thread.sleep(2000); // brief pause for user experience
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+            System.out.printf("\n\n🎉 The game is over! 🎉.\n" +
+                    "🃏 Time to discard and score..." +
                     "Each player will now discard 2 cards.\n" +
                     "The remaining cards will be added to your collection.\n");
     
