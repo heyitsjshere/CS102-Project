@@ -1,75 +1,85 @@
 package parade;
 
 /**
- * Provides the main menu and entry point for starting the Parade game.
+ * Provides the main entry point and setup interface for launching the Parade game.
  * <p>
- * This class is responsible for displaying a welcome banner, clearing the console,
- * and initializing the game by launching the {@link ParadeTester}.
- * </p>
- *
- * <p><strong>Features:</strong></p>
+ * This class is responsible for:
  * <ul>
- *   <li>Clears the terminal screen using ANSI escape codes</li>
- *   <li>Displays a colorful ASCII welcome banner</li>
- *   <li>Starts the Parade game</li>
+ *   <li>Clearing the terminal for a clean interface</li>
+ *   <li>Displaying a colorful ASCII-art banner to welcome players</li>
+ *   <li>Printing a short intro message with a delay for better user experience</li>
+ *   <li>Starting the game by invoking {@link ParadeTester}</li>
  * </ul>
  *
- * <p><strong>Example usage:</strong></p>
+ * <p>
+ * Example usage:
+ * </p>
+ *
  * <pre>
  * java parade.ParadeMenu
  * </pre>
  *
  * @author G3T7
- * @version 1.0
+ * @version 1.1
  */
 public class ParadeMenu {
 
     /**
-     * Default constructor for ParadeMenu.
+     * Default constructor.
      */
-    public ParadeMenu() {}
+    public ParadeMenu() {
+        // No initialization needed
+    }
 
     /**
-     * Entry point for launching the Parade game.
+     * Main method: Entry point for launching the Parade game.
      * <p>
-     * Clears the console, prints a welcome banner, and starts the game.
+     * Clears the terminal, shows a welcome banner, prints a short intro,
+     * and initiates the game setup process via {@code start()}.
      * </p>
      *
-     * @param args command-line arguments (unused)
+     * @param args Command-line arguments (not used)
      */
     public static void main(String[] args) {
         clearConsole();
         printWelcomeBanner();
+
+        System.out.println("\n✨ Prepare your top hats and marching shoes...");
+        System.out.println("🎭 The Parade is about to begin!\n");
+
+        try {
+            Thread.sleep(2000); // Pause for dramatic effect
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         start();
     }
 
     /**
-     * Starts the Parade game in classic mode.
-     * <p>
-     * This method creates a new {@link ParadeTester} instance to begin gameplay.
-     * </p>
+     * Starts the Parade game by launching the main game loop in {@link ParadeTester}.
      */
     public static void start() {
         new ParadeTester();
     }
 
     /**
-     * Clears the terminal screen using ANSI escape codes.
+     * Clears the console using ANSI escape codes.
      * <p>
-     * Works on most Unix-based terminals. May not work on Windows Command Prompt
-     * unless ANSI support is enabled.
+     * Moves the cursor to the top left and clears all text.
+     * Works in most Unix-based terminals and supported IDEs.
      * </p>
      */
     public static void clearConsole() {
-        // ANSI escape code to clear screen and move cursor to top left
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
     /**
-     * Prints a large, colorful ASCII banner for the Parade game.
+     * Prints a colorful ASCII-art banner to welcome players to the Parade game.
      * <p>
-     * Uses ANSI escape codes to color each line of the welcome message.
+     * Uses ANSI escape codes to apply color to each line of the banner.
+     * The message is styled for visual appeal and thematically matches the game.
      * </p>
      */
     public static void printWelcomeBanner() {
