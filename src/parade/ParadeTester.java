@@ -206,7 +206,7 @@ public class ParadeTester {
             ArrayList<Player> winners = scoreCalc.findWinners();
             int minScore = scoreCalc.getMinScore();
     
-            // Print winner(s))
+            // Print winner(s)
             System.out.println("\n=== WINNNER(s) ===");
             if (winners.size() == 1) {
                 System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
