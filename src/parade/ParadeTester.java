@@ -122,23 +122,15 @@ public class ParadeTester {
                         }
                     }
                     endGame = true;
-    
-                    // Delay before post-game steps
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
                 } 
             }
     
             // Post-game: discard + scoring
-            delayMessageWithDots("\n\n🕑 Preparing for final collection phase");
-
-            System.out.printf("\n\n🎉 The game is over! 🎉.\n" +
-                    "🃏 Time to discard and score..." +
-                    "Each player will now discard 2 cards.\n" +
-                    "The remaining cards will be added to your collection.\n");
+            System.out.printf("\n\n🎉 The game is over! 🎉\n" +
+            "🃏 It's time to discard and score!" +
+            "\n Each player will discard 2 cards.\n" +
+            "The remaining cards will be added to your collection.\n\n");
+            delayMessageWithDots("\n\n🕑 Now preparing for final collection phase");
 
             try {
                 for (Player curPlayer : playerList.getPlayerList()){
@@ -181,33 +173,15 @@ public class ParadeTester {
             int minScore = scoreCalc.getMinScore();
     
             // Print winner(s)
-            System.out.println("\n=== WINNNER(s) ===");
-            if (winners.size() == 1) {
-                System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
-            } else {
-                System.out.print("It's a TIE between Players ");
-                int size = winners.size();
-                for (int i = 0; i < size; i++) {
-                    System.out.print(winners.get(i).getName());
-                    
-                    if (i < size - 2) { // If there are more than two remaining, add a comma
-                        System.out.print(", ");
-                    } else if (i == size - 2) { // Before the last name, add "and"
-                        System.out.print(" and ");
-                    }
-                }
-            }
-            System.out.println();
-
+            scoreCalc.printWinners(winners, minScore);
+            // Print all scores
+            scoreCalc.printAllScores();
+            
             // Add to tally of number of games won for each player
             for (Player p : winners) {
                 p.incrementWins();
             }
-    
-            // Print all scores and tally for number of wins
-            System.out.println("=== ALL SCORES ===");
-            scoreCalc.printAllScores();
-
+            // Print tally for number of wins
             System.out.println("=== Total WINS ===");
             for (Player p : playerList.getPlayerList()) {
                 System.out.println(p.getName() + " has " + p.getWins() + (p.getWins() == 1 ? " win." : " wins."));

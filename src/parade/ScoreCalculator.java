@@ -144,6 +144,26 @@ public class ScoreCalculator {
         return winners;
     }
 
+    public void printWinners(ArrayList<Player> winners, int minScore) {
+        System.out.println("\n=== WINNNER(s) ===");
+        if (winners.size() == 1) {
+            System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
+        } else {
+            System.out.print("It's a TIE between Players ");
+            int size = winners.size();
+            for (int i = 0; i < size; i++) {
+                System.out.print(winners.get(i).getName());
+                
+                if (i < size - 2) { // If there are more than two remaining, add a comma
+                    System.out.print(", ");
+                } else if (i == size - 2) { // Before the last name, add "and"
+                    System.out.print(" and ");
+                }
+            }
+        }
+        System.out.println();
+    }
+
     /**
      * Retrieves the lowest score achieved by any player.
      *
@@ -160,6 +180,7 @@ public class ScoreCalculator {
      * </p>
      */
     public void printAllScores(){
+        System.out.println("=== ALL SCORES ===");
         for (Player p : scoreTracker.keySet()) {
             System.out.println(p.getName() + " has a score of " + scoreTracker.get(p) + ".");
         }
