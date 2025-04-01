@@ -159,8 +159,9 @@ public class PlayerList {
             String icon = (p instanceof BotPlayer) ? "🤖" : "🧍";
             System.out.println("Player " + (i + 1) + ": " + icon + " " + p.getName());
         }
-        System.out.println("=========================\n");
-        System.out.println("The game will start now.\n");
+        System.out.println("========================\n");
+
+        System.out.println("The game will start now.\n\n");
 
         try {
             Thread.sleep(2000); // Pause for 2 seconds

@@ -159,9 +159,10 @@ public class ScoreCalculator {
      * Useful for post-game summary.
      * </p>
      */
-    public void printLosers(){
+    public void printAllScores(){
         for (Player p : scoreTracker.keySet()) {
-            System.out.println("Player " + p.getName() + " has a score of " + scoreTracker.get(p));
+            System.out.println(p.getName() + " has a score of " + scoreTracker.get(p) + ".");
         }
+        System.out.println();
     }
 }

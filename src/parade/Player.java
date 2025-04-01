@@ -79,7 +79,7 @@ public abstract class Player {
     }
 
     /**
-     * Retrieves the cards collected by the player, grouped by color.
+     * Retrieves the cards the player has collected during the game.
      *
      * @return A map of {@link Colour} to a list of {@link Card}s.
      */
@@ -182,6 +182,17 @@ public abstract class Player {
         if (!endGame && collectedCards.size() == 6) {
             throw new EndGameException(this.name + " has collected all 6 colors!");
         }
+    }
+
+    public void printCollectedCards(boolean forFinalDisplay){
+        System.out.println(forFinalDisplay ? "\t Collection: " : "Collection: ");
+            for (Colour c : collectedCards.keySet()) {
+                System.out.print(forFinalDisplay ? "\t\t" : "\t");
+                for (Card card : getCollectedCardsWithColour(c)){
+                    System.out.print(card + " ");
+                }
+                System.out.println();
+            }
     }
 
     /**
