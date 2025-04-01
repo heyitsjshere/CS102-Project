@@ -1,1 +1,1 @@
-javac -d "classes" -cp "src" src/parade/ParadeMenu.java 
+javac -d "classes" -cp "src" src/parade/GameDisplay.java 

@@ -4,6 +4,24 @@ import java.util.ArrayList;
 
 import parade.exceptions.EndGameException;
 
+/**
+ * Manages a single full session of the Parade game.
+ * <p>
+ * This class handles the lifecycle of a single game round including:
+ * <ul>
+ *   <li>Initial card dealing</li>
+ *   <li>Turn-by-turn game logic</li>
+ *   <li>Endgame condition checks</li>
+ *   <li>Final discard and scoring</li>
+ *   <li>Displaying player results</li>
+ * </ul>
+ * 
+ * <p>It integrates deck usage, parade updates, and player interactions, including
+ * both human and bot players.</p>
+ * 
+ * @author G3T7
+ * @version 1.0
+ */
 public class SingleGame {
     private Parade par;
     private Deck d; 
@@ -14,6 +32,11 @@ public class SingleGame {
     /** Number of cards each player starts with. */
     private static final int INITIAL_HAND_SIZE = 5;
 
+    /**
+     * Constructs a new {@code SingleGame} session and deals initial cards to all players.
+     *
+     * @param playerList The list of players participating in this game session.
+     */
     public SingleGame(PlayerList playerList){
         this.d = new Deck();
         this.par = new Parade(d);
@@ -25,6 +48,14 @@ public class SingleGame {
         // startGame();
     }
 
+
+    /**
+     * Deals the initial set of cards to each player.
+     * <p>
+     * Each player receives {@code INITIAL_HAND_SIZE} cards drawn from the deck.
+     * Terminates the program if the deck runs out too early.
+     * </p>
+     */
     private void dealInitialCards() {
         for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
             for (Player p : playerList.getPlayerList()) {
@@ -38,10 +69,31 @@ public class SingleGame {
         }
     }
 
+    /**
+     * Calculates the current round number based on the number of turns taken.
+     *
+     * @return The current round number.
+     */
     private int getRound(){
         return turn/playerList.getNumberOfPlayers() + 1;
     }
 
+
+    /**
+     * Executes the full game loop for a single session.
+     * <p>
+     * This method handles:
+     * <ul>
+     *   <li>Player turns and card selection</li>
+     *   <li>Adding cards to the parade</li>
+     *   <li>Collecting based on game rules</li>
+     *   <li>Drawing new cards</li>
+     *   <li>Handling endgame triggers</li>
+     *   <li>Final discard and scoring phase</li>
+     * </ul>
+     *
+     * @return The list of {@link Player}s who won this game session.
+     */
     public ArrayList<Player> run() {
         while (playerList.getPlayer(turn).getHandSize() == 5) { 
                 Player curPlayer = playerList.getPlayer(turn);
@@ -59,7 +111,7 @@ public class SingleGame {
                     
                     // Delay output for bot players
                     if (curPlayer instanceof BotPlayer){
-                        ParadeTester.delayMessageWithDots(curPlayer.getName() + " is selecting their cards");
+                        Game.delayMessageWithDots(curPlayer.getName() + " is selecting their cards");
                         System.out.println("Selection complete.");
                     }
     
@@ -94,7 +146,8 @@ public class SingleGame {
                     System.out.println(e.getMessage());
                     if (e.getMessage().toLowerCase().contains("deck")) {
                         // Deck is empty
-                        System.out.println("💫 Final round initiated... Everyone else has one last turn before the game ends.\n");
+                        System.out.println("💫 Final round initiated...\n");
+                        Game.delayMessage("Everyone else has one last turn before the game ends.\n");
                     } else {
                         // Player has collected all 6 colors
                         System.out.println("\n🎨 " + curPlayer.getName() + " has collected all 6 colours!");
@@ -114,10 +167,10 @@ public class SingleGame {
 
             // Post-game: discard + scoring
             System.out.printf("\n\n🎉 The game is over! 🎉\n" +
-            "🃏 It's time to discard and score!" +
-            "\n Each player will discard 2 cards.\n" +
+            "🃏 It's time to discard and score!\n" +
+            "Each player will discard 2 cards.\n" +
             "The remaining cards will be added to your collection.\n\n");
-            ParadeTester.delayMessageWithDots("\n\n🕑 Now preparing the for final collection phase");
+            Game.delayMessageWithDots("\n\n🕑 Now preparing the for final collection phase");
 
             try {
                 for (Player curPlayer : playerList.getPlayerList()){
@@ -125,7 +178,7 @@ public class SingleGame {
                     System.out.println("\n\n||   Please select 2 cards to discard.   ||   " + curPlayer.getName());
 
                     if (curPlayer instanceof BotPlayer){
-                        ParadeTester.delayMessageWithDots(curPlayer.getName() + " is selecting their cards");
+                        Game.delayMessageWithDots(curPlayer.getName() + " is selecting their cards");
                         System.out.println("Selection complete.");
                     }
     
@@ -148,7 +201,11 @@ public class SingleGame {
 
         // Display final hand and collection for each player
         for (Player p: playerList.getPlayerList()) {
-            System.out.println(p.getName() + "\t Hand: " + p.getHand());
+            System.out.print(p.getName() + "\nHand      : "); // to align with collection
+            for (Card c : p.getHand()) {
+                System.out.print(c + " ");
+            }
+            System.out.println();
             p.printCollectedCards(true);
             System.out.println();
         }        
@@ -161,12 +218,6 @@ public class SingleGame {
         // Print all scores
         scoreCalc.printAllScores();
 
-
         return winners;
-
-
-
-
-        
     }
 }

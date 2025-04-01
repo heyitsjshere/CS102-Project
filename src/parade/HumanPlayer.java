@@ -34,8 +34,8 @@ public class HumanPlayer extends Player {
     /**
      * Prompts the player to select a card from their hand.
      * <p>
-     * Displays a numbered list of options and retrieves a valid selection
-     * from the user.
+     * Displays a numbered list of card options in the console and retrieves a valid selection
+     * from the user based on numeric input.
      * </p>
      *
      * @return the {@link Card} selected by the player

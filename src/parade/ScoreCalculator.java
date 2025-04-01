@@ -144,6 +144,12 @@ public class ScoreCalculator {
         return winners;
     }
 
+    /**
+     * Prints the winner(s) of the game based on the lowest score.
+     * <p>
+     * In case of a tie, all tied players are displayed.
+     * </p>
+     */
     public void printWinners() {
         ArrayList<Player> winners = findWinners();
         int minScore = getMinScore();

@@ -1,38 +1,37 @@
 package parade;
 
 import java.util.ArrayList;
-import parade.exceptions.EndGameException;
 
 /**
- * Simulates and manages the flow of a Parade game session.
+ * Controls the overall Parade game loop and session management.
  * <p>
- * This class initializes the deck, player list, and parade, then controls
- * the game loop — managing player turns, card play, endgame detection, 
- * post-game scoring, and replay logic.
+ * The {@code Game} class handles the entire flow of a Parade session —
+ * from player initialization to turn management, endgame logic,
+ * scoring, and replay handling.
  * </p>
  * 
- * <p><strong>Features:</strong></p>
+ * <p><strong>Main Responsibilities:</strong></p>
  * <ul>
- *   <li>Handles initialization of a new game or reuse of previous players</li>
- *   <li>Controls player turns, card play, and collection logic</li>
- *   <li>Handles endgame conditions (deck exhaustion or all six colours collected)</li>
- *   <li>Manages post-game discard, scoring, and win tracking</li>
- *   <li>Prompts user to replay or restart with new players</li>
+ *   <li>Handles setup and reuse of players</li>
+ *   <li>Manages full-game progression across multiple rounds</li>
+ *   <li>Detects endgame conditions (deck exhausted or 6 colors collected)</li>
+ *   <li>Triggers scoring and displays winners</li>
+ *   <li>Supports replaying with same or new players</li>
  * </ul>
  * 
  * <p><strong>Example usage:</strong></p>
- * <pre>
- * new ParadeTester();  // Starts the game loop
- * </pre>
+ * <pre>{@code
+ * new Game(); // Starts the Parade game loop
+ * }</pre>
  * 
  * @author G3T7
- * @version 1.0
+ * @version 1.1
  */
-public class ParadeTester {
+public class Game {
     /**
      * Constructs a new ParadeTester instance and starts the game loop.
      */
-    public ParadeTester() {
+    public Game() {
         runGameLoop();
     }
 
@@ -46,7 +45,6 @@ public class ParadeTester {
     public void runGameLoop(){
         boolean playMoreGames = true;
         PlayerList playerList = null;
-        Deck d = null;
     
         do {
 
@@ -56,7 +54,7 @@ public class ParadeTester {
                 playerList = new PlayerList();   // Add players and deal initial cards
             } else { // if user wants to play with SAME players
                 resetGame(playerList);         // Reuses players, resets hands, deals cards
-                System.out.println("Continuing game with the same players...\n\n");
+                delayMessageWithDots("Continuing game with the same players");
             }
     
             playerList.displayPlayerProfiles();
@@ -65,13 +63,8 @@ public class ParadeTester {
             SingleGame game = new SingleGame(playerList);
             ArrayList<Player> winners = game.run();
 
-            System.out.println("\nFinal hands and collections:");
-        
-
-    
-            // Calculate final scores
-
-            
+            System.out.println("\nFinal hands and collections:");    
+      
             // Add to tally of number of games won for each player
             for (Player p : winners) {
                 p.incrementWins();
@@ -102,9 +95,6 @@ public class ParadeTester {
             player.clearHand();
             player.clearCollectedCards();
         }
-        // playerList.setDeck(deck);      // Update deck reference
-        // deck.resetDeck();              // Reset and shuffle deck
-        // playerList.dealInitialCards(); // Deal from new deck
     }
 
     /**
@@ -138,16 +128,43 @@ public class ParadeTester {
         }
         return choice.equals("y");
     }
-
+    
+    /**
+     * Prints a message to the console and pauses for 2 seconds.
+     * <p>
+     * This method is used to introduce a brief delay after displaying important messages
+     * for better pacing and readability during gameplay.
+     * </p>
+     *
+     * @param message The message to display before pausing.
+     */
+    public static void delayMessage(String message) {
+        System.out.println(message);
+        try {
+            Thread.sleep(2000); // default pause
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+    
+    /**
+     * Prints a message followed by three animated dots with delays between each dot.
+     * <p>
+     * This method is used to simulate a "loading" or "thinking" animation,
+     * typically when a bot is making a decision or the game is transitioning.
+     * </p>
+     *
+     * @param message The message to display before the animated dots.
+     */
     public static void delayMessageWithDots(String message) {
         System.out.print(message);
         try {
-            for (int i = 0; i < 4; i++) {
-                Thread.sleep(700); // brief pause for user experience
-                System.out.print(".");  // print loading dots every 0.5s in the same line
-                System.out.flush();       // to immediately display each dot in buffer
+            for (int i = 0; i < 3; i++) {
+                Thread.sleep(700); // fixed delay between each dot
+                System.out.print(".");
+                System.out.flush();
             }
-            System.out.println();
+            System.out.println(); // new line after dots
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

@@ -1,33 +1,30 @@
 package parade;
 
 /**
- * Provides the main entry point and setup interface for launching the Parade game.
+ * Provides the main entry point and user interface for launching the Parade game.
  * <p>
  * This class is responsible for:
  * <ul>
  *   <li>Clearing the terminal for a clean interface</li>
  *   <li>Displaying a colorful ASCII-art banner to welcome players</li>
- *   <li>Printing a short intro message with a delay for better user experience</li>
- *   <li>Starting the game by invoking {@link ParadeTester}</li>
+ *   <li>Printing a short intro message with animated delays for better user experience</li>
+ *   <li>Starting the game by invoking the {@link Game} logic</li>
  * </ul>
  *
- * <p>
- * Example usage:
- * </p>
- *
+ * <p><strong>Usage:</strong></p>
  * <pre>
- * java parade.ParadeMenu
+ * java parade.GameDisplay
  * </pre>
- *
+ * 
  * @author G3T7
  * @version 1.1
  */
-public class ParadeMenu {
+public class GameDisplay {
 
     /**
      * Default constructor.
      */
-    public ParadeMenu() {
+    public GameDisplay() {
         // No initialization needed
     }
 
@@ -45,23 +42,17 @@ public class ParadeMenu {
         printWelcomeBanner();
 
         // System.out.println("\n✨ Prepare your top hats and marching shoes...");
-        ParadeTester.delayMessageWithDots("\n✨ Prepare your top hats and marching shoes");
-        System.out.println("🎭 The Parade is about to begin!\n");
-
-        try {
-            Thread.sleep(2000); // Pause for dramatic effect
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        Game.delayMessageWithDots("\n✨ Prepare your top hats and marching shoes");
+        Game.delayMessage("🎭 The Parade is about to begin!\n");
 
         start();
     }
 
     /**
-     * Starts the Parade game by launching the main game loop in {@link ParadeTester}.
+     * Starts the Parade game by launching the main game loop in {@link Game}.
      */
     public static void start() {
-        new ParadeTester();
+        new Game();
     }
 
     /**
