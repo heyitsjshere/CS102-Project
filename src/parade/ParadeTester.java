@@ -39,95 +39,106 @@ public class ParadeTester {
     /**
      * Runs the main game loop.
      * <p>
-     * Initializes game state, handles turn-by-turn logic, monitors for
-     * endgame triggers, performs post-game scoring, and prompts for replay.
-     * </p>
+     * Initializes a deck, players, and the parade, then simulates a player's turn
+     * where they:
+     * <ul>
+     * <li>Select a card</li>
+     * <li>Identify removable and collectible cards</li>
+     * <li>Collect applicable cards</li>
+     * <li>Play their selected card</li>
+     * <li>Draw a new card</li>
+     * </ul>
+     * The method also prints the game state before and after the player's turn.
+     *
+     * @param args command-line arguments (not used)
      */
-    public void runGameLoop(){
+    public ParadeTester(boolean hasTimeLimit){
+        runGameLoop(hasTimeLimit);
+    }
+
+    public void runGameLoop(boolean hasTimeLimit) {
         boolean playMoreGames = true;
         PlayerList playerList = null;
+        Deck d = null;
     
-        do {
-            Deck d = new Deck();
+        while (playMoreGames) {
+            d = new Deck();
             Parade par = new Parade(d);
-            boolean endGame = false;
-            int turn = 0;
-            int round = 1;
     
-            // if user wants to play with NEW players from previous round (if any)
             if (playerList == null || !askSamePlayers()) {
-                playerList = new PlayerList(d);   // Add players and deal initial cards
-            } else { // if user wants to play with SAME players
-                resetGame(playerList, d);         // Reuses players, resets hands, deals cards
+                playerList = new PlayerList(d);
+            } else {
+                d = new Deck(); // reset deck size before restarting game
+                resetGame(playerList, d);
                 System.out.println("Continuing game with the same players...\n\n");
             }
+    
             playerList.displayPlayerProfiles();
-
-
-            // Start main gameplay for each turn
-            while (playerList.getPlayer(turn).getHandSize() == 5) { 
-                Player curPlayer = playerList.getPlayer(turn);
-                try {
-                    // Display round number before first turn of that round
-                    round = turn/playerList.getNumberOfPlayers() + 1;
-                    if (turn++ % playerList.getNumberOfPlayers() == 0) {
-                        System.out.println("\n\n==== ROUND " + round + " ====");
-                    }
-                    System.out.println("\n||  " + curPlayer.getName() + "'s turn  ||");
-                    System.out.println("Parade: " + par.getParade() + "\u001B[36m <==\u001B[0m Card inserted here\n");
-
-                    // Delay output for bot players
-                    if (curPlayer instanceof BotPlayer){
-                        delayMessageWithDots(curPlayer.getName() + " is selecting their cards");
-                        System.out.println("Selection complete.");
-                    }
+            boolean endGame = false;
+            boolean continueGame = true;
+            int turn = 0;
     
-                    // Prompt player to pick a card, player chooses card
-                    Card pickedCard = curPlayer.chooseCard();
-                    System.out.println("\nPlayer has played: " + pickedCard);
-
-                    // Play card (add it to the parade and remove from the player's hand)
-                    par.addCard(curPlayer.playCard(pickedCard));
+            System.out.println(hasTimeLimit ? "Time Limit round started" : "Classic round started");
     
-                    // Collect cards based on game rules
-                    ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
-                    curPlayer.collectCard(toCollect, endGame); // endgame exception can be thrown here
-
-                    if (toCollect.isEmpty()) { // should show explicitly if no cards are to be collected
-                        System.out.println("Player should collect: [\u001B[3mNone\u001B[0m]"); // italic
-                    } else {
-                        System.out.println("Player should collect: " + toCollect);
-                    }
-                    curPlayer.printCollectedCards(false);
+            while (continueGame) {
+                turn++;
+                System.out.println("\n\n==== ROUND " + turn + " ====");
     
-                    // Player draws a new card (throws exception if deck is empty)
-                    curPlayer.addCard(d.drawCard(), endGame);
+                for (int i = 0; i < playerList.getNumberOfPlayers(); i++) {
+                    Player curPlayer = playerList.getPlayer(i);
+                    try {
+                        System.out.println("\n||  " + curPlayer.getName() + "'s turn  ||");
+                        System.out.println("Parade: " + par.getParade()  + "\u001B[31m<==\u001B[0m Card inserted here");
     
-                } catch (EndGameException e) {
-                    /**
-                     * Handles endgame conditions.
-                     * <p>
-                     * If the deck runs out or a player collects all six colors, the game enters its final phase,
-                     * where each remaining player gets one last turn.
-                     * </p>
-                     */
-                    System.out.println(e.getMessage());
-                    if (e.getMessage().toLowerCase().contains("deck")) {
-                        // Deck is empty
-                        System.out.println("💫 Final round initiated... Everyone else has one last turn before the game ends.\n");
-                    } else {
-                        // Player has collected all 6 colors
-                        System.out.println("\n🎨 " + curPlayer.getName() + " has collected all 6 colours!");
-                        System.out.println("💫 Final round triggered! Everyone else gets one last turn.\n");
-
-                        try {
-                            curPlayer.addCard(d.drawCard(), endGame); 
-                        } catch (EndGameException ee) {
-                            System.out.println(ee.getMessage()); 
+                        if (curPlayer instanceof BotPlayer) {
+                            System.out.println(curPlayer.getName() + " is selecting their cards...");
+                            Thread.sleep(2000);
+                            System.out.println("Selection complete.");
                         }
+    
+                        Card pickedCard = curPlayer.chooseCard();
+                        System.out.println("Player has played: " + pickedCard);
+    
+                        ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
+                        curPlayer.collectCard(toCollect, endGame);
+    
+                        System.out.println("Player should collect: " + toCollect);
+                        System.out.println("Player's Collection: " + curPlayer.getCollectedCards());
+    
+                        par.addCard(curPlayer.playCard(pickedCard));
+                        curPlayer.addCard(d.drawCard(), endGame);
+    
+                    } catch (EndGameException e) {
+                        System.out.println(e.getMessage());
+                        if (e.getMessage().toLowerCase().contains("deck")) {
+                            System.out.println("Everyone else has one last turn before the game ends.");
+                        } else {
+                            System.out.println("\n\n" + curPlayer.getName() + " has collected all 6 colours!");
+                            System.out.println("Everyone has one last turn before the game ends.");
+                            try {
+                                curPlayer.addCard(d.drawCard(), endGame);
+                            } catch (EndGameException ee) {
+                                System.out.println(ee.getMessage());
+                            }
+                        }
+                        endGame = true;
+    
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException ex) {
+                            Thread.currentThread().interrupt();
+                        }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                     }
-                    endGame = true;
-                } 
+                }
+    
+                for (int i = 0; i < playerList.getNumberOfPlayers(); i++) {
+                    if (playerList.getPlayer(i).getHandSize() != 5) {
+                        continueGame = false;
+                        break;
+                    }
+                }
             }
     
             // Post-game: discard + scoring
