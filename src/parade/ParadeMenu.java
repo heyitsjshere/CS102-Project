@@ -1,48 +1,111 @@
 package parade;
 
 /**
- * Provides the main menu for starting the Parade game in different modes.
+ * Provides the main entry point and setup interface for launching the Parade game.
+ * <p>
+ * This class is responsible for:
+ * <ul>
+ *   <li>Clearing the terminal for a clean interface</li>
+ *   <li>Displaying a colorful ASCII-art banner to welcome players</li>
+ *   <li>Printing a short intro message with a delay for better user experience</li>
+ *   <li>Starting the game by invoking {@link ParadeTester}</li>
+ * </ul>
+ *
+ * <p>
+ * Example usage:
+ * </p>
+ *
+ * <pre>
+ * java parade.ParadeMenu
+ * </pre>
+ *
+ * @author G3T7
+ * @version 1.1
  */
-import parade.enums.Colour;
-
 public class ParadeMenu {
 
     /**
      * Default constructor.
      */
     public ParadeMenu() {
-        
+        // No initialization needed
     }
 
     /**
-     * Entry point for launching the Parade game.
+     * Main method: Entry point for launching the Parade game.
+     * <p>
+     * Clears the terminal, shows a welcome banner, prints a short intro,
+     * and initiates the game setup process via {@code start()}.
+     * </p>
      *
-     * @param args command-line arguments (unused)
+     * @param args Command-line arguments (not used)
      */
     public static void main(String[] args) {
-        // String purple = Colour.PURPLE.getColorCode();
-        // String yellow = Colour.YELLOW.getColorCode();
-        // System.out.println(yellow + "=== " + purple + "WELCOME " + yellow + "TO " + purple + "THE " + yellow + "PARADE " + purple + "===\u001B[0m");
-        System.out.println("SELECT GAME MODE:");
-        System.out.println("1. Classic");
-        System.out.println("2. Time Limit");
+        clearConsole();
+        printWelcomeBanner();
+
+        // System.out.println("\n✨ Prepare your top hats and marching shoes...");
+        ParadeTester.delayMessageWithDots("\n✨ Prepare your top hats and marching shoes");
+        System.out.println("🎭 The Parade is about to begin!\n");
+
+        try {
+            Thread.sleep(2000); // Pause for dramatic effect
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         start();
     }
 
     /**
-     * Prompts the user to select a game mode and starts the game.
+     * Starts the Parade game by launching the main game loop in {@link ParadeTester}.
      */
     public static void start() {
-        UserInput input = new UserInput();
-        int choice = input.getUserInt("Enter choice: ", 1, 2);
-        System.out.println();
-        switch (choice) {
-            case 1:
-                new ParadeTester(false);
-                break;
-            case 2:
-                new ParadeTester(true);
-        }
+        new ParadeTester();
     }
 
+    /**
+     * Clears the console using ANSI escape codes.
+     * <p>
+     * Moves the cursor to the top left and clears all text.
+     * Works in most Unix-based terminals and supported IDEs.
+     * </p>
+     */
+    public static void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    /**
+     * Prints a colorful ASCII-art banner to welcome players to the Parade game.
+     * <p>
+     * Uses ANSI escape codes to apply color to each line of the banner.
+     * The message is styled for visual appeal and thematically matches the game.
+     * </p>
+     */
+    public static void printWelcomeBanner() {
+        String reset = "\u001B[0m";
+        String yellow = "\u001B[33m";
+        String cyan = "\u001B[36m";
+        String purple = "\u001B[35m";
+        String green = "\u001B[32m";
+    
+        System.out.println();
+        System.out.println(yellow +
+            "                                                                                                               ,---. ");
+        System.out.println(cyan +
+            ",--.   ,--.      ,--.                               ,--.          ,------.                          ,--.       |   | ");
+        System.out.println(purple +
+            "|  |   |  |,---. |  |,---. ,---. ,--,--,--.,---.  ,-'  '-. ,---.  |  .--. ' ,--,--.,--.--.,--,--. ,-|  |,---.  |  .' ");
+        System.out.println(green +
+            "|  |.'.|  | .-. :|  | .--'| .-. ||        | .-. : '-.  .-'| .-. | |  '--' |' ,-.  ||  .--' ,-.  |' .-. | .-. : |  |  ");
+        System.out.println(yellow +
+            "|   ,'.   \\   --.|  \\ `--.' '-' '|  |  |  \\   --.   |  |  ' '-' ' |  | --' \\ '-'  ||  |  \\ '-'  |\\ `-' \\   --. `--'  ");
+        System.out.println(cyan +
+            "'--'   '--'`----'`--'`---' `---' `--`--`--'`----'   `--'   `---'  `--'      `--`--'`--'   `--`--' `---' `----' .--.  ");
+        System.out.println(purple +
+            "                                                                                                               '--'  ");
+        System.out.println(reset);
+    }
 }
+
