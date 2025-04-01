@@ -92,7 +92,12 @@ public class ParadeTester {
                     // Collect cards based on game rules
                     ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
                     curPlayer.collectCard(toCollect, endGame); // endgame exception can be thrown here
-                    System.out.println("Player should collect: " + toCollect);
+
+                    if (toCollect.isEmpty()) { // should show explicitly if no cards are to be collected
+                        System.out.println("Player should collect: [\u001B[3mNone\u001B[0m]"); // italic
+                    } else {
+                        System.out.println("Player should collect: " + toCollect);
+                    }
                     curPlayer.printCollectedCards(false);
     
                     // Player draws a new card (throws exception if deck is empty)
