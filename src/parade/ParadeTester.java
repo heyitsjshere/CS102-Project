@@ -244,8 +244,8 @@ public class ParadeTester {
         return choice.equals("y");
     }
 
-    private void delayMessageWithDots(String message) {
-        System.out.print("🕑" + message);
+    public static void delayMessageWithDots(String message) {
+        System.out.print(message);
         try {
             for (int i = 0; i < 4; i++) {
                 Thread.sleep(700); // brief pause for user experience
