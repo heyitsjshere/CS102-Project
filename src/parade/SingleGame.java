@@ -52,8 +52,11 @@ public class SingleGame {
                     }
 
                     System.out.println("\n||  " + curPlayer.getName() + "'s turn  ||");
-                    System.out.println("Parade: " + par.getParade() + "\u001B[36m <==\u001B[0m Card inserted here\n");
 
+                    String bold = "\u001B[1m";
+                    String reset = "\u001B[0m";
+                    System.out.println("Parade: " + par.getParade() + " \u001B[36m<== " + bold + "Card inserted here" + reset);
+                    
                     // Delay output for bot players
                     if (curPlayer instanceof BotPlayer){
                         ParadeTester.delayMessageWithDots(curPlayer.getName() + " is selecting their cards");
