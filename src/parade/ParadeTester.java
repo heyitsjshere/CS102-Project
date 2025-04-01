@@ -52,67 +52,23 @@ public class ParadeTester {
 
             // if user wants to play with NEW players from previous round (if any)
             if (playerList == null || !askSamePlayers()) {
-                playerList = new PlayerList(d);   // Add players and deal initial cards
+                playerList = new PlayerList();   // Add players and deal initial cards
             } else { // if user wants to play with SAME players
-                resetGame(playerList, d);         // Reuses players, resets hands, deals cards
+                resetGame(playerList);         // Reuses players, resets hands, deals cards
                 System.out.println("Continuing game with the same players...\n\n");
             }
             playerList.displayPlayerProfiles();
 
-
             // Start main gameplay for each turn
-            SingleGame.runSingleGame(par, d, endGame, playerList);
-    
-            // Post-game: discard + scoring
-            System.out.printf("\n\n🎉 The game is over! 🎉\n" +
-            "🃏 It's time to discard and score!" +
-            "\n Each player will discard 2 cards.\n" +
-            "The remaining cards will be added to your collection.\n\n");
-            delayMessageWithDots("\n\n🕑 Now preparing for final collection phase");
+            SingleGame game = new SingleGame(playerList);
+            ArrayList<Player> winners = game.run();
 
-            try {
-                for (Player curPlayer : playerList.getPlayerList()){
-                    // pause thread during bot's term
-                    System.out.println("\n\n||   Please select 2 cards to discard.   ||   " + curPlayer.getName());
-
-                    if (curPlayer instanceof BotPlayer){
-                        delayMessageWithDots(curPlayer.getName() + " is selecting their cards");
-                        System.out.println("Selection complete.");
-                    }
-    
-                    // pick 1st card to discard
-                    Card discard1 = curPlayer.chooseCard();
-                    curPlayer.playCard(discard1); // remove card from hand
-                    System.out.println();
-    
-                    // pick 2nd card to discard
-                    Card discard2 = curPlayer.chooseCard();
-                    curPlayer.playCard(discard2);
-                    
-                    // add remaining hand cards to collection
-                    curPlayer.collectCard(curPlayer.getHand(), false);
-                }
-            } catch (EndGameException e){
-                // just to handle exceptions, but should never be thrown in this try block
-            }
-    
             System.out.println("\nFinal hands and collections:");
         
-            // Display final hand and collection for each player
-            for (Player p: playerList.getPlayerList()) {
-                System.out.println(p.getName() + "\t Hand: " + p.getHand());
-                p.printCollectedCards(true);
-                System.out.println();
-            }        
+
     
             // Calculate final scores
-            ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
-            ArrayList<Player> winners = scoreCalc.findWinners();
 
-            // Print winner(s)
-            scoreCalc.printWinners();
-            // Print all scores
-            scoreCalc.printAllScores();
             
             // Add to tally of number of games won for each player
             for (Player p : winners) {
@@ -138,15 +94,15 @@ public class ParadeTester {
      * @param playerList the current list of players
      * @param deck       the new deck to draw from
      */
-    private static void resetGame(PlayerList playerList, Deck deck) {
+    private static void resetGame(PlayerList playerList) {
         // Reset the player hands
         for (Player player : playerList.getPlayerList()) {
             player.clearHand();
             player.clearCollectedCards();
         }
-        playerList.setDeck(deck);      // Update deck reference
-        deck.resetDeck();              // Reset and shuffle deck
-        playerList.dealInitialCards(); // Deal from new deck
+        // playerList.setDeck(deck);      // Update deck reference
+        // deck.resetDeck();              // Reset and shuffle deck
+        // playerList.dealInitialCards(); // Deal from new deck
     }
 
     /**

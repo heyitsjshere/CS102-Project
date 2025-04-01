@@ -11,6 +11,9 @@ public class SingleGame {
     private PlayerList playerList;
     private int turn;
 
+    /** Number of cards each player starts with. */
+    private static final int INITIAL_HAND_SIZE = 5;
+
     public SingleGame(PlayerList playerList){
         this.d = new Deck();
         this.par = new Parade(d);
@@ -18,22 +21,35 @@ public class SingleGame {
         this.playerList = playerList;
         this.turn = 0;
 
-        startGame();
+        dealInitialCards();
+        // startGame();
     }
 
-    public void startGame() {
-        
-        int round = 1;
+    private void dealInitialCards() {
+        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
+            for (Player p : playerList.getPlayerList()) {
+                try {
+                    p.addCard(d.drawCard());
+                } catch (EndGameException e) {
+                    System.out.println("There are not enough cards to start the game.");
+                    System.exit(-1);
+                }
+            }
+        }
+    }
 
+    private int getRound(){
+        return turn/playerList.getNumberOfPlayers() + 1;
+    }
+
+    public ArrayList<Player> run() {
         while (playerList.getPlayer(turn).getHandSize() == 5) { 
                 Player curPlayer = playerList.getPlayer(turn);
                 try {
                     // Display round number before first turn of that round
-                    round = turn/playerList.getNumberOfPlayers() + 1;
                     if (turn++ % playerList.getNumberOfPlayers() == 0) {
-                        System.out.println("\n\n==== ROUND " + round + " ====");
+                        System.out.println("\n\n==== ROUND " + getRound() + " ====");
                     }
-
 
                     System.out.println("\n||  " + curPlayer.getName() + "'s turn  ||");
                     System.out.println("Parade: " + par.getParade() + "\u001B[36m <==\u001B[0m Card inserted here\n");
@@ -90,5 +106,64 @@ public class SingleGame {
                     endGame = true;
                 } 
             }
+
+            // at this point, all players should have 4 cards left in their hand
+
+            // Post-game: discard + scoring
+            System.out.printf("\n\n🎉 The game is over! 🎉\n" +
+            "🃏 It's time to discard and score!" +
+            "\n Each player will discard 2 cards.\n" +
+            "The remaining cards will be added to your collection.\n\n");
+            ParadeTester.delayMessageWithDots("\n\n🕑 Now preparing for final collection phase");
+
+            try {
+                for (Player curPlayer : playerList.getPlayerList()){
+                    // pause thread during bot's term
+                    System.out.println("\n\n||   Please select 2 cards to discard.   ||   " + curPlayer.getName());
+
+                    if (curPlayer instanceof BotPlayer){
+                        ParadeTester.delayMessageWithDots(curPlayer.getName() + " is selecting their cards");
+                        System.out.println("Selection complete.");
+                    }
+    
+                    // pick 1st card to discard
+                    Card discard1 = curPlayer.chooseCard();
+                    curPlayer.playCard(discard1); // remove card from hand
+                    System.out.println();
+    
+                    // pick 2nd card to discard
+                    Card discard2 = curPlayer.chooseCard();
+                    curPlayer.playCard(discard2);
+                    
+                    // add remaining hand cards to collection
+                    curPlayer.collectCard(curPlayer.getHand(), false);
+                }
+            } catch (EndGameException e){
+                // just to handle exceptions, but should never be thrown in this try block
+            }
+    
+
+        // Display final hand and collection for each player
+        for (Player p: playerList.getPlayerList()) {
+            System.out.println(p.getName() + "\t Hand: " + p.getHand());
+            p.printCollectedCards(true);
+            System.out.println();
+        }        
+
+        ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
+        ArrayList<Player> winners = scoreCalc.findWinners();
+
+        // Print winner(s)
+        scoreCalc.printWinners();
+        // Print all scores
+        scoreCalc.printAllScores();
+
+
+        return winners;
+
+
+
+
+        
     }
 }
