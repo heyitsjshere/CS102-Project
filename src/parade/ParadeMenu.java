@@ -1,10 +1,27 @@
 package parade;
 
 /**
- * Provides the main menu for starting the Parade game in different modes.
+ * Provides the main entry point and setup interface for launching the Parade game.
+ * <p>
+ * This class is responsible for:
+ * <ul>
+ *   <li>Clearing the terminal for a clean interface</li>
+ *   <li>Displaying a colorful ASCII-art banner to welcome players</li>
+ *   <li>Printing a short intro message with a delay for better user experience</li>
+ *   <li>Starting the game by invoking {@link ParadeTester}</li>
+ * </ul>
+ *
+ * <p>
+ * Example usage:
+ * </p>
+ *
+ * <pre>
+ * java parade.ParadeMenu
+ * </pre>
+ *
+ * @author G3T7
+ * @version 1.1
  */
-import parade.enums.Colour;
-
 public class ParadeMenu {
 
     /**

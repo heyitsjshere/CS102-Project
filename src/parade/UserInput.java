@@ -95,4 +95,8 @@ public class UserInput {
         System.out.print(message);
         return sc.nextLine().strip();
     }
+
+    public void close(){
+        sc.close();
+    }
 }

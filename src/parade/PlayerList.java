@@ -36,8 +36,7 @@ public class PlayerList {
     /** The maximum number of players allowed in the game. */
     private static final int MAX_PLAYER_NUM = 6;
 
-    /** Number of cards each player starts with. */
-    private static final int INITIAL_HAND_SIZE = 5;
+
 
     /**
      * Constructs a new PlayerList and initializes the players.
@@ -49,7 +48,7 @@ public class PlayerList {
      *
      * @param d The deck of cards used in the game.
      */
-    public PlayerList(Deck d) {
+    public PlayerList() {
         UserInput input = new UserInput();
         ArrayList<Player> players = new ArrayList<>();
 
@@ -86,13 +85,13 @@ public class PlayerList {
         }
 
         this.playerList = players;
-        this.deck = d;
+        // this.deck = d;
 
         // Shuffle the player order before starting the game
         Collections.shuffle(players);
 
         // Deal initial hands
-        dealInitialCards();
+        // dealInitialCards();
     }
 
     /**
@@ -102,18 +101,18 @@ public class PlayerList {
      * If there are not enough cards, the program exits.
      * </p>
      */
-    public void dealInitialCards() {
-        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-            for (Player p : playerList) {
-                try {
-                    p.addCard(deck.drawCard());
-                } catch (EndGameException e) {
-                    System.out.println("There are not enough cards to start the game.");
-                    System.exit(-1);
-                }
-            }
-        }
-    }
+    // public void dealInitialCards() {
+    //     for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
+    //         for (Player p : playerList) {
+    //             try {
+    //                 p.addCard(deck.drawCard());
+    //             } catch (EndGameException e) {
+    //                 System.out.println("There are not enough cards to start the game.");
+    //                 System.exit(-1);
+    //             }
+    //         }
+    //     }
+    // }
 
     /**
      * Retrieves the list of all players.
