@@ -51,7 +51,7 @@ public class ParadeTester {
             Deck d = new Deck();
             Parade par = new Parade(d);
             boolean endGame = false;
-            int turn = -1;
+            int turn = 0;
             int round = 1;
     
             // if user wants to play with NEW players from previous round (if any)
@@ -65,12 +65,12 @@ public class ParadeTester {
 
 
             // Start main gameplay for each turn
-            while (playerList.getPlayer(++turn).getHandSize() == 5) { 
+            while (playerList.getPlayer(turn).getHandSize() == 5) { 
                 Player curPlayer = playerList.getPlayer(turn);
                 try {
                     // Display round number before first turn of that round
                     round = turn/playerList.getNumberOfPlayers() + 1;
-                    if (turn % playerList.getNumberOfPlayers() == 0) {
+                    if (turn++ % playerList.getNumberOfPlayers() == 0) {
                         System.out.println("\n\n==== ROUND " + round + " ====");
                     }
                     System.out.println("\n||  " + curPlayer.getName() + "'s turn  ||");
