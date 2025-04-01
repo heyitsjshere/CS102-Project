@@ -44,7 +44,8 @@ public class ParadeMenu {
         clearConsole();
         printWelcomeBanner();
 
-        System.out.println("\n✨ Prepare your top hats and marching shoes...");
+        // System.out.println("\n✨ Prepare your top hats and marching shoes...");
+        ParadeTester.delayMessageWithDots("\n✨ Prepare your top hats and marching shoes");
         System.out.println("🎭 The Parade is about to begin!\n");
 
         try {
@@ -107,3 +108,4 @@ public class ParadeMenu {
         System.out.println(reset);
     }
 }
+

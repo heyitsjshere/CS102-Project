@@ -51,7 +51,7 @@ public class ParadeTester {
             Deck d = new Deck();
             Parade par = new Parade(d);
             boolean endGame = false;
-            int turn = -1;
+            int turn = 0;
             int round = 1;
     
             // if user wants to play with NEW players from previous round (if any)
@@ -65,12 +65,12 @@ public class ParadeTester {
 
 
             // Start main gameplay for each turn
-            while (playerList.getPlayer(++turn).getHandSize() == 5) { 
+            while (playerList.getPlayer(turn).getHandSize() == 5) { 
                 Player curPlayer = playerList.getPlayer(turn);
                 try {
                     // Display round number before first turn of that round
                     round = turn/playerList.getNumberOfPlayers() + 1;
-                    if (turn % playerList.getNumberOfPlayers() == 0) {
+                    if (turn++ % playerList.getNumberOfPlayers() == 0) {
                         System.out.println("\n\n==== ROUND " + round + " ====");
                     }
                     System.out.println("\n||  " + curPlayer.getName() + "'s turn  ||");
@@ -122,23 +122,15 @@ public class ParadeTester {
                         }
                     }
                     endGame = true;
-    
-                    // Delay before post-game steps
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
                 } 
             }
     
             // Post-game: discard + scoring
-            delayMessageWithDots("\n\n🕑 Preparing for final collection phase");
-
-            System.out.printf("\n\n🎉 The game is over! 🎉.\n" +
-                    "🃏 Time to discard and score..." +
-                    "Each player will now discard 2 cards.\n" +
-                    "The remaining cards will be added to your collection.\n");
+            System.out.printf("\n\n🎉 The game is over! 🎉\n" +
+            "🃏 It's time to discard and score!" +
+            "\n Each player will discard 2 cards.\n" +
+            "The remaining cards will be added to your collection.\n\n");
+            delayMessageWithDots("\n\n🕑 Now preparing for final collection phase");
 
             try {
                 for (Player curPlayer : playerList.getPlayerList()){
@@ -181,33 +173,15 @@ public class ParadeTester {
             int minScore = scoreCalc.getMinScore();
     
             // Print winner(s)
-            System.out.println("\n=== WINNNER(s) ===");
-            if (winners.size() == 1) {
-                System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
-            } else {
-                System.out.print("It's a TIE between Players ");
-                int size = winners.size();
-                for (int i = 0; i < size; i++) {
-                    System.out.print(winners.get(i).getName());
-                    
-                    if (i < size - 2) { // If there are more than two remaining, add a comma
-                        System.out.print(", ");
-                    } else if (i == size - 2) { // Before the last name, add "and"
-                        System.out.print(" and ");
-                    }
-                }
-            }
-            System.out.println();
-
+            scoreCalc.printWinners(winners, minScore);
+            // Print all scores
+            scoreCalc.printAllScores();
+            
             // Add to tally of number of games won for each player
             for (Player p : winners) {
                 p.incrementWins();
             }
-    
-            // Print all scores and tally for number of wins
-            System.out.println("=== ALL SCORES ===");
-            scoreCalc.printAllScores();
-
+            // Print tally for number of wins
             System.out.println("=== Total WINS ===");
             for (Player p : playerList.getPlayerList()) {
                 System.out.println(p.getName() + " has " + p.getWins() + (p.getWins() == 1 ? " win." : " wins."));
@@ -270,8 +244,8 @@ public class ParadeTester {
         return choice.equals("y");
     }
 
-    private void delayMessageWithDots(String message) {
-        System.out.print("🕑" + message);
+    public static void delayMessageWithDots(String message) {
+        System.out.print(message);
         try {
             for (int i = 0; i < 4; i++) {
                 Thread.sleep(700); // brief pause for user experience

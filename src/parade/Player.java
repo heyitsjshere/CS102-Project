@@ -118,17 +118,6 @@ public abstract class Player {
     }
 
     /**
-     * Removes all cards of the specified color from the collection.
-     * <p>
-     * This is typically used in scoring or strategy mechanics.
-     *
-     * @param colour The color to remove.
-     */
-    public void placeColourFaceDown(Colour colour) {
-        this.collectedCards.remove(colour);
-    }
-
-    /**
      * Adds a card to the player's hand.
      *
      * @param c The card to add.
