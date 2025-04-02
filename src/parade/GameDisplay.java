@@ -59,7 +59,6 @@ public class GameDisplay {
      * Clears the console using ANSI escape codes.
      * <p>
      * Moves the cursor to the top left and clears all text.
-     * Works in most Unix-based terminals and supported IDEs.
      * </p>
      */
     public static void clearConsole() {

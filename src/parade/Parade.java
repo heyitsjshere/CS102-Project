@@ -74,9 +74,6 @@ public class Parade {
         }
         return toReturn;
     }
-    // 0 1 2 3 | 4 5 6 (7 -> 3) 
-    // current size = 8
-    // numrem = 8-3-1
 
     /**
      * Determines which cards should be collected based on the card being played.

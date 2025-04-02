@@ -42,6 +42,7 @@ public class HumanPlayer extends Player {
      */
     @Override
     public Card chooseCard() {
+        // to render emojis correctly
         System.setProperty("file.encoding", "UTF-8");
 
         System.out.println("PICK A CARD");

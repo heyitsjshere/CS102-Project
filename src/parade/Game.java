@@ -46,9 +46,7 @@ public class Game {
         boolean playMoreGames = true;
         PlayerList playerList = null;
     
-        do {
-
-
+        do { // game is ran at least once
             // if user wants to play with NEW players from previous round (if any)
             if (playerList == null || !askSamePlayers()) {
                 playerList = new PlayerList();   // Add players and deal initial cards

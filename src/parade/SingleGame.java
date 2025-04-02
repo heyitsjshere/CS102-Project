@@ -48,7 +48,6 @@ public class SingleGame {
         // startGame();
     }
 
-
     /**
      * Deals the initial set of cards to each player.
      * <p>
@@ -77,7 +76,6 @@ public class SingleGame {
     private int getRound(){
         return turn/playerList.getNumberOfPlayers() + 1;
     }
-
 
     /**
      * Executes the full game loop for a single session.
