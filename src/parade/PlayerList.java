@@ -1,17 +1,27 @@
 package parade;
 
 import java.util.*;
-
-// import parade.enums.Colour;
 import parade.exceptions.EndGameException;
 
 /**
  * Manages the list of players in the Parade game.
  * <p>
- * This class handles player initialization, card distribution, and
- * maintaining player order during the game.
+ * This class handles player initialization, shuffling, card distribution,
+ * and maintaining player order during the game.
  * </p>
- *
+ * 
+ * <p>
+ * Supports up to 6 players total (human and bot combined). Each player
+ * is dealt a hand of cards at the start of the game.
+ * </p>
+ * 
+ * <p>
+ * Example usage:
+ * <pre>
+ * PlayerList pl = new PlayerList(new Deck());
+ * pl.getPlayer(0).getName(); // Access first player
+ * </pre>
+ * 
  * @author G3T7
  * @version 1.0
  */
@@ -25,14 +35,16 @@ public class PlayerList {
 
     /** The maximum number of players allowed in the game. */
     private static final int MAX_PLAYER_NUM = 6;
+
+    /** Number of cards each player starts with. */
     private static final int INITIAL_HAND_SIZE = 5;
 
     /**
-     * Constructs a new PlayerList and initializes players.
+     * Constructs a new PlayerList and initializes the players.
      * <p>
-     * This constructor prompts the user for the number of human and bot players,
-     * assigns them names, shuffles the order shuffles the order of players and distributes initial hands.
-     * There should be at least 1 human player, with a total of 2 players in each game. 
+     * Prompts the user to input the number of human and bot players.
+     * Ensures names are unique and shuffles the final player order.
+     * Each player is dealt an initial hand.
      * </p>
      *
      * @param d The deck of cards used in the game.
@@ -40,9 +52,10 @@ public class PlayerList {
     public PlayerList(Deck d) {
         UserInput input = new UserInput();
         ArrayList<Player> players = new ArrayList<>();
-        
-        // Get human players
+
+        // Get number of human players
         int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d - %d): ", 1, MAX_PLAYER_NUM);
+
         for (int i = 0; i < numHumanPlayers; i++) {
             String name;
             while (true) {
@@ -60,7 +73,7 @@ public class PlayerList {
             players.add(new HumanPlayer(name));
         }
 
-        // Get bot players only if space remains
+        // Get bot players if space remains
         int numBotPlayers = 0;
         if (numHumanPlayers == MAX_PLAYER_NUM) {
             System.out.println("Since you have selected " + MAX_PLAYER_NUM + " human players, there is no space for bot players.");
@@ -72,24 +85,21 @@ public class PlayerList {
             }
         }
 
-
-        // Create bot players
-        for (int i = 1; i < numBotPlayers + 1; i++) {
-            players.add(new BotPlayer("Bot " + i));
-        }
-
         this.playerList = players;
         this.deck = d;
 
-        // Deal cards to all players in the game
+        // Shuffle the player order before starting the game
+        Collections.shuffle(players);
+
+        // Deal initial hands
         dealInitialCards();
     }
 
     /**
-     * Distributes the initial set of cards to each player.
+     * Deals the initial set of cards to each player.
      * <p>
-     * Each player receives {@code HAND_SIZE} cards from the deck.
-     * If the deck does not have enough cards to start the game, the program exits.
+     * Each player receives {@code INITIAL_HAND_SIZE} cards.
+     * If there are not enough cards, the program exits.
      * </p>
      */
     public void dealInitialCards() {
@@ -99,14 +109,14 @@ public class PlayerList {
                     p.addCard(deck.drawCard());
                 } catch (EndGameException e) {
                     System.out.println("There are not enough cards to start the game.");
-                    System.exit(-1); // Exit if not enough cards are available
+                    System.exit(-1);
                 }
             }
         }
     }
 
     /**
-     * Retrieves the list of players in the game.
+     * Retrieves the list of all players.
      *
      * @return An {@link ArrayList} of {@link Player} objects.
      */
@@ -115,70 +125,59 @@ public class PlayerList {
     }
 
     /**
-     * Retrieves the total number of players in the game.
+     * Retrieves the number of players in the game.
      *
-     * @return The number of players.
+     * @return Total number of players.
      */
     public int getNumberOfPlayers() {
         return playerList.size();
     }
 
     /**
-     * Retrieves a player based on their turn order.
+     * Retrieves a player by index, with wrapping.
      * <p>
-     * The index is wrapped around if it exceeds the number of players, ensuring
-     * continuous looping through the player list.
+     * If the index exceeds the number of players, it wraps around to ensure turn rotation.
      * </p>
      *
-     * @param i The index of the player (can be greater than the number of players).
-     * @return The {@link Player} at the specified turn position.
+     * @param i Index (can be greater than total number of players).
+     * @return The corresponding {@link Player}.
      */
     public Player getPlayer(int i) {
-        int size = playerList.size(); // Ensure index wraps around
-        return playerList.get(i % size);
+        return playerList.get(i % playerList.size());
     }
-    /**
 
     /**
-     * Displays a list of all players in the game along with their assigned numbers.
+     * Displays player profiles before the game starts.
      * <p>
-     * This method prints a formatted list of players and introduces a 2-second
-     * delay
-     * after the display to simulate a pause before the game begins.
+     * Includes a brief delay for dramatic effect.
      * </p>
-     *
-     * <p>
-     * Example output:
-     * </p>
-     * 
-     * <pre>
-     * ==== Player Profile ====
-     * Player 1: Alice
-     * Player 2: Bot 1
-     * =========================
-     * The game will start now.
-     * </pre>
-     *
      */
     public void displayPlayerProfiles() {
         System.out.println("\n==== Player Profile ====");
         for (int i = 0; i < playerList.size(); i++) {
             Player p = playerList.get(i);
-            System.out.println("Player " + (i + 1) + ": " + p.getName());
+            String icon = (p instanceof BotPlayer) ? "🤖" : "🧍";
+            System.out.println("Player " + (i + 1) + ": " + icon + " " + p.getName());
         }
-        System.out.println("=========================\n");
+        System.out.println("========================\n");
 
         System.out.println("The game will start now.\n\n");
 
-        try { // delay by 2 seconds
-            Thread.sleep(2000);
+        try {
+            Thread.sleep(2000); // Pause for 2 seconds
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }
 
+    /**
+     * Updates the deck used by this player list.
+     * <p>
+     * Used for restarting a game with the same players.
+     *
+     * @param newDeck The new {@link Deck} to be used.
+     */
     public void setDeck(Deck newDeck) {
         this.deck = newDeck;
     }
-
 }
