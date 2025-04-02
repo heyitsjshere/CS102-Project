@@ -144,7 +144,15 @@ public class ScoreCalculator {
         return winners;
     }
 
-    public void printWinners(ArrayList<Player> winners, int minScore) {
+    /**
+     * Prints the winner(s) of the game based on the lowest score.
+     * <p>
+     * In case of a tie, all tied players are displayed.
+     * </p>
+     */
+    public void printWinners() {
+        ArrayList<Player> winners = findWinners();
+        int minScore = getMinScore();
         System.out.println("\n=== WINNNER(s) ===");
         if (winners.size() == 1) {
             System.out.println(winners.get(0).getName() + " WINS with " + minScore + " points!");
@@ -169,7 +177,7 @@ public class ScoreCalculator {
      *
      * @return The minimum score.
      */
-    public int getMinScore(){
+    private int getMinScore(){
         return Collections.min(scoreTracker.values());
     }
 

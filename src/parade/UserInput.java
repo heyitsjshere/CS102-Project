@@ -95,4 +95,11 @@ public class UserInput {
         System.out.print(message);
         return sc.nextLine().strip();
     }
+
+    /**
+     * Closes the scanner used for input.
+     */
+    public void close(){
+        sc.close();
+    }
 }

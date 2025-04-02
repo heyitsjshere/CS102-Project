@@ -1,25 +1,26 @@
 package parade;
 
 import java.util.*;
-import parade.exceptions.EndGameException;
 
 /**
  * Manages the list of players in the Parade game.
  * <p>
- * This class handles player initialization, shuffling, card distribution,
- * and maintaining player order during the game.
- * </p>
- * 
+ * Handles:
+ * <ul>
+ *   <li>Player initialization (both human and bot)</li>
+ *   <li>Enforcing name uniqueness and player limits</li>
+ *   <li>Shuffling player order</li>
+ *   <li>Managing player retrieval and display</li>
+ * </ul>
+ *
  * <p>
- * Supports up to 6 players total (human and bot combined). Each player
- * is dealt a hand of cards at the start of the game.
+ * Supports up to 6 players total (human and bot combined).
  * </p>
- * 
- * <p>
- * Example usage:
+ *
+ * <p><strong>Example usage:</strong></p>
  * <pre>
- * PlayerList pl = new PlayerList(new Deck());
- * pl.getPlayer(0).getName(); // Access first player
+ * PlayerList playerList = new PlayerList();
+ * Player first = playerList.getPlayer(0);
  * </pre>
  * 
  * @author G3T7
@@ -31,25 +32,20 @@ public class PlayerList {
     private ArrayList<Player> playerList;
 
     /** The deck from which players draw cards. */
-    private Deck deck;
 
     /** The maximum number of players allowed in the game. */
     private static final int MAX_PLAYER_NUM = 6;
 
-    /** Number of cards each player starts with. */
-    private static final int INITIAL_HAND_SIZE = 5;
+
 
     /**
-     * Constructs a new PlayerList and initializes the players.
+     * Constructs a new {@code PlayerList} and initializes players.
      * <p>
-     * Prompts the user to input the number of human and bot players.
-     * Ensures names are unique and shuffles the final player order.
-     * Each player is dealt an initial hand.
+     * Prompts the user to specify the number of human and bot players,
+     * validates names for uniqueness, and shuffles player order.
      * </p>
-     *
-     * @param d The deck of cards used in the game.
      */
-    public PlayerList(Deck d) {
+    public PlayerList() {
         UserInput input = new UserInput();
         ArrayList<Player> players = new ArrayList<>();
 
@@ -86,35 +82,12 @@ public class PlayerList {
         }
 
         this.playerList = players;
-        this.deck = d;
 
         // Shuffle the player order before starting the game
         Collections.shuffle(players);
 
-        // Deal initial hands
-        dealInitialCards();
     }
-
-    /**
-     * Deals the initial set of cards to each player.
-     * <p>
-     * Each player receives {@code INITIAL_HAND_SIZE} cards.
-     * If there are not enough cards, the program exits.
-     * </p>
-     */
-    public void dealInitialCards() {
-        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-            for (Player p : playerList) {
-                try {
-                    p.addCard(deck.drawCard());
-                } catch (EndGameException e) {
-                    System.out.println("There are not enough cards to start the game.");
-                    System.exit(-1);
-                }
-            }
-        }
-    }
-
+    
     /**
      * Retrieves the list of all players.
      *
@@ -147,9 +120,9 @@ public class PlayerList {
     }
 
     /**
-     * Displays player profiles before the game starts.
+     * Displays all player names and types (human or bot) with icons.
      * <p>
-     * Includes a brief delay for dramatic effect.
+     * Includes a short delay message before the game starts.
      * </p>
      */
     public void displayPlayerProfiles() {
@@ -161,23 +134,6 @@ public class PlayerList {
         }
         System.out.println("========================\n");
 
-        System.out.println("The game will start now.\n\n");
-
-        try {
-            Thread.sleep(2000); // Pause for 2 seconds
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    /**
-     * Updates the deck used by this player list.
-     * <p>
-     * Used for restarting a game with the same players.
-     *
-     * @param newDeck The new {@link Deck} to be used.
-     */
-    public void setDeck(Deck newDeck) {
-        this.deck = newDeck;
+        Game.delayMessage("The game will start now.\n");
     }
 }

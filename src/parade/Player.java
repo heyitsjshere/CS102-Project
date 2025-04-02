@@ -174,15 +174,33 @@ public abstract class Player {
         }
     }
 
-    public void printCollectedCards(boolean forFinalDisplay){
-        System.out.println(forFinalDisplay ? "\t Collection: " : "Collection: ");
-            for (Colour c : collectedCards.keySet()) {
-                System.out.print(forFinalDisplay ? "\t\t" : "\t");
-                for (Card card : getCollectedCardsWithColour(c)){
+    /**
+     * Prints the player's collected cards, grouped by color.
+     * <p>
+     * This method aligns the output for readability. On the first line, the label
+     * "Collection:" is printed, and subsequent lines are indented to match.
+     * </p>
+     *
+     * @param forFinalDisplay whether the print is for final scoring view
+     */
+    public void printCollectedCards(boolean forFinalDisplay) { // boolean is for the alignment of the texts
+        String label = "Collection:";
+        String indent = " ".repeat(label.length() + 1); // Align subsequent lines
+    
+        boolean firstLine = true;
+        for (Colour c : Colour.values()) {
+            ArrayList<Card> cardsOfColour = collectedCards.get(c);
+            if (cardsOfColour != null && !cardsOfColour.isEmpty()) {
+                // Print label on the first line, indent on the rest
+                System.out.print(firstLine ? label + " " : indent);
+                firstLine = false;
+    
+                for (Card card : cardsOfColour) {
                     System.out.print(card + " ");
                 }
                 System.out.println();
             }
+        }
     }
 
     /**

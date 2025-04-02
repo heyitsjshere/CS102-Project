@@ -65,7 +65,7 @@ public class Parade {
      * @param p the card the player is about to play
      * @return a list of cards in the removable zone
      */
-    private ArrayList<Card> getRemoveable(Card p) { // all cards that are removable, but not necessarily removed
+    private ArrayList<Card> getRemoveableCard(Card p) { // all cards that are removable, but not necessarily removed
         int numRemovable = curParade.size() - p.getCardNum() - 1;
         ArrayList<Card> toReturn = new ArrayList<>();
 
@@ -74,9 +74,6 @@ public class Parade {
         }
         return toReturn;
     }
-    // 0 1 2 3 | 4 5 6 (7 -> 3) 
-    // current size = 8
-    // numrem = 8-3-1
 
     /**
      * Determines which cards should be collected based on the card being played.
@@ -97,7 +94,7 @@ public class Parade {
         int cardNum = p.getCardNum();
         Colour cardColour = p.getCardColour();
 
-        for (Card c : getRemoveable(p)) {
+        for (Card c : getRemoveableCard(p)) {
             if (c.getCardColour().equals(cardColour) || c.getCardNum() <= cardNum) {
                 this.curParade.remove(c);
                 toReturn.add(c);
