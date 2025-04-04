@@ -2,6 +2,7 @@ package parade;
 
 import parade.enums.Colour;
 import parade.exceptions.EndGameException;
+
 import java.util.ArrayList;
 import java.util.EnumMap;
 
@@ -13,7 +14,7 @@ import java.util.EnumMap;
  * It includes hand management, card collection, turn logic,
  * and endgame condition checking.
  * </p>
- *
+ * 
  * @author G3T7
  * @version 1.0
  */
@@ -176,14 +177,10 @@ public abstract class Player {
 
     /**
      * Prints the player's collected cards, grouped by color.
-     * <p>
-     * This method aligns the output for readability. On the first line, the label
-     * "Collection:" is printed, and subsequent lines are indented to match.
-     * </p>
      *
-     * @param forFinalDisplay whether the print is for final scoring view
+     * @param forFinalDisplay Whether this is for the final summary (affects label formatting).
      */
-    public void printCollectedCards(boolean forFinalDisplay) { // boolean is for the alignment of the texts
+    public void printCollectedCards(boolean forFinalDisplay) {
         String label = "Collection:";
         String indent = " ".repeat(label.length() + 1); // Align subsequent lines
     

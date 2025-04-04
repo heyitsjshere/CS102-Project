@@ -31,12 +31,8 @@ public class PlayerList {
     /** The list of players in the game. */
     private ArrayList<Player> playerList;
 
-    /** The deck from which players draw cards. */
-
     /** The maximum number of players allowed in the game. */
     private static final int MAX_PLAYER_NUM = 6;
-
-
 
     /**
      * Constructs a new {@code PlayerList} and initializes players.
