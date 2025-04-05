@@ -96,13 +96,13 @@ public class UserInput {
      * Repeats until user does not key in an empty string
      * </p>
      *
-     * @param message The prompt to display.
+     * @param message The message to display.
      * @return A trimmed string entered by the user.
      */
-    public String getString(String prompt) {
+    public String getString(String message) {
         String input;
         while (true) {
-            System.out.print(prompt);
+            System.out.print(message);
             input = sc.nextLine().trim();
     
             if (!input.isEmpty()) {
