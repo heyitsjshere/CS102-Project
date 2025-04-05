@@ -53,7 +53,8 @@ public class UserInput {
     /**
      * Prompts the user for an integer within a specified range using a custom error message.
      * <p>
-     * Keeps prompting the user until a valid integer within the specified range is entered.
+     * Keeps prompting the user until a valid integer within the specified range is entered. 
+     * Will also keep prompting if user does not key in any valid string
      * </p>
      *
      * @param message      The message to prompt the user.
@@ -64,21 +65,27 @@ public class UserInput {
      */
     public int getUserInt(String message, int min, int max, String errorMessage) {
         int userInt;
-
+    
         while (true) {
             System.out.printf(message, min, max);
-
-            if (sc.hasNextInt()) {
-                userInt = sc.nextInt();
-                sc.nextLine(); // Consume trailing newline
+            String input = sc.nextLine().trim();
+    
+            if (input.isEmpty()) {
+                System.out.printf(errorMessage, min, max);
+                continue;
+            }
+    
+            try {
+                userInt = Integer.parseInt(input);
+    
                 if (userInt >= min && userInt <= max) {
                     return userInt;
+                } else {
+                    System.out.printf(errorMessage, min, max);
                 }
-            } else {
-                sc.next(); // Discard invalid token
+            } catch (NumberFormatException e) {
+                System.out.printf(errorMessage, min, max);
             }
-
-            System.out.printf(errorMessage, min, max);
         }
     }
 
@@ -86,14 +93,23 @@ public class UserInput {
      * Prompts the user for a line of text input.
      * <p>
      * Trims any leading or trailing whitespace from the input.
+     * Repeats until user does not key in an empty string
      * </p>
      *
      * @param message The prompt to display.
      * @return A trimmed string entered by the user.
      */
-    public String getString(String message) {
-        System.out.print(message);
-        return sc.nextLine().strip();
+    public String getString(String prompt) {
+        String input;
+        while (true) {
+            System.out.print(prompt);
+            input = sc.nextLine().trim();
+    
+            if (!input.isEmpty()) {
+                return input;
+            }
+            System.out.println("Name cannot be empty. Please enter a valid name.");
+        }
     }
 
     /**
