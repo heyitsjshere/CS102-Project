@@ -2,6 +2,7 @@ package parade;
 
 import java.util.ArrayList;
 
+import parade.enums.Colour;
 import parade.exceptions.EndGameException;
 
 /**
@@ -115,7 +116,21 @@ public class SingleGame {
                     // If current player is human, print their collection
                     if (curPlayer instanceof HumanPlayer) {
                         System.out.println("\nYour current collection:");
-                        curPlayer.printCollectedCards(false);
+
+                        boolean hasCollectedCards = false;
+                        for (Colour c : Colour.values()) {
+                            ArrayList<Card> cardsOfColour = curPlayer.getCollectedCardsWithColour(c);
+                            if (cardsOfColour != null && !cardsOfColour.isEmpty()) {
+                                hasCollectedCards = true;
+                                break;
+                            }
+                        }
+
+                        if (hasCollectedCards) {
+                            curPlayer.printCollectedCards(false);
+                        } else {
+                            System.out.println("You have no cards in your collection yet.");
+                        }
                     }
 
                     // Delay output for bot players
