@@ -38,7 +38,6 @@ public class GameDisplay {
      * @param args Command-line arguments (not used)
      */
     public static void main(String[] args) {
-        clearConsole();
         printWelcomeBanner();
 
         // System.out.println("\n✨ Prepare your top hats and marching shoes...");
@@ -69,11 +68,14 @@ public class GameDisplay {
     /**
      * Prints a colorful ASCII-art banner to welcome players to the Parade game.
      * <p>
+     * Clears console before printing the banner
      * Uses ANSI escape codes to apply color to each line of the banner.
      * The message is styled for visual appeal and thematically matches the game.
+     * Clears terminal before printing the banner
      * </p>
      */
     public static void printWelcomeBanner() {
+        clearConsole(); 
         String reset = "\u001B[0m";
         String yellow = "\u001B[33m";
         String cyan = "\u001B[36m";
@@ -95,6 +97,39 @@ public class GameDisplay {
             "'--'   '--'`----'`--'`---' `---' `--`--`--'`----'   `--'   `---'  `--'      `--`--'`--'   `--`--' `---' `----' .--.  ");
         System.out.println(purple +
             "                                                                                                               '--'  ");
+        System.out.println(reset);
+    }
+    /**
+     * Prints a colorful ASCII-art banner to indicate to players that game has ended
+     * <p>
+     * Uses ANSI escape codes to apply color to each line of the banner.
+     * The message is styled for visual appeal and thematically matches the game.
+     * Clears terminal before printing the banner
+     * </p>
+     */
+    public static void printExitBanner() {
+        clearConsole();
+        String reset = "\u001B[0m";
+        String yellow = "\u001B[33m";
+        String cyan = "\u001B[36m";
+        String purple = "\u001B[35m";
+        String green = "\u001B[32m";
+
+        System.out.println();
+        System.out.println(yellow +
+        "                                                                                                                       ,---. ");
+        System.out.println(cyan +
+        ",--------.,--.                     ,--.             ,---.                      ,--.                 ,--.               |   | ");
+        System.out.println(purple +
+        "'--.  .--'|  ,---.  ,--,--.,--,--, |  |,-.  ,---.  /  .-' ,---. ,--.--.  ,---. |  | ,--,--.,--. ,--.`--',--,--,  ,---. |  .' ");
+        System.out.println(green +
+        "   |  |   |  .-.  |' ,-.  ||      \\|     / (  .-'  |  `-,| .-. ||  .--' | .-. ||  |' ,-.  | \\  '  / ,--.|      \\| .-. ||  |  ");
+        System.out.println(cyan +
+        "   |  |   |  | |  |\\ '-'  ||  ||  ||  \\  \\ .-'  `) |  .-'' '-' '|  |    | '-' '|  |\\ '-'  |  \\   '  |  ||  ||  |' '-' '`--'  ");
+        System.out.println(purple +
+        "   `--'   `--' `--' `--`--'`--''--'`--'`--'`----'  `--'   `---' `--'    |  |-' `--' `--`--'.-'  /   `--'`--''--'.`-  / .--.  ");
+        System.out.println(yellow +
+        "                                                                        `--'               `---'                `---'  '--'  ");
         System.out.println(reset);
     }
 }
