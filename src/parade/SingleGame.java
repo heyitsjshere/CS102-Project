@@ -107,6 +107,17 @@ public class SingleGame {
                     String reset = "\u001B[0m";
                     System.out.println("Parade: " + par.getParade() + " \u001B[36m<== " + bold + "Card inserted here" + reset);
                     
+                    // Print only during main phase (before endgame triggered)
+                    if (!endGame) {
+                        System.out.println("\u001B[33mCards left in deck: " + d.getSize() + "\u001B[0m");
+                    }
+
+                    // If current player is human, print their collection
+                    if (curPlayer instanceof HumanPlayer) {
+                        System.out.println("\nYour current collection:");
+                        curPlayer.printCollectedCards(false);
+                    }
+
                     // Delay output for bot players
                     if (curPlayer instanceof BotPlayer){
                         Game.delayMessageWithDots(curPlayer.getName() + " is selecting their cards");
