@@ -14,7 +14,7 @@ scripts\compile.bat && scripts\run.bat
 For Mac Users,
 sh scripts/compile.bat && sh scripts/run.bat 
 OR
-chmod +x scripts/compile.sh && chmod +x scripts/run.sh 
+chmod +x scripts/*.sh
 Followed by
 scripts/compile.sh && scripts/run.sh
 
@@ -108,8 +108,6 @@ scripts\javadoc.bat
 For Mac Users,
 sh scripts/javadoc.bat
 OR
-chmod +x scripts/javadoc.sh
-Followed by
 scripts/javadoc.sh
 
 Head to our docs folder, click on index.html
