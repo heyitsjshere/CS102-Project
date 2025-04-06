@@ -29,8 +29,7 @@ Compete with up to 6 players and prove to everyone that you are the Parade Maste
 
 ---
 
-##
-🧩 Requirements
+## 🧩 Requirements
 - Java 21 or later (Recommended: Java 21 LTS)
 - Terminal or IDE Console that supports:
 - ANSI escape codes for colourful output 🌈
