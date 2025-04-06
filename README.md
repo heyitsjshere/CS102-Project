@@ -1,8 +1,40 @@
+## 📑 Table of Contents
+- [🧩 Requirements](#-requirements)
+- [🎉 CS102 G3T7 - The Parade](#-cs102-g3t7---the-parade)
+- [🎮 Get Started](#-get-started)
+- [✨ Features](#-features)
+- [🧑‍🤝‍🧑 Local Play](#-local-play)
+- [🤖 AI Opponents](#-ai-opponents)
+- [🕹 Game Setup](#-game-setup)
+- [🏆 Victory Conditions](#-victory-conditions)
+- [🔄 Replayability](#-replayability)
+- [🎮 Sample Gameplay](#-sample-gameplay)
+- [📖 Documentation](#-documentation)
+- [👥 Contributors](#-contributors)
+
+---
+
+##
+🧩 Requirements
+- Java 21 or later (Recommended: Java 21 LTS)
+- Terminal or IDE Console that supports:
+- ANSI escape codes for colourful output 🌈
+- Optional: Emoji rendering for full game experience 🎉
+
+---
+
 ## 🎉 CS102 G3T7 - The Parade 
 Experience the thrill of the **Parade Card Game** in two exciting modes: **Local Play**, **VS AI**
 Compete with up to 6 players and prove to everyone that you are the Parade Master!
 
 ---
+
+##
+🧩 Requirements
+- Java 21 or later (Recommended: Java 21 LTS)
+- Terminal or IDE Console that supports:
+- ANSI escape codes for colourful output 🌈
+- Optional: Emoji rendering for full game experience 🎉
 
 ## 🎮 Get Started
 🚩 **Objective:** Collect cards strategically — lowest score wins!
