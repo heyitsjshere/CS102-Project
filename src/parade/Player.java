@@ -31,7 +31,6 @@ public abstract class Player {
 
     /** Number of wins accumulated across multiple games. */
     private int wins = 0;
-
     /**
      * Constructs a player with an empty hand and collection.
      *

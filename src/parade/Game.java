@@ -76,7 +76,8 @@ public class Game {
             // Prompt user for if they want to play again
             playMoreGames = askToPlayAgain();
             if (!playMoreGames) {
-                System.out.println("Thanks for playing!");
+                
+                GameDisplay.printExitBanner();
             }
         } while (playMoreGames);
     }
