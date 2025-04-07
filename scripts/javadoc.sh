@@ -1,1 +1,1 @@
-javadoc -d docs src/parade/*.java src/parade/enums/*.java src/parade/exceptions/*.java -cp classes
+javadoc -d docs src/parade/**/*.java -cp classes

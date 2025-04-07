@@ -1,3 +1,4 @@
-parade
-parade.enums
-parade.exceptions
+parade.cards
+parade.game
+parade.players
+parade.util

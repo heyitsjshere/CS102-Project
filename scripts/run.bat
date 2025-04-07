@@ -1,1 +1,1 @@
-java -cp "classes" parade.GameDisplay
+java -cp "classes" parade.game.GameDisplay
