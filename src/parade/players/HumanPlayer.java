@@ -21,9 +21,6 @@ import parade.util.UserInput;
  */
 public class HumanPlayer extends Player {
 
-    /** Handles user input from the console. */
-    private UserInput input;
-
     /**
      * Constructs a human player with the given name.
      *
@@ -31,7 +28,6 @@ public class HumanPlayer extends Player {
      */
     public HumanPlayer(String name) {
         super(name);
-        input = new UserInput();
     }
 
     /**
@@ -57,7 +53,7 @@ public class HumanPlayer extends Player {
             i++;
         }
         
-        int selectedNum = input.getUserInt("Selection: Option ", 1, super.getHandSize());
+        int selectedNum = UserInput.getUserInt("Selection: Option ", 1, super.getHandSize());
 
         return super.getHand().get(selectedNum - 1);
     }
