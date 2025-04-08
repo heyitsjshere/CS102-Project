@@ -81,6 +81,7 @@ public class Game {
             playMoreGames = askToPlayAgain();
             if (!playMoreGames) {
                 GameDisplay.printExitBanner();
+                UserInput.close();
             }
         } while (playMoreGames);
     }
