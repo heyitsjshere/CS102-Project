@@ -1,4 +1,4 @@
-package parade.util;
+package util;
 
 /**
  * Signals that the Parade game should end due to specific conditions.

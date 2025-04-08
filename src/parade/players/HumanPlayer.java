@@ -1,7 +1,7 @@
 package parade.players;
 
 import parade.cards.Card;
-import parade.util.UserInput;
+import util.UserInput;
 
 /**
  * Represents a human player in the Parade game.

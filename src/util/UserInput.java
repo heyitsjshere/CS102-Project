@@ -1,4 +1,4 @@
-package parade.util;
+package util;
 
 import java.util.Scanner;
 

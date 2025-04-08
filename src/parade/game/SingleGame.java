@@ -9,7 +9,7 @@ import parade.players.BotPlayer;
 import parade.players.HumanPlayer;
 import parade.players.Player;
 import parade.players.PlayerList;
-import parade.util.EndGameException;
+import util.EndGameException;
 
 /**
  * Manages a single full session of the Parade game.

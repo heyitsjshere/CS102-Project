@@ -3,7 +3,7 @@ package parade.players;
 import java.util.*;
 
 import parade.game.Game;
-import parade.util.UserInput;
+import util.UserInput;
 
 /**
  * Manages the list of players in the Parade game.
