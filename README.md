@@ -105,7 +105,7 @@ The player with the **lowest score** at the end of the game wins!
 
 ## 🎮 Sample Gameplay
 ||  Bot 2's turn  ||
-Parade: [BLACK 9, PURPLE 4, RED 7, PURPLE 5, BLACK 2, GREEN 10, GREEN 1] <== Card inserted here
+Parade: [BLACK 9, PURPLE 4, RED 7, PURPLE 5, GRAY 2, GREEN 10, GREEN 1] <== Card inserted here
 Cards left in deck: 27
 Bot 2 is selecting their cards...
 Selection complete.
@@ -115,7 +115,7 @@ Player should collect: [PURPLE 4]
 Collection: PURPLE 4 
 
 ||  Junsheng's turn  ||
-Parade: [BLACK 9, RED 7, PURPLE 5, BLACK 2, GREEN 10, GREEN 1, RED 5] <== Card inserted here
+Parade: [GRAY 9, RED 7, PURPLE 5, GRAY 2, GREEN 10, GREEN 1, RED 5] <== Card inserted here
 Cards left in deck: 26
 
 Your current collection:

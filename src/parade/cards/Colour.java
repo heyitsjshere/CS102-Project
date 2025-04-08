@@ -37,9 +37,9 @@ public enum Colour {
     GREEN("\u001B[32m"),
 
     /**
-     * Black color with ANSI code.
+     * Grey color with ANSI code.
      */
-    BLACK("\u001B[30m"),
+    GREY("\u001B[90m"),
 
     /**
      * Purple color with ANSI code.

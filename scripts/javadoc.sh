@@ -1,1 +1,1 @@
-javadoc -d docs src/parade/cards/*.java src/parade/game/*.java src/parade/players/*.java src/parade/util/*.java -cp classesw
+javadoc -d docs -cp classes src/util/*.java src/parade/cards/*.java src/parade/game/*.java src/parade/players/*.java
