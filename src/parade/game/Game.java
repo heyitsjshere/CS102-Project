@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import parade.players.Player;
 import parade.players.PlayerList;
-import parade.util.UserInput;
+import util.UserInput;
 
 /**
  * Controls the overall Parade game loop and session management.

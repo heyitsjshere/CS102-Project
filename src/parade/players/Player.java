@@ -2,7 +2,7 @@ package parade.players;
 
 import parade.cards.Card;
 import parade.cards.Colour;
-import parade.util.EndGameException;
+import util.EndGameException;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
