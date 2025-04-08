@@ -33,7 +33,7 @@ public class UserInput {
 
     /** Default constructor for UserInput used to call from other classes */
     public UserInput () {
-        
+
     }
 
     /**
@@ -48,8 +48,8 @@ public class UserInput {
      * @param max     The maximum valid input (inclusive).
      * @return A valid integer between {@code min} and {@code max}.
      */
-    public int getUserInt(String message, int min, int max) {
-        return getUserInt(message, min, max, "Invalid Input! Please enter a number between %d and %d!%n");
+    public static int getUserInt(String message, int min, int max) {
+        return UserInput.getUserInt(message, min, max, "Invalid Input! Please enter a number between %d and %d!%n");
     }
 
     /**
@@ -65,7 +65,7 @@ public class UserInput {
      * @param errorMessage The custom error message displayed on invalid input.
      * @return The validated integer entered by the user.
      */
-    public int getUserInt(String message, int min, int max, String errorMessage) {
+    public static int getUserInt(String message, int min, int max, String errorMessage) {
         int userInt;
     
         while (true) {
