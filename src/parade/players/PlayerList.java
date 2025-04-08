@@ -48,7 +48,6 @@ public class PlayerList {
         UserInput input = new UserInput();
         ArrayList<Player> players = new ArrayList<>();
 
-        // Get number of human players
         int numHumanPlayers = UserInput.getUserInt("Enter number of Human Players (%d - %d): ", 1, MAX_PLAYER_NUM);
 
         for (int i = 0; i < numHumanPlayers; i++) {
@@ -68,7 +67,7 @@ public class PlayerList {
             players.add(new HumanPlayer(name));
         }
 
-        // Get bot players if space remains
+        // Get bot players IF space remains
         int numBotPlayers = 0;
         if (numHumanPlayers == MAX_PLAYER_NUM) {
             System.out.println("Since you have selected " + MAX_PLAYER_NUM + " human players, there is no space for bot players.");

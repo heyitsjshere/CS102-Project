@@ -31,15 +31,13 @@ public class Deck {
      * Includes cards numbered 0–10 for each {@link Colour}.
      * </p>
      */
-    private static final ArrayList<Card> DECK_REFERENCE = new ArrayList<Card>() {
-        {
-            for (Colour c : Colour.values()) {
-                for (int i = 0; i <= 10; i++) {
-                    add(new Card(i, c));
-                }
+    private static final ArrayList<Card> DECK_REFERENCE = new ArrayList<Card>() {{
+        for (Colour c : Colour.values()) {
+            for (int i = 0; i <= 10; i++) {
+                add(new Card(i, c));
             }
         }
-    };
+    }};
 
     /**
      * Constructs a new deck and shuffles it.

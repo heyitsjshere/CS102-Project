@@ -192,7 +192,7 @@ public class SingleGame {
                 } 
             }
 
-            // at this point, all players should have 4 cards left in their hand
+            // At this point, all players should have 4 cards left in their hand
 
             // Post-game: discard + scoring
             System.out.printf("\n\n🎉 The game is over! 🎉\n" +
@@ -203,7 +203,7 @@ public class SingleGame {
 
             try {
                 for (Player curPlayer : playerList.getPlayerList()){
-                    // pause thread during bot's term
+                    // Pause thread during bot's term
                     System.out.println("\n\n||   Please select 2 cards to discard.   ||   " + curPlayer.getName());
 
                     if (curPlayer instanceof BotPlayer){
@@ -211,16 +211,16 @@ public class SingleGame {
                         System.out.println("Selection complete.");
                     }
     
-                    // pick 1st card to discard
+                    // Pick 1st card to discard
                     Card discard1 = curPlayer.chooseCard();
                     curPlayer.playCard(discard1); // remove card from hand
                     System.out.println();
     
-                    // pick 2nd card to discard
+                    // Pick 2nd card to discard
                     Card discard2 = curPlayer.chooseCard();
                     curPlayer.playCard(discard2);
                     
-                    // add remaining hand cards to collection
+                    // Add remaining hand cards to collection
                     curPlayer.collectCard(curPlayer.getHand(), false);
                 }
             } catch (EndGameException e){
@@ -242,9 +242,7 @@ public class SingleGame {
         ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
         ArrayList<Player> winners = scoreCalc.findWinners();
 
-        // Print winner(s)
         scoreCalc.printWinners();
-        // Print all scores
         scoreCalc.printAllScores();
 
         return winners;
