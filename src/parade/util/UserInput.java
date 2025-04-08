@@ -3,35 +3,37 @@ package parade.util;
 import java.util.Scanner;
 
 /**
- * Handles user input for the Parade game.
+ * Provides utility methods for handling user input in the Parade game.
  * <p>
- * Provides utility methods for validating and retrieving user input
- * in a controlled and user-friendly manner. This class ensures that
- * numeric inputs fall within a specified range and that string inputs
- * are properly trimmed.
+ * This class contains only static methods and maintains a single {@link Scanner} instance 
+ * for the entire game session. It offers controlled methods for validating and retrieving 
+ * user inputs, ensuring that numeric inputs fall within a specified range and that string 
+ * inputs are properly trimmed.
  * </p>
  *
  * <p>
  * Example usage:
  * <pre>
- * UserInput input = new UserInput();
- * int choice = input.getUserInt("Choose (1-3): ", 1, 3);
- * String name = input.getString("Enter your name: ");
+ * int choice = UserInput.getUserInt("Choose (1-3): ", 1, 3, "Invalid input! Please enter a number between 1 and 3.");
+ * String name = UserInput.getUserString("Enter your name: ");
+ * </pre>
+ *
+ * At the end of the game, close the scanner to release system resources:
+ * <pre>
+ * UserInput.close();
  * </pre>
  *
  * @author G3T7
- * @version 1.0
+ * @version 1.1
  */
 public class UserInput {
 
     /** Scanner object used for reading user input from the console. */
-    private Scanner sc;
+    private static final Scanner sc = new Scanner (System.in);
 
-    /**
-     * Constructs a new {@code UserInput} object and initializes the input scanner.
-     */
-    public UserInput() {
-        sc = new Scanner(System.in);
+    /** Default constructor for UserInput used to call from other classes */
+    public UserInput () {
+        
     }
 
     /**
@@ -115,7 +117,7 @@ public class UserInput {
     /**
      * Closes the scanner used for input.
      */
-    public void close(){
+    public static void close(){
         sc.close();
     }
 }
