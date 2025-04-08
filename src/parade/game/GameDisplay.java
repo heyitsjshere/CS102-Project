@@ -40,7 +40,6 @@ public class GameDisplay {
     public static void main(String[] args) {
         printWelcomeBanner();
 
-        // System.out.println("\n✨ Prepare your top hats and marching shoes...");
         Game.delayMessageWithDots("\n✨ Prepare your top hats and marching shoes");
         Game.delayMessage("🎭 The Parade is about to begin!\n");
 
@@ -99,6 +98,7 @@ public class GameDisplay {
             "                                                                                                               '--'  ");
         System.out.println(reset);
     }
+    
     /**
      * Prints a colorful ASCII-art banner to indicate to players that game has ended
      * <p>
