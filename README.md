@@ -39,14 +39,14 @@ Compete with up to 6 players and prove to everyone that you are the Parade Maste
 🚩 **Objective:** Collect cards strategically — lowest score wins!
 
 To start playing the game, simply enter the following commands in your terminal
-For Windows users,
+For Windows users,  
 scripts\compile.bat ; scripts\run.bat
 
-For Mac/Linux Users,
-sh scripts/compile.bat && sh scripts/run.bat 
-OR
-chmod +x scripts/*.sh
-Followed by
+For Mac/Linux Users,  
+sh scripts/compile.bat && sh scripts/run.bat  
+OR  
+chmod +x scripts/*.sh  
+Followed by  
 scripts/compile.sh && scripts/run.sh
 
 --- 
@@ -105,22 +105,22 @@ The player with the **lowest score** at the end of the game wins!
 
 ## 🎮 Sample Gameplay
 ||  Bot 2's turn  ||
-Parade: [BLACK 9, PURPLE 4, RED 7, PURPLE 5, GRAY 2, GREEN 10, GREEN 1] <== Card inserted here
-Cards left in deck: 27
-Bot 2 is selecting their cards...
-Selection complete.
-
-Player has played: RED 5
-Player should collect: [PURPLE 4]
-Collection: PURPLE 4 
-
-||  Junsheng's turn  ||
-Parade: [GRAY 9, RED 7, PURPLE 5, GRAY 2, GREEN 10, GREEN 1, RED 5] <== Card inserted here
-Cards left in deck: 26
-
-Your current collection:
-You have no cards in your collection yet.
-PICK A CARD
+Parade: [BLACK 9, PURPLE 4, RED 7, PURPLE 5, GRAY 2, GREEN 10, GREEN 1] <== Card inserted here  
+Cards left in deck: 27  
+Bot 2 is selecting their cards...  
+Selection complete.  
+  
+Player has played: RED 5  
+Player should collect: [PURPLE 4]  
+Collection: PURPLE 4  
+  
+||  Junsheng's turn  ||  
+Parade: [GRAY 9, RED 7, PURPLE 5, GRAY 2, GREEN 10, GREEN 1, RED 5] <== Card inserted here  
+Cards left in deck: 26  
+  
+Your current collection:  
+You have no cards in your collection yet.  
+PICK A CARD  
 -----------
 Option 1: RED 8
 Option 2: PURPLE 3
