@@ -36,6 +36,9 @@ public class SingleGame {
     private PlayerList playerList;
     private int turn;
 
+    private static final String BOLD = "\u001B[1m";
+    private static final String RESET = "\u001B[0m";
+
     /** Number of cards each player starts with. */
     private static final int INITIAL_HAND_SIZE = 5;
 
@@ -104,18 +107,14 @@ public class SingleGame {
                 try {
                     // Display round number before first turn of that round
                     if (turn++ % playerList.getNumberOfPlayers() == 0) {
-                        System.out.println("\n\n==== ROUND " + getRound() + " ====");
+                        System.out.println(BOLD + "\n\n==== ROUND " + getRound() + " ====" + RESET);
                     }
-
                     System.out.println("\n||  " + curPlayer.getName() + "'s turn  ||");
-
-                    String bold = "\u001B[1m";
-                    String reset = "\u001B[0m";
-                    System.out.println("Parade: " + par.getParade() + " \u001B[36m<== " + bold + "Card inserted here" + reset);
+                    System.out.println("Parade: " + par.getParade() + " \u001B[36m<== " + BOLD + "Card inserted here" + RESET);
                     
                     // Print only during main phase (before endgame triggered)
                     if (!endGame) {
-                        System.out.println("\u001B[33mCards left in deck: " + d.getSize() + "\u001B[0m");
+                        System.out.println(BOLD + "Cards left in deck: " + d.getSize() + RESET);
                     }
 
                     // If current player is human, print their collection
