@@ -39,10 +39,10 @@ Compete with up to 6 players and prove to everyone that you are the Parade Maste
 🚩 **Objective:** Collect cards strategically — lowest score wins!
 
 To start playing the game, simply enter the following commands in your terminal
-For Windows/Linux users,
+For Windows users,
 scripts\compile.bat && scripts\run.bat
 
-For Mac Users,
+For Mac/Linux Users,
 sh scripts/compile.bat && sh scripts/run.bat 
 OR
 chmod +x scripts/*.sh
