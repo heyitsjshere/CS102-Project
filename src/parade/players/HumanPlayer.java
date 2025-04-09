@@ -1,7 +1,11 @@
 package parade.players;
 
 import parade.cards.Card;
+<<<<<<< HEAD
 import parade.util.UserInput;
+=======
+import util.UserInput;
+>>>>>>> 196574ba9036615976c74662930d4335f4b79b84
 
 /**
  * Represents a human player in the Parade game.
@@ -21,9 +25,6 @@ import parade.util.UserInput;
  */
 public class HumanPlayer extends Player {
 
-    /** Handles user input from the console. */
-    private UserInput input;
-
     /**
      * Constructs a human player with the given name.
      *
@@ -31,7 +32,6 @@ public class HumanPlayer extends Player {
      */
     public HumanPlayer(String name) {
         super(name);
-        input = new UserInput();
     }
 
     /**
@@ -45,7 +45,7 @@ public class HumanPlayer extends Player {
      */
     @Override
     public Card chooseCard() {
-        // to render emojis correctly
+        // To render emojis correctly
         System.setProperty("file.encoding", "UTF-8");
 
         System.out.println("PICK A CARD");
@@ -57,7 +57,7 @@ public class HumanPlayer extends Player {
             i++;
         }
         
-        int selectedNum = input.getUserInt("Selection: Option ", 1, super.getHandSize());
+        int selectedNum = UserInput.getUserInt("Selection: Option ", 1, super.getHandSize());
 
         return super.getHand().get(selectedNum - 1);
     }

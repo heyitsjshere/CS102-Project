@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 import parade.players.Player;
 import parade.players.PlayerList;
+<<<<<<< HEAD
 import parade.util.UserInput;
+=======
+import util.UserInput;
+>>>>>>> 196574ba9036615976c74662930d4335f4b79b84
 
 /**
  * Controls the overall Parade game loop and session management.
@@ -50,12 +54,13 @@ public class Game {
         boolean playMoreGames = true;
         PlayerList playerList = null;
     
-        do { // game is ran at least once
-            // if user wants to play with NEW players from previous round (if any)
+        do { // Run game at least once
+            
+            // Either reuse players or create new ones
             if (playerList == null || !askSamePlayers()) {
-                playerList = new PlayerList();   // Add players and deal initial cards
-            } else { // if user wants to play with SAME players
-                resetGame(playerList);         // Reuses players, resets hands, deals cards
+                playerList = new PlayerList();   
+            } else { 
+                resetGame(playerList);         
                 delayMessageWithDots("Continuing game with the same players");
             }
     
@@ -81,6 +86,7 @@ public class Game {
             playMoreGames = askToPlayAgain();
             if (!playMoreGames) {
                 GameDisplay.printExitBanner();
+                UserInput.close();
             }
         } while (playMoreGames);
     }

@@ -3,7 +3,11 @@ package parade.players;
 import java.util.*;
 
 import parade.game.Game;
+<<<<<<< HEAD
 import parade.util.UserInput;
+=======
+import util.UserInput;
+>>>>>>> 196574ba9036615976c74662930d4335f4b79b84
 
 /**
  * Manages the list of players in the Parade game.
@@ -48,8 +52,7 @@ public class PlayerList {
         UserInput input = new UserInput();
         ArrayList<Player> players = new ArrayList<>();
 
-        // Get number of human players
-        int numHumanPlayers = input.getUserInt("Enter number of Human Players (%d - %d): ", 1, MAX_PLAYER_NUM);
+        int numHumanPlayers = UserInput.getUserInt("Enter number of Human Players (%d - %d): ", 1, MAX_PLAYER_NUM);
 
         for (int i = 0; i < numHumanPlayers; i++) {
             String name;
@@ -68,13 +71,13 @@ public class PlayerList {
             players.add(new HumanPlayer(name));
         }
 
-        // Get bot players if space remains
+        // Get bot players IF space remains
         int numBotPlayers = 0;
         if (numHumanPlayers == MAX_PLAYER_NUM) {
             System.out.println("Since you have selected " + MAX_PLAYER_NUM + " human players, there is no space for bot players.");
         } else {
             int minNumBots = (numHumanPlayers == 1) ? 1 : 0;
-            numBotPlayers = input.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots, MAX_PLAYER_NUM - numHumanPlayers);
+            numBotPlayers = UserInput.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots, MAX_PLAYER_NUM - numHumanPlayers);
             for (int i = 1; i <= numBotPlayers; i++) {
                 players.add(new BotPlayer("Bot " + i));
             }
