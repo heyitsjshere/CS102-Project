@@ -3,28 +3,27 @@ package parade.players;
 import java.util.*;
 
 import parade.game.Game;
-<<<<<<< HEAD
-import parade.util.UserInput;
-=======
 import util.UserInput;
->>>>>>> 196574ba9036615976c74662930d4335f4b79b84
 
 /**
  * Manages the list of players in the Parade game.
  * <p>
  * Handles:
  * <ul>
- *   <li>Player initialization (both human and bot)</li>
- *   <li>Enforcing name uniqueness and player limits</li>
- *   <li>Shuffling player order</li>
- *   <li>Managing player retrieval and display</li>
+ * <li>Player initialization (both human and bot)</li>
+ * <li>Enforcing name uniqueness and player limits</li>
+ * <li>Shuffling player order</li>
+ * <li>Managing player retrieval and display</li>
  * </ul>
  *
  * <p>
  * Supports up to 6 players total (human and bot combined).
  * </p>
  *
- * <p><strong>Example usage:</strong></p>
+ * <p>
+ * <strong>Example usage:</strong>
+ * </p>
+ * 
  * <pre>
  * PlayerList playerList = new PlayerList();
  * Player first = playerList.getPlayer(0);
@@ -66,7 +65,8 @@ public class PlayerList {
                         break;
                     }
                 }
-                if (!isDuplicate) break;
+                if (!isDuplicate)
+                    break;
             }
             players.add(new HumanPlayer(name));
         }
@@ -74,10 +74,12 @@ public class PlayerList {
         // Get bot players IF space remains
         int numBotPlayers = 0;
         if (numHumanPlayers == MAX_PLAYER_NUM) {
-            System.out.println("Since you have selected " + MAX_PLAYER_NUM + " human players, there is no space for bot players.");
+            System.out.println(
+                    "Since you have selected " + MAX_PLAYER_NUM + " human players, there is no space for bot players.");
         } else {
             int minNumBots = (numHumanPlayers == 1) ? 1 : 0;
-            numBotPlayers = UserInput.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots, MAX_PLAYER_NUM - numHumanPlayers);
+            numBotPlayers = UserInput.getUserInt("Enter number of Bot Players (%d - %d): ", minNumBots,
+                    MAX_PLAYER_NUM - numHumanPlayers);
             for (int i = 1; i <= numBotPlayers; i++) {
                 players.add(new BotPlayer("Bot " + i));
             }
@@ -89,7 +91,7 @@ public class PlayerList {
         Collections.shuffle(players);
 
     }
-    
+
     /**
      * Retrieves the list of all players.
      *
@@ -111,7 +113,8 @@ public class PlayerList {
     /**
      * Retrieves a player by index, with wrapping.
      * <p>
-     * If the index exceeds the number of players, it wraps around to ensure turn rotation.
+     * If the index exceeds the number of players, it wraps around to ensure turn
+     * rotation.
      * </p>
      *
      * @param i Index (can be greater than total number of players).

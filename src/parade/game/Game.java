@@ -4,11 +4,7 @@ import java.util.ArrayList;
 
 import parade.players.Player;
 import parade.players.PlayerList;
-<<<<<<< HEAD
-import parade.util.UserInput;
-=======
 import util.UserInput;
->>>>>>> 196574ba9036615976c74662930d4335f4b79b84
 
 /**
  * Controls the overall Parade game loop and session management.
@@ -18,16 +14,21 @@ import util.UserInput;
  * scoring, and replay handling.
  * </p>
  * 
- * <p><strong>Main Responsibilities:</strong></p>
+ * <p>
+ * <strong>Main Responsibilities:</strong>
+ * </p>
  * <ul>
- *   <li>Handles setup and reuse of players</li>
- *   <li>Manages full-game progression across multiple rounds</li>
- *   <li>Detects endgame conditions (deck exhausted or 6 colors collected)</li>
- *   <li>Triggers scoring and displays winners</li>
- *   <li>Supports replaying with same or new players</li>
+ * <li>Handles setup and reuse of players</li>
+ * <li>Manages full-game progression across multiple rounds</li>
+ * <li>Detects endgame conditions (deck exhausted or 6 colors collected)</li>
+ * <li>Triggers scoring and displays winners</li>
+ * <li>Supports replaying with same or new players</li>
  * </ul>
  * 
- * <p><strong>Example usage:</strong></p>
+ * <p>
+ * <strong>Example usage:</strong>
+ * </p>
+ * 
  * <pre>{@code
  * new Game(); // Starts the Parade game loop
  * }</pre>
@@ -50,28 +51,28 @@ public class Game {
      * endgame triggers, performs post-game scoring, and prompts for replay.
      * </p>
      */
-    public void runGameLoop(){
+    public void runGameLoop() {
         boolean playMoreGames = true;
         PlayerList playerList = null;
-    
+
         do { // Run game at least once
-            
+
             // Either reuse players or create new ones
             if (playerList == null || !askSamePlayers()) {
-                playerList = new PlayerList();   
-            } else { 
-                resetGame(playerList);         
+                playerList = new PlayerList();
+            } else {
+                resetGame(playerList);
                 delayMessageWithDots("Continuing game with the same players");
             }
-    
+
             playerList.displayPlayerProfiles();
 
             // Start main gameplay for each turn
             SingleGame game = new SingleGame(playerList);
             ArrayList<Player> winners = game.run();
 
-            System.out.println("\nFinal hands and collections:");    
-      
+            System.out.println("\nFinal hands and collections:");
+
             // Add to tally of number of games won for each player
             for (Player p : winners) {
                 p.incrementWins();
@@ -81,7 +82,7 @@ public class Game {
             for (Player p : playerList.getPlayerList()) {
                 System.out.println(p.getName() + " has " + p.getWins() + (p.getWins() == 1 ? " win." : " wins."));
             }
-    
+
             // Prompt user for if they want to play again
             playMoreGames = askToPlayAgain();
             if (!playMoreGames) {
@@ -92,7 +93,8 @@ public class Game {
     }
 
     /**
-     * Resets the players' hands and collections and deals new cards from a new deck.
+     * Resets the players' hands and collections and deals new cards from a new
+     * deck.
      *
      * @param playerList the current list of players
      * @param deck       the new deck to draw from
@@ -108,39 +110,44 @@ public class Game {
     /**
      * Prompts the user to decide whether to play another game.
      *
-     * @return {@code true} if the player chooses to play again, {@code false} otherwise
+     * @return {@code true} if the player chooses to play again, {@code false}
+     *         otherwise
      */
     private boolean askToPlayAgain() {
         UserInput input = new UserInput();
         String playAgainChoice;
         while (true) {
             playAgainChoice = input.getString("\n\nDo you want to play again? (Y/N): ").toLowerCase();
-            if (playAgainChoice.equals("y") || playAgainChoice.equals("n")) break;
+            if (playAgainChoice.equals("y") || playAgainChoice.equals("n"))
+                break;
             System.out.println("Invalid input. Please enter 'y' for Yes or 'n' for No.");
         }
         return playAgainChoice.equals("y");
     }
-    
+
     /**
      * Prompts the user to decide whether to reuse the same players.
      *
-     * @return {@code true} if the user wants to keep the same players, {@code false} otherwise
+     * @return {@code true} if the user wants to keep the same players,
+     *         {@code false} otherwise
      */
     private boolean askSamePlayers() {
         UserInput input = new UserInput();
         String choice;
         while (true) {
             choice = input.getString("Do you want to play with the same players? (Y/N): ").toLowerCase();
-            if (choice.equals("y") || choice.equals("n")) break;
+            if (choice.equals("y") || choice.equals("n"))
+                break;
             System.out.println("Invalid input. Please enter 'y' for Yes or 'n' for No.");
         }
         return choice.equals("y");
     }
-    
+
     /**
      * Prints a message to the console and pauses for 2 seconds.
      * <p>
-     * This method is used to introduce a brief delay after displaying important messages
+     * This method is used to introduce a brief delay after displaying important
+     * messages
      * for better pacing and readability during gameplay.
      * </p>
      *
@@ -154,9 +161,10 @@ public class Game {
             Thread.currentThread().interrupt();
         }
     }
-    
+
     /**
-     * Prints a message followed by three animated dots with delays between each dot.
+     * Prints a message followed by three animated dots with delays between each
+     * dot.
      * <p>
      * This method is used to simulate a "loading" or "thinking" animation,
      * typically when a bot is making a decision or the game is transitioning.

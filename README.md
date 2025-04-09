@@ -1,4 +1,5 @@
 ## 📑 Table of Contents
+
 - [🧩 Requirements](#-requirements)
 - [🎉 CS102 G3T7 - The Parade](#-cs102-g3t7---the-parade)
 - [🎮 Get Started](#-get-started)
@@ -15,7 +16,9 @@
 ---
 
 ##
+
 🧩 Requirements
+
 - Java 21 or later (Recommended: Java 21 LTS)
 - Terminal or IDE Console that supports:
 - ANSI escape codes for colourful output 🌈
@@ -23,37 +26,36 @@
 
 ---
 
-## 🎉 CS102 G3T7 - The Parade 
+## 🎉 CS102 G3T7 - The Parade
+
 Experience the thrill of the **Parade Card Game** in two exciting modes: **Local Play**, **VS AI**
 Compete with up to 6 players and prove to everyone that you are the Parade Master!
 
 ---
 
 ## 🧩 Requirements
+
 - Java 21 or later (Recommended: Java 21 LTS)
 - Terminal or IDE Console that supports:
 - ANSI escape codes for colourful output 🌈
 - Optional: Emoji rendering for full game experience 🎉
 
 ## 🎮 Get Started
+
 🚩 **Objective:** Collect cards strategically — lowest score wins!
 
 To start playing the game, simply enter the following commands in your terminal
 For Windows users,
-<<<<<<< HEAD
-scripts\compile.bat && scripts\run.bat
-=======
 scripts\compile.bat ; scripts\run.bat
->>>>>>> 196574ba9036615976c74662930d4335f4b79b84
 
 For Mac/Linux Users,
-sh scripts/compile.bat && sh scripts/run.bat 
+sh scripts/compile.bat && sh scripts/run.bat
 OR
-chmod +x scripts/*.sh
+chmod +x scripts/\*.sh
 Followed by
 scripts/compile.sh && scripts/run.sh
 
---- 
+---
 
 ## ✨ Features
 
@@ -65,26 +67,33 @@ scripts/compile.sh && scripts/run.sh
 ---
 
 ## 🧑‍🤝‍🧑 Local Play
+
 Play with friends:
+
 - Enter the number of players (1-6).
 - Assign unique names to each player.
 
 ## 🤖 AI Opponents
+
 Spice up your game by adding AI players!
+
 - Add up to **5 AI players** to challenge yourself.
 
 ---
 
 ## 🕹 Game Setup
+
 Each game setup follows the same steps:
+
 - **Enter number of players**  
   _"Select the number of players (1–6):"_
 - **Provide player names**  
   _"Enter name for Human Player:"_
 
---- 
+---
 
 ## 🎨 Emojis in Game
+
 On some systems, emojis may appear as `?`.  
 Don't worry — it's purely cosmetic!
 
@@ -92,7 +101,8 @@ Don't worry — it's purely cosmetic!
 
 ## 🏆 Victory Conditions
 
-The player with the **lowest score** at the end of the game wins! 
+The player with the **lowest score** at the end of the game wins!
+
 - Collect cards strategically.
 - Outsmart your opponents (or AI).
 - Replay rounds to track your victories and become the ultimate Parade Master!
@@ -108,7 +118,8 @@ The player with the **lowest score** at the end of the game wins!
 ---
 
 ## 🎮 Sample Gameplay
-||  Bot 2's turn  ||
+
+|| Bot 2's turn ||
 Parade: [BLACK 9, PURPLE 4, RED 7, PURPLE 5, GRAY 2, GREEN 10, GREEN 1] <== Card inserted here
 Cards left in deck: 27
 Bot 2 is selecting their cards...
@@ -116,16 +127,18 @@ Selection complete.
 
 Player has played: RED 5
 Player should collect: [PURPLE 4]
-Collection: PURPLE 4 
+Collection: PURPLE 4
 
-||  Junsheng's turn  ||
+|| Junsheng's turn ||
 Parade: [GRAY 9, RED 7, PURPLE 5, GRAY 2, GREEN 10, GREEN 1, RED 5] <== Card inserted here
 Cards left in deck: 26
 
 Your current collection:
 You have no cards in your collection yet.
 PICK A CARD
------------
+
+---
+
 Option 1: RED 8
 Option 2: PURPLE 3
 Option 3: PURPLE 0
@@ -135,7 +148,8 @@ Selection: Option <choose a number between 1 to 5>
 
 ---
 
-## 📖 Documentation 
+## 📖 Documentation
+
 To view our documentation,
 For Windows/Linux users,
 scripts\javadoc.bat
@@ -150,7 +164,9 @@ Head to our docs folder, click on index.html
 ---
 
 ## 👥 Contributors
+
 This project was developed by:
+
 - **Junsheng**
 - **Minyi**
 - **Cheryl**
@@ -159,5 +175,5 @@ This project was developed by:
 - **Daniella**
 
 ---
-Enjoy the game and may the best player win! 🎉
 
+Enjoy the game and may the best player win! 🎉

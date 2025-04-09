@@ -1,28 +1,29 @@
-<<<<<<<< HEAD:src/parade/util/UserInput.java
-package parade.util;
-========
 package util;
->>>>>>>> 196574ba9036615976c74662930d4335f4b79b84:src/util/UserInput.java
 
 import java.util.Scanner;
 
 /**
  * Provides utility methods for handling user input in the Parade game.
  * <p>
- * This class contains only static methods and maintains a single {@link Scanner} instance 
- * for the entire game session. It offers controlled methods for validating and retrieving 
- * user inputs, ensuring that numeric inputs fall within a specified range and that string 
+ * This class contains only static methods and maintains a single
+ * {@link Scanner} instance
+ * for the entire game session. It offers controlled methods for validating and
+ * retrieving
+ * user inputs, ensuring that numeric inputs fall within a specified range and
+ * that string
  * inputs are properly trimmed.
  * </p>
  *
  * <p>
  * Example usage:
+ * 
  * <pre>
  * int choice = UserInput.getUserInt("Choose (1-3): ", 1, 3, "Invalid input! Please enter a number between 1 and 3.");
  * String name = UserInput.getUserString("Enter your name: ");
  * </pre>
  *
  * At the end of the game, close the scanner to release system resources:
+ * 
  * <pre>
  * UserInput.close();
  * </pre>
@@ -33,17 +34,18 @@ import java.util.Scanner;
 public class UserInput {
 
     /** Scanner object used for reading user input from the console. */
-    private static final Scanner sc = new Scanner (System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
     /** Default constructor for UserInput used to call from other classes */
-    public UserInput () {
+    public UserInput() {
 
     }
 
     /**
      * Prompts the user for an integer within a specified range.
      * <p>
-     * Displays the given message and keeps prompting until a valid input is entered.
+     * Displays the given message and keeps prompting until a valid input is
+     * entered.
      * Uses a default error message for invalid inputs.
      * </p>
      *
@@ -57,9 +59,11 @@ public class UserInput {
     }
 
     /**
-     * Prompts the user for an integer within a specified range using a custom error message.
+     * Prompts the user for an integer within a specified range using a custom error
+     * message.
      * <p>
-     * Keeps prompting the user until a valid integer within the specified range is entered. 
+     * Keeps prompting the user until a valid integer within the specified range is
+     * entered.
      * Will also keep prompting if user does not key in any valid string
      * </p>
      *
@@ -71,19 +75,19 @@ public class UserInput {
      */
     public static int getUserInt(String message, int min, int max, String errorMessage) {
         int userInt;
-    
+
         while (true) {
             System.out.printf(message, min, max);
             String input = sc.nextLine().trim();
-    
+
             if (input.isEmpty()) {
                 System.out.printf(errorMessage, min, max);
                 continue;
             }
-    
+
             try {
                 userInt = Integer.parseInt(input);
-    
+
                 if (userInt >= min && userInt <= max) {
                     return userInt;
                 } else {
@@ -110,7 +114,7 @@ public class UserInput {
         while (true) {
             System.out.print(message);
             input = sc.nextLine().trim();
-    
+
             if (!input.isEmpty()) {
                 return input;
             }
@@ -121,7 +125,7 @@ public class UserInput {
     /**
      * Closes the scanner used for input.
      */
-    public static void close(){
+    public static void close() {
         sc.close();
     }
 }

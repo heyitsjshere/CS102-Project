@@ -1,32 +1,32 @@
-<<<<<<<< HEAD:src/parade/util/EndGameException.java
-package parade.util;
-========
 package util;
->>>>>>>> 196574ba9036615976c74662930d4335f4b79b84:src/util/EndGameException.java
 
 /**
  * Signals that the Parade game should end due to specific conditions.
  * <p>
  * This exception is thrown when either:
  * <ul>
- *   <li>A player collects all six colors of cards.</li>
- *   <li>The deck is depleted and no more cards can be drawn.</li>
+ * <li>A player collects all six colors of cards.</li>
+ * <li>The deck is depleted and no more cards can be drawn.</li>
  * </ul>
- * This exception allows the main game loop to transition into the endgame phase.
+ * This exception allows the main game loop to transition into the endgame
+ * phase.
  * 
- * <p><strong>Usage:</strong> Thrown and caught within the game logic to gracefully 
- * handle endgame scenarios.</p>
+ * <p>
+ * <strong>Usage:</strong> Thrown and caught within the game logic to gracefully
+ * handle endgame scenarios.
+ * </p>
  * 
  * @see java.lang.Exception
  * @author G3T7
  * @version 1.0
  */
 public class EndGameException extends java.lang.Exception {
-    
+
     /**
      * Constructs a new {@code EndGameException} with no detail message.
      */
-    public EndGameException() {}
+    public EndGameException() {
+    }
 
     /**
      * Constructs a new {@code EndGameException} with the specified detail message.
@@ -35,5 +35,5 @@ public class EndGameException extends java.lang.Exception {
      */
     public EndGameException(String s) {
         super(s);
-    } 
+    }
 }

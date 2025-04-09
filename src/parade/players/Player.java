@@ -2,11 +2,7 @@ package parade.players;
 
 import parade.cards.Card;
 import parade.cards.Colour;
-<<<<<<< HEAD
-import parade.util.EndGameException;
-=======
 import util.EndGameException;
->>>>>>> 196574ba9036615976c74662930d4335f4b79b84
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -36,6 +32,7 @@ public abstract class Player {
 
     /** Number of wins accumulated across multiple games. */
     private int wins = 0;
+
     /**
      * Constructs a player with an empty hand and collection.
      *
@@ -97,7 +94,8 @@ public abstract class Player {
      * Retrieves the collected cards of a specific color.
      *
      * @param colour The color to retrieve.
-     * @return A list of cards of the given color, or {@code null} if none collected.
+     * @return A list of cards of the given color, or {@code null} if none
+     *         collected.
      */
     public ArrayList<Card> getCollectedCardsWithColour(Colour colour) {
         return collectedCards.getOrDefault(colour, null);
@@ -127,7 +125,8 @@ public abstract class Player {
      * Adds a card to the player's hand.
      *
      * @param c The card to add.
-     * @throws EndGameException If the card is null and the game has not entered the end phase.
+     * @throws EndGameException If the card is null and the game has not entered the
+     *                          end phase.
      */
     public void addCard(Card c) throws EndGameException {
         addCard(c, false); // Default to non-endgame mode
@@ -154,7 +153,8 @@ public abstract class Player {
      * Adds a set of cards to the player's collection.
      *
      * @param cards The cards to collect.
-     * @throws EndGameException If this collection results in the player owning all six colors.
+     * @throws EndGameException If this collection results in the player owning all
+     *                          six colors.
      */
     public void collectCard(ArrayList<Card> cards) throws EndGameException {
         collectCard(cards, false);
@@ -165,7 +165,8 @@ public abstract class Player {
      *
      * @param cards   The cards to collect.
      * @param endGame Whether the game is in endgame mode.
-     * @throws EndGameException If the player collects all six colors before endgame.
+     * @throws EndGameException If the player collects all six colors before
+     *                          endgame.
      */
     public void collectCard(ArrayList<Card> cards, boolean endGame) throws EndGameException {
         for (Card c : cards) {
@@ -182,12 +183,13 @@ public abstract class Player {
     /**
      * Prints the player's collected cards, grouped by color.
      *
-     * @param forFinalDisplay Whether this is for the final summary (affects label formatting).
+     * @param forFinalDisplay Whether this is for the final summary (affects label
+     *                        formatting).
      */
     public void printCollectedCards(boolean forFinalDisplay) {
         String label = "Collection:";
         String indent = " ".repeat(label.length() + 1); // Align subsequent lines
-    
+
         boolean firstLine = true;
         for (Colour c : Colour.values()) {
             ArrayList<Card> cardsOfColour = collectedCards.get(c);
@@ -195,7 +197,7 @@ public abstract class Player {
                 // Print label on the first line, indent on the rest
                 System.out.print(firstLine ? label + " " : indent);
                 firstLine = false;
-    
+
                 for (Card card : cardsOfColour) {
                     System.out.print(card + " ");
                 }

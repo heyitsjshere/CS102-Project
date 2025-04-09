@@ -1,11 +1,7 @@
 package parade.players;
 
 import parade.cards.Card;
-<<<<<<< HEAD
-import parade.util.UserInput;
-=======
 import util.UserInput;
->>>>>>> 196574ba9036615976c74662930d4335f4b79b84
 
 /**
  * Represents a human player in the Parade game.
@@ -14,7 +10,10 @@ import util.UserInput;
  * manually select a card from their hand based on console input.
  * </p>
  *
- * <p><strong>Example usage:</strong></p>
+ * <p>
+ * <strong>Example usage:</strong>
+ * </p>
+ * 
  * <pre>{@code
  * HumanPlayer player = new HumanPlayer("Alice");
  * Card selectedCard = player.chooseCard();
@@ -37,7 +36,8 @@ public class HumanPlayer extends Player {
     /**
      * Prompts the player to select a card from their hand.
      * <p>
-     * Displays a numbered list of card options in the console and retrieves a valid selection
+     * Displays a numbered list of card options in the console and retrieves a valid
+     * selection
      * from the user based on numeric input.
      * </p>
      *
@@ -56,7 +56,7 @@ public class HumanPlayer extends Player {
             System.out.println("Option " + i + ": " + c);
             i++;
         }
-        
+
         int selectedNum = UserInput.getUserInt("Selection: Option ", 1, super.getHandSize());
 
         return super.getHand().get(selectedNum - 1);
