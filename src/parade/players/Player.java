@@ -170,7 +170,7 @@ public abstract class Player {
         }
 
         if (!endGame && collectedCards.size() == 6) {
-            throw new EndGameException(this.name + " has collected all 6 colors!");
+            throw new EndGameException("\n🎨 " + this.name + " has collected all 6 colours!");
         }
     }
 

@@ -38,6 +38,7 @@ public class SingleGame {
 
     private static final String BOLD = "\u001B[1m";
     private static final String RESET = "\u001B[0m";
+    public static final String ITALIC = "\u001B[3m";
 
     /** Number of cards each player starts with. */
     private static final int INITIAL_HAND_SIZE = 5;
@@ -152,12 +153,12 @@ public class SingleGame {
     
                     // Collect cards based on game rules
                     ArrayList<Card> toCollect = par.getCollectibleCards(pickedCard);
-                    curPlayer.collectCard(toCollect, endGame); // endgame exception can be thrown here
-                    if (toCollect.isEmpty()) { // should show explicitly if no cards are to be collected
-                        System.out.println("Player should collect: [\u001B[3mNone\u001B[0m]"); // italic
+                    if (toCollect.isEmpty()) {
+                        System.out.println("Player should collect: [" + ITALIC + "None" + RESET + "]");
                     } else {
                         System.out.println("Player should collect: " + toCollect);
                     }
+                    curPlayer.collectCard(toCollect, endGame); // endgame exception can be thrown here
                     curPlayer.printCollectedCards(false);
     
                     // Player draws a new card (throws exception if deck is empty)
@@ -172,20 +173,12 @@ public class SingleGame {
                      * </p>
                      */
                     System.out.println(e.getMessage());
-                    if (e.getMessage().toLowerCase().contains("deck")) {
-                        // Deck is empty
-                        System.out.println("💫 Final round initiated...\n");
-                        Game.delayMessage("Everyone else has one last turn before the game ends.\n");
-                    } else {
-                        // Player has collected all 6 colors
-                        System.out.println("\n🎨 " + curPlayer.getName() + " has collected all 6 colours!");
-                        System.out.println("💫 Final round triggered! Everyone else gets one last turn.\n");
+                    System.out.println("💫 Final round triggered! Everyone gets one last turn.\n");
 
-                        try {
-                            curPlayer.addCard(d.drawCard(), endGame); 
-                        } catch (EndGameException ee) {
-                            System.out.println(ee.getMessage()); 
-                        }
+                    try {
+                        curPlayer.addCard(d.drawCard(), endGame); 
+                    } catch (EndGameException ee) {
+                        System.out.println(ee.getMessage()); 
                     }
                     endGame = true;
                 } 
