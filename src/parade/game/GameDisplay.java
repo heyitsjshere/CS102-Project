@@ -108,7 +108,6 @@ public class GameDisplay {
      * </p>
      */
     public static void printExitBanner() {
-        // clearConsole();
         String reset = "\u001B[0m";
         String yellow = "\u001B[33m";
         String cyan = "\u001B[36m";
