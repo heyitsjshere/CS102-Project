@@ -43,9 +43,9 @@ For Windows users,
 If you are using Powershell, use  
 scripts\compile.bat ; scripts\run.bat  
 Else if you are using cmd.exe, use  
-scripts\compile.bat && scripts\run.bat  
+scripts\compile.bat && scripts\run.bat   
   
-  
+
 For Mac/Linux Users,  
 chmod +x scripts/*.bat  
 Followed by,  
