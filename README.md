@@ -60,7 +60,7 @@ scripts/compile.sh && scripts/run.sh
 
 ## ✨ Features
 
-- 🎨 Colorful, emoji-enhanced terminal gameplay
+- 🎨 Colourful, emoji-enhanced terminal gameplay
 - 🧑‍🤝‍🧑 Play with up to 6 players (Human or AI!)
 - 🔄 Replayable rounds with win tracking
 - 🖥️ Fully interactive console interface

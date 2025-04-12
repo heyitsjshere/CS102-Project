@@ -12,10 +12,10 @@ import parade.players.PlayerList;
 /**
  * Calculates and manages the scores of players in the Parade game.
  * <p>
- * Scoring is determined by evaluating each player's collected cards. For each color:
+ * Scoring is determined by evaluating each player's collected cards. For each u:
  * <ul>
- *     <li>The player(s) with the most cards of that color only count the number of cards.</li>
- *     <li>Other players sum the values of the cards in that color.</li>
+ *     <li>The player(s) with the most cards of that colour only count the number of cards.</li>
+ *     <li>Other players sum the values of the cards in that colour.</li>
  *     <li>In 2-player games, the majority rule requires a margin of 2 to apply.</li>
  * </ul>
  *
@@ -61,10 +61,10 @@ public class ScoreCalculator {
     /**
      * Calculates scores for each player.
      * <p>
-     * For each color:
+     * For each colour:
      * <ul>
-     *     <li>Players with the maximum count of that color receive a score equal to the number of cards.</li>
-     *     <li>All others receive the total sum of card values for that color.</li>
+     *     <li>Players with the maximum count of that colour receive a score equal to the number of cards.</li>
+     *     <li>All others receive the total sum of card values for that colour.</li>
      * </ul>
      * </p>
      */
@@ -90,14 +90,14 @@ public class ScoreCalculator {
     }
 
     /**
-     * Finds the players who have the most cards of a given color.
+     * Finds the players who have the most cards of a given colour.
      * <p>
      * In 3+ player games, multiple players can tie for max.
      * In 2-player games, a majority requires a lead of 2 cards or more.
      * </p>
      *
      * @param colour The {@link Colour} to evaluate.
-     * @return A list of {@link Player}s with the most cards in the given color.
+     * @return A list of {@link Player}s with the most cards in the given colour.
      */
     private ArrayList<Player> findMaxPlayers(Colour colour){
         ArrayList<Player> maxPlayers = new ArrayList<>();

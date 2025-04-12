@@ -75,7 +75,7 @@ public class Deck {
         if (cardsInDeck.isEmpty()) {
             return null;
         }
-        return this.cardsInDeck.removeFirst();
+        return this.cardsInDeck.remove(0);
     }
 
     /**

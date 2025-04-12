@@ -24,7 +24,7 @@ public abstract class Player {
     /** The player's current hand of cards. */
     private ArrayList<Card> hand;
 
-    /** The collection of cards the player has acquired, grouped by color. */
+    /** The collection of cards the player has acquired, grouped by colour. */
     private EnumMap<Colour, ArrayList<Card>> collectedCards;
 
     /** The player's name. */
@@ -89,10 +89,10 @@ public abstract class Player {
     }
 
     /**
-     * Retrieves the collected cards of a specific color.
+     * Retrieves the collected cards of a specific colour.
      *
-     * @param colour The color to retrieve.
-     * @return A list of cards of the given color, or {@code null} if none collected.
+     * @param colour The  to retrieve.
+     * @return A list of cards of the given colour, or {@code null} if none collected.
      */
     public ArrayList<Card> getCollectedCardsWithColour(Colour colour) {
         return collectedCards.getOrDefault(colour, null);
@@ -149,7 +149,7 @@ public abstract class Player {
      * Adds a set of cards to the player's collection.
      *
      * @param cards The cards to collect.
-     * @throws EndGameException If this collection results in the player owning all six colors.
+     * @throws EndGameException If this collection results in the player owning all six colours.
      */
     public void collectCard(ArrayList<Card> cards) throws EndGameException {
         collectCard(cards, false);
@@ -160,7 +160,7 @@ public abstract class Player {
      *
      * @param cards   The cards to collect.
      * @param endGame Whether the game is in endgame mode.
-     * @throws EndGameException If the player collects all six colors before endgame.
+     * @throws EndGameException If the player collects all six colours before endgame.
      */
     public void collectCard(ArrayList<Card> cards, boolean endGame) throws EndGameException {
         for (Card c : cards) {
@@ -175,7 +175,7 @@ public abstract class Player {
     }
 
     /**
-     * Prints the player's collected cards, grouped by color.
+     * Prints the player's collected cards, grouped by colour.
      *
      * @param forFinalDisplay Whether this is for the final summary (affects label formatting).
      */

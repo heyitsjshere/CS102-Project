@@ -1,20 +1,20 @@
 package parade.cards;
 
 /**
- * Enum representing the six distinct colors used in the Parade game.
+ * Enum representing the six distinct colours used in the Parade game.
  * <p>
- * Each color is mapped to its corresponding ANSI escape code to enable
- * colored output in the terminal during gameplay.
+ * Each colour is mapped to its corresponding ANSI escape code to enable
+ * coloured output in the terminal during gameplay.
  * </p>
  *
  * <p><strong>Usage Example:</strong></p>
  * <pre>
  * Colour c = Colour.RED;
- * System.out.println(c.getColorCode() + "This is red text" + "\033[0m");
+ * System.out.println(c.getColourCode() + "This is red text" + "\033[0m");
  * </pre>
  * 
  * <p><strong>Note:</strong> Use the {@code "\033[0m"} ANSI reset code after
- * printing colored text to return to the default console color.</p>
+ * printing coloured text to return to the default console coluor.</p>
  * 
  * @author G3T7
  * @version 1.0
@@ -22,55 +22,55 @@ package parade.cards;
 public enum Colour {
 
     /**
-     * Yellow color with ANSI code.
+     * Yellow colour with ANSI code.
      */
     YELLOW("\u001B[33m"),
 
     /**
-     * Red color with ANSI code.
+     * Red colour with ANSI code.
      */
     RED("\u001B[31m"),
 
     /**
-     * Green color with ANSI code.
+     * Green colour with ANSI code.
      */
     GREEN("\u001B[32m"),
 
     /**
-     * Grey color with ANSI code.
+     * Grey colour with ANSI code.
      */
     GREY("\u001B[90m"),
 
     /**
-     * Purple color with ANSI code.
+     * Purple colour with ANSI code.
      */
     PURPLE("\u001B[35m"),
 
     /**
-     * Blue color with ANSI code.
+     * Blue colour with ANSI code.
      */
     BLUE("\u001B[34m");
 
     /**
-     * ANSI escape code associated with this color.
+     * ANSI escape code associated with this colour.
      */
-    private final String colorCode;
+    private final String colourCode;
 
     /**
      * Constructs a {@code Colour} enum with its associated ANSI escape code.
      *
-     * @param colorCode The ANSI code used for terminal text formatting.
+     * @param colourCode The ANSI code used for terminal text formatting.
      */
-    Colour(String colorCode) {
-        this.colorCode = colorCode;
+    Colour(String colourCode) {
+        this.colourCode = colourCode;
     }
 
     /**
-     * Retrieves the ANSI escape code for this color.
+     * Retrieves the ANSI escape code for this colour.
      *
      * @return A {@code String} representing the ANSI escape code.
      */
-    public String getColorCode() {
-        return colorCode;
+    public String getColourCode() {
+        return colourCode;
     }
 }

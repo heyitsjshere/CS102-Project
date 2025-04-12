@@ -18,7 +18,7 @@ import util.UserInput;
  * <ul>
  *   <li>Handles setup and reuse of players</li>
  *   <li>Manages full-game progression across multiple rounds</li>
- *   <li>Detects endgame conditions (deck exhausted or 6 colors collected)</li>
+ *   <li>Detects endgame conditions (deck exhausted or 6 colours collected)</li>
  *   <li>Triggers scoring and displays winners</li>
  *   <li>Supports replaying with same or new players</li>
  * </ul>

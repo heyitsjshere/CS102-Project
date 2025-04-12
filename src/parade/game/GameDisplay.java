@@ -6,7 +6,7 @@ package parade.game;
  * This class is responsible for:
  * <ul>
  *   <li>Clearing the terminal for a clean interface</li>
- *   <li>Displaying a colorful ASCII-art banner to welcome players</li>
+ *   <li>Displaying a colourful ASCII-art banner to welcome players</li>
  *   <li>Printing a short intro message with animated delays for better user experience</li>
  *   <li>Starting the game by invoking the {@link Game} logic</li>
  * </ul>
@@ -65,10 +65,10 @@ public class GameDisplay {
     }
 
     /**
-     * Prints a colorful ASCII-art banner to welcome players to the Parade game.
+     * Prints a colourful ASCII-art banner to welcome players to the Parade game.
      * <p>
      * Clears console before printing the banner
-     * Uses ANSI escape codes to apply color to each line of the banner.
+     * Uses ANSI escape codes to apply colour to each line of the banner.
      * The message is styled for visual appeal and thematically matches the game.
      * Clears terminal before printing the banner
      * </p>
@@ -100,9 +100,9 @@ public class GameDisplay {
     }
     
     /**
-     * Prints a colorful ASCII-art banner to indicate to players that game has ended
+     * Prints a colourful ASCII-art banner to indicate to players that game has ended
      * <p>
-     * Uses ANSI escape codes to apply color to each line of the banner.
+     * Uses ANSI escape codes to apply colour to each line of the banner.
      * The message is styled for visual appeal and thematically matches the game.
      * Clears terminal before printing the banner
      * </p>

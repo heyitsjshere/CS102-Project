@@ -5,7 +5,7 @@ package util;
  * <p>
  * This exception is thrown when either:
  * <ul>
- *   <li>A player collects all six colors of cards.</li>
+ *   <li>A player collects all six colours of cards.</li>
  *   <li>The deck is depleted and no more cards can be drawn.</li>
  * </ul>
  * This exception allows the main game loop to transition into the endgame phase.

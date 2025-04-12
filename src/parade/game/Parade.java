@@ -83,7 +83,7 @@ public class Parade {
      * <p>
      * A player must collect removable cards if:
      * <ul>
-     *   <li>The card has the same color as the played card</li>
+     *   <li>The card has the same colour as the played card</li>
      *   <li>OR its number is less than or equal to the played card's number</li>
      * </ul>
      * The method removes collectible cards from the parade and returns them.

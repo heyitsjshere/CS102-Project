@@ -168,17 +168,19 @@ public class SingleGame {
                     /**
                      * Handles endgame conditions.
                      * <p>
-                     * If the deck runs out or a player collects all six colors, the game enters its final phase,
+                     * If the deck runs out or a player collects all six colours, the game enters its final phase,
                      * where each remaining player gets one last turn.
                      * </p>
                      */
                     System.out.println(e.getMessage());
-                    System.out.println("💫 Final round triggered! Everyone gets one last turn.\n");
+                    Game.delayMessage("💫 Final round triggered! Everyone gets one last turn.\n");
 
-                    try {
-                        curPlayer.addCard(d.drawCard(), endGame); 
-                    } catch (EndGameException ee) {
-                        System.out.println(ee.getMessage()); 
+                    if (e.getMessage().contains("colours")){  // .addCard was skipped in try block due to exception caught
+                        try {
+                            curPlayer.addCard(d.drawCard(), endGame); 
+                        } catch (EndGameException ee) {
+                            System.out.println(ee.getMessage()); 
+                        }
                     }
                     endGame = true;
                 } 
