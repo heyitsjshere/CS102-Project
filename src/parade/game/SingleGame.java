@@ -38,7 +38,7 @@ public class SingleGame {
 
     private static final String BOLD = "\u001B[1m";
     private static final String RESET = "\u001B[0m";
-    public static final String ITALIC = "\u001B[3m";
+    private static final String ITALIC = "\u001B[3m";
 
     /** Number of cards each player starts with. */
     private static final int INITIAL_HAND_SIZE = 5;
