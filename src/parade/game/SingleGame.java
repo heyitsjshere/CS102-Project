@@ -242,7 +242,7 @@ public class SingleGame {
         ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
         ArrayList<Player> winners = scoreCalc.findWinners();
 
-        Game.delayMessageWithDots(BOLD + "➖➕ Calculating Scores");
+        Game.delayMessageWithDots(BOLD + "➖➕ Calculating Scores" + RESET);
         scoreCalc.printWinners();
         scoreCalc.printAllScores();
 
