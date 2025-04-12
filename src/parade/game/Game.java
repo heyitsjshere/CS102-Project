@@ -65,8 +65,6 @@ public class Game {
             // Start main gameplay for each turn
             SingleGame game = new SingleGame(playerList);
             ArrayList<Player> winners = game.run();
-
-            System.out.println("\nFinal hands and collections:");    
       
             // Add to tally of number of games won for each player
             for (Player p : winners) {

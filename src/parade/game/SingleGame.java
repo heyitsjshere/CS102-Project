@@ -228,6 +228,7 @@ public class SingleGame {
     
 
         // Display final hand and collection for each player
+        System.out.println("\nFinal hands and collections:");
         for (Player p: playerList.getPlayerList()) {
             System.out.print(p.getName() + "\nHand      : "); // to align with collection
             for (Card c : p.getHand()) {
@@ -241,6 +242,7 @@ public class SingleGame {
         ScoreCalculator scoreCalc = new ScoreCalculator(playerList);
         ArrayList<Player> winners = scoreCalc.findWinners();
 
+        Game.delayMessageWithDots(BOLD + "➖➕ Calculating Scores");
         scoreCalc.printWinners();
         scoreCalc.printAllScores();
 

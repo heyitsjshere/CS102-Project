@@ -40,14 +40,21 @@ Compete with up to 6 players and prove to everyone that you are the Parade Maste
 
 To start playing the game, simply enter the following commands in your terminal  
 For Windows users,  
-scripts\compile.bat && scripts\run.bat  
+If you are using Powershell, use  
+scripts\compile.bat ; scripts\run.bat  
+Else if you are using cmd.exe, use  
+scripts\compile.bat && scripts\run.bat   
+  
 
 For Mac/Linux Users,  
-sh scripts/compile.bat && sh scripts/run.bat  
+chmod +x scripts/*.bat  
+Followed by,  
+scripts/compile.bat && scripts/run.bat  
+  
 OR  
 chmod +x scripts/*.sh  
-Followed by  
-scripts/compile.sh && scripts/run.sh
+Followed by,  
+scripts/compile.sh && scripts/run.sh  
 
 --- 
 
