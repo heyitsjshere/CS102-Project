@@ -20,6 +20,9 @@
 - Terminal or IDE Console that supports:
 - ANSI escape codes for colourful output 🌈
 - Optional: Emoji rendering for full game experience 🎉
+- View our UML diagram and slides in the appendix folder
+- View GitHub Repository from the link below  
+https://github.com/heyitsjshere/CS102-Project  
 
 ---
 

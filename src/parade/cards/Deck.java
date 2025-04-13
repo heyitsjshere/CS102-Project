@@ -49,24 +49,6 @@ public class Deck {
     }
 
     /**
-     * Returns the unshuffled reference deck (for testing or debugging).
-     *
-     * @return the original unshuffled list of all {@link Card}s.
-     */
-    public ArrayList<Card> getDeckReference() {
-        return DECK_REFERENCE;
-    }
-
-    /**
-     * Returns the current list of cards in the deck (shuffled).
-     *
-     * @return the current deck as an {@link ArrayList} of {@link Card}s.
-     */
-    public ArrayList<Card> getCurrentDeck() {
-        return this.cardsInDeck;
-    }
-
-    /**
      * Draws and removes the top card from the deck.
      *
      * @return the drawn {@link Card}, or {@code null} if the deck is empty.
